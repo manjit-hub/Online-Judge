@@ -1,6 +1,5 @@
 import React from "react";
 import './LoginPage.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import googleLogo from "./GoogleLogo.png";
 function LoginPage() {
     return(
