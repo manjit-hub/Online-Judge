@@ -14,8 +14,6 @@ function SignupPage() {
                     <input type="text" />
                     <h5>Email</h5>
                     <input type="text" />
-                    <h5>Username</h5>
-                    <input type="text" />
                     <h5>Password</h5>
                     <input type="text" />
                     <button className="loginPg">Sign Up</button>
