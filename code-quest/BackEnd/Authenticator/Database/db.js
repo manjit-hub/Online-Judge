@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv'); // Connected with dotenv
 dotenv.config();
 
-console.log(process.env.MONGODB_URL);   // Check MONGODB_URL    
+// console.log(process.env.MONGODB_URL);   // Check MONGODB_URL    
 const DBConnection = async () => {
     const MONGO_URL = process.env.MONGODB_URL;
 

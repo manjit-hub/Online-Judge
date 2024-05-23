@@ -1,8 +1,11 @@
+//Description : This is the main file for the authenticator service.
+
 //Path : cd .\code-quest\BackEnd\Authenticator
+
 //Create a Server => Imported express
 const express = require('express');
 const app = express();
-// import DBConnection from './Database/db';
+// import {DBConnection} from './Database/db';
 const {DBConnection} = require("./Database/db");
 
 DBConnection();
