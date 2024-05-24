@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mangoose.Schema({
+const userSchema = new mongoose.Schema({
     fullName: {
-        type:String,
+        type: String,
         default: null,
         required: true, // MUST REQUIRE ELSE SHOW ERROR
     },
@@ -10,13 +10,12 @@ const userSchema = new mangoose.Schema({
         type: String,
         default: null,
         required: true,
-        unique: true,
+        unique: true, // EMAIL OF EVERY USER SHOULD BE UNIQUE
     },
     password: {
         type: String,
         required: true,
     }
-    
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('User', userSchema);
