@@ -10,9 +10,9 @@ function HomePage() {
             <div className="contentHome">
                 <h2>Welcome to CodeQuest</h2>
                 <p>A friendly place to learn and grow.Get started with a coding challenge, check out our courses, or just hang out and chat.</p>
-                <button className="signin">Sign In</button>
+                <button className="signin btnhome">Sign In</button>
                 <p className="checking">Already have an account?</p>
-                <button className="login">Log In</button>
+                <button className="login btnhome">Log In</button>
             </div>
 
         </body>
