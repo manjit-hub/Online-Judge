@@ -22,7 +22,7 @@ const User = require('./models/User'); // capital "Model" will not work. Collide
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// REGISTRATION PART
+// ------------------------------------REGISTRATION PART---------------------------------
 app.post("/register", async (req, res) => {
     try {
         // res.send("<h1>This is register page, coming from backend.js</h1>");
@@ -57,12 +57,12 @@ app.post("/register", async (req, res) => {
     }
     catch (error) {
         console.log(error);
+        res.status(500).send("Internal server error"); 
     }
 
 });
 
-// LOGIN PART
-// LOGIN PART
+//  --------------------------------LOGIN PART--------------------------------------------
 app.post("/login", async (req, res) => {
     try {
         // GET ALL THE DATA FROM FRONTEND
@@ -90,7 +90,7 @@ app.post("/login", async (req, res) => {
 
         // GENERATE A TOKEN FOR USER AND SEND IT TO THE BACKEND
         const token = jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, {
-            expiresIn: "1h",
+            expiresIn: "1h", // Token valid for 1 hour
         });
         user_token = token; // Everything will be stored in token
         userExist.password = undefined; // Make the password undefined, so that it kept unknown => Security Purpose
@@ -107,12 +107,89 @@ app.post("/login", async (req, res) => {
             success: true,
             token,
         });
-    } catch (error) {
-        console.log(error); // Log the error for debugging
-        res.status(500).send("Internal server error"); // Return a generic error message
+    } 
+    catch (error) {
+        console.log(error); 
+        res.status(500).send("Internal server error"); 
     }
 });
 
+// ------------------------------------- UPDATE ------------------------------------------
+app.put("/update", async (req, res) => {
+    try {
+        // AUTHENTICATE THE USER i.e LOGGED IN OR NOT
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).send("Authentication required!");
+        }
+
+        // VERIFY USER'S IDENTITY USING TOKEN
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        const userId = decoded.id;
+
+        // GET THE NEWLY UPDATED DATA FROM USER
+        const { fullName, email, password, newPassword } = req.body;
+
+        // FIND THE USER BY 'UNIQUE ID' IN DATA BASE
+        const userExist = await User.findById(userId);
+        if (!userExist) {
+            return res.status(400).send("User not found!");
+        }
+
+        // UPDATE USER DATA
+        if (fullName) userExist.fullName = fullName;
+        if (email) userExist.email = email;
+        
+        // UPDATE PASSWORD ONLY IF 'newPassword' FIELD IS NOT BLANK
+        if (password && newPassword) { 
+            // VERIFY BY ASKING OLD PASSWORD AND MATCH BOTH
+            const isPasswordCorrect = await bcrypt.compare(password, userExist.password);
+            if (!isPasswordCorrect) {
+                return res.status(400).send("Current password is incorrect!");
+            }
+            userExist.password = await bcrypt.hash(newPassword, 10);
+        }
+
+        // SSAVE UPDATED DATA
+        await userExist.save();
+        
+        res.status(200).json({ message: 'User data updated successfully!', user: userExist });
+    } 
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server error");
+    }
+});
+
+// ------------------------------------- DELETE ------------------------------------------
+app.delete("/delete", async (req, res) => {
+    try {
+        // AUTHENTICATE THE USER i.e LOGGED IN OR NOT
+        const token = req.cookies.token;
+        if (!token) {
+            return res.status(401).send("Authentication required!");
+        }
+
+        // VERIFY USER'S IDENTITY USING TOKEN
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        const userId = decoded.id;
+
+        // FIND THE USER BY 'UNIQUE ID' IN DATA BASE
+        const userExist = await User.findById(userId);
+        if (!userExist) {
+            return res.status(400).send("User not found!");
+        }
+
+        // DELETE THE USER
+        await User.findByIdAndDelete(userId);
+
+        res.status(200).json({ message: 'User account deleted successfully!' });
+    } 
+    catch (error) {
+        console.log(error);
+        res.status(500).send("Internal server error");
+    }
+});
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
