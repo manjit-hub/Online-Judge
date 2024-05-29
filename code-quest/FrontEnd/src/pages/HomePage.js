@@ -1,21 +1,34 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import './HomePage.css';
 
 function HomePage() {
+    const navigate = useNavigate(); // GET THE NAVIGATION FUNCTION
+
+    // HANDLE NAVIGATION TO SIGNUP PAGE
+    const handleSignUp = () => {
+        navigate("/signup"); // NAVIGATE TO THE SIGNUP PAGE
+    };
+
+    // HANDLE NAVIGATION TO LOGIN PAGE
+    const handleLogIn = () => {
+        navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
+    };
+
     return (
-        <body>
+        <div>
             <div className="header">
                 <img src="/Assets/logo.png" alt="Logo" />
             </div>
             <div className="contentHome">
                 <h2>Welcome to CodeQuest</h2>
-                <p>A friendly place to learn and grow.Get started with a coding challenge, check out our courses, or just hang out and chat.</p>
-                <button className="signin btnhome">Sign In</button>
+                <p>A friendly place to learn and grow. Get started with a coding challenge, check out our courses, or just hang out and chat.</p>
+                <button className="signin btnhome" onClick={handleSignUp}>Sign Up</button>
                 <p className="checking">Already have an account?</p>
-                <button className="login btnhome">Log In</button>
+                <button className="login btnhome" onClick={handleLogIn}>Log In</button>
             </div>
-
-        </body>
+        </div>
     );
 }
 
