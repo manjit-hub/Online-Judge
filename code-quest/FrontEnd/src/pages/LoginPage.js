@@ -89,6 +89,7 @@ function LoginPage() {
                             onChange={handleOnChange} 
                         />
                         <button className="loginPg" type="submit">Log In</button> 
+                        <p className="checking">or</p>
                         <button className="google">
                             <img src={googleLogo} alt="Google Logo" className="google-logo" />Continue with Google
                         </button>
