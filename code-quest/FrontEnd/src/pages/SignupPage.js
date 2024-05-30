@@ -40,7 +40,7 @@ function SignupPage() {
             const { data } = await axios.post(
                 "http://localhost:5000/signup",
                 { ...inputValue },
-                { withCredentials: true }
+                { withCredentials: true } // It will assign a special cookies, token to the data
             );
 
             const { success, message } = data;
@@ -49,7 +49,7 @@ function SignupPage() {
                 handleSuccess(message);
                 setTimeout(() => {
                     navigate("/");
-                }, 5000);
+                }, 1000); // Waits 1000 mili seconds
             } 
             else {
                 handleError(message); // Display specific error message based on response

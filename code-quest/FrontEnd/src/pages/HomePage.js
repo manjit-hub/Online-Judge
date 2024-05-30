@@ -7,9 +7,7 @@ function HomePage() {
     const navigate = useNavigate(); // GET THE NAVIGATION FUNCTION
 
     // HANDLE NAVIGATION TO SIGNUP PAGE
-    const handleSignUp = () => {
-        navigate("/signup"); // NAVIGATE TO THE SIGNUP PAGE
-    };
+    const handleSignUp = () => navigate("/signup");
 
     // HANDLE NAVIGATION TO LOGIN PAGE
     const handleLogIn = () => {

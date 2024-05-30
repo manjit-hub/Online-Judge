@@ -61,7 +61,8 @@ app.post("/signup", async (req, res) => {
         user.password = undefined;
 
         res.status(200).json({ message: 'You have successfully registered!', user, token }); // Added: token in response
-    } catch (error) {
+    } 
+    catch (error) {
         console.error(error); // Changed: More detailed error logging
         res.status(500).send("Internal server error");
     }
