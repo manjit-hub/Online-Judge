@@ -1,29 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ProblemsCSS.css';
 
 const CodingProblems = () => {
-  const codingProblems = [
-    { title: "Palindrome Check", difficulty: "Easy", solved: "No", acceptance_rate: 80.25 },
-    { title: "Reverse Linked List", difficulty: "Medium", solved: "No", acceptance_rate: 60.75 },
-    { title: "Stack Implementation", difficulty: "Easy", solved: "No", acceptance_rate: 85.50 },
-    { title: "Queue using Stacks", difficulty: "Medium", solved: "No", acceptance_rate: 70.25 },
-    { title: "Factorial Recursion", difficulty: "Easy", solved: "No", acceptance_rate: 90.75 },
-    { title: "Binary Search", difficulty: "Easy", solved: "No", acceptance_rate: 85.25 },
-    { title: "Nth Fibonacci", difficulty: "Medium", solved: "No", acceptance_rate: 65.50 },
-    { title: "BST Check", difficulty: "Medium", solved: "No", acceptance_rate: 70.25 },
-    { title: "Selection Sort", difficulty: "Easy", solved: "No", acceptance_rate: 90.50 },
-    { title: "Shortest Path (Dijkstra)", difficulty: "Hard", solved: "No", acceptance_rate: 40.75 },
-    { title: "Priority Queue (Heap)", difficulty: "Medium", solved: "No", acceptance_rate: 70.25 },
-    { title: "Anagram Check", difficulty: "Easy", solved: "No", acceptance_rate: 85.50 },
-    { title: "Longest Substring", difficulty: "Medium", solved: "No", acceptance_rate: 65.75 },
-    { title: "DFS on Graph", difficulty: "Easy", solved: "No", acceptance_rate: 85.25 },
-    { title: "DFS Binary Tree", difficulty: "Medium", solved: "No", acceptance_rate: 70.50 },
-    { title: "Trie Implementation", difficulty: "Medium", solved: "No", acceptance_rate: 70.25 },
-    { title: "Power Recursion", difficulty: "Easy", solved: "No", acceptance_rate: 90.50 },
-    { title: "Shortest Path (Maze)", difficulty: "Hard", solved: "No", acceptance_rate: 30.75 },
-    { title: "Quicksort", difficulty: "Medium", solved: "No", acceptance_rate: 70.25 },
-    { title: "BFS on Graph", difficulty: "Easy", solved: "No", acceptance_rate: 85.50 }
-  ];
+  const [codingProblems, setCodingProblems] = useState([]);
+
+  useEffect(() => {
+    const fetchProblems = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/problems');
+        setCodingProblems(response.data);
+      } catch (error) {
+        console.error('Error fetching problems:', error);
+      }
+    };
+
+    fetchProblems();
+  }, []);
 
   return (
     <div className="list">
@@ -55,35 +48,35 @@ const CodingProblems = () => {
 
 function ProblemsPage() {
   return (
-      <div className="split">
-        <div className="dashboard">
-          <button className='btnPrb'><img src="/Assets/DashboardLogo.png" alt="Logo" />Dashboard</button>
-          <button className='btnPrb'><img src="/Assets/3LineLogo.png" alt="Logo" />Leaderboard</button>
-          <button className='btnPrb'><img src="/Assets/DiscussionLogo.png" alt="Logo" />Discussion</button>
-          <button className='btnPrb'><img src="/Assets/ProgressLogo.png" alt="Logo" />Progress</button>
-          <button className='btnPrb'><img src="/Assets/ProfileLogo.png" alt="Logo" />Profile</button>
+    <div className="split">
+      <div className="dashboard">
+        <button className='btnPrb'><img src="/Assets/DashboardLogo.png" alt="Logo" />Dashboard</button>
+        <button className='btnPrb'><img src="/Assets/3LineLogo.png" alt="Logo" />Leaderboard</button>
+        <button className='btnPrb'><img src="/Assets/DiscussionLogo.png" alt="Logo" />Discussion</button>
+        <button className='btnPrb'><img src="/Assets/ProgressLogo.png" alt="Logo" />Progress</button>
+        <button className='btnPrb'><img src="/Assets/ProfileLogo.png" alt="Logo" />Profile</button>
+      </div>
+
+      <div className="rightSide">
+        <div className="search">
+          <h1>Problems</h1>
+          <input type="text" className="inpPrb" placeholder="Search Problems" />
         </div>
 
-        <div className="rightSide">
-          <div className="search">
-            <h1>Problems</h1>
-            <input type="text" className="inpPrb" placeholder="Search Problems" />
-          </div>
-
-          <div className="tags">
-            <button className='PrbTagsBtn'>All</button>
-            <button className='PrbTagsBtn'>Easy</button>
-            <button className='PrbTagsBtn'>Medium</button>
-            <button className='PrbTagsBtn'>Hard</button>
-            <button className='PrbTagsBtn'>Binary Search</button>
-            <button className='PrbTagsBtn'>Recursion</button>
-            <button className='PrbTagsBtn'>DP</button>
-            <button className='PrbTagsBtn'>Back Tracking</button>
-            <button className='PrbTagsBtn'>Graph</button>
-            <button className='PrbTagsBtn'>Array</button>
-            <button className='PrbTagsBtn'>String</button>
-            <button className='PrbTagsBtn'>LinkedList</button>
-          </div>
+        <div className="tags">
+          <button className='PrbTagsBtn'>All</button>
+          <button className='PrbTagsBtn'>Easy</button>
+          <button className='PrbTagsBtn'>Medium</button>
+          <button className='PrbTagsBtn'>Hard</button>
+          <button className='PrbTagsBtn'>Binary Search</button>
+          <button className='PrbTagsBtn'>Recursion</button>
+          <button className='PrbTagsBtn'>DP</button>
+          <button className='PrbTagsBtn'>Back Tracking</button>
+          <button className='PrbTagsBtn'>Graph</button>
+          <button className='PrbTagsBtn'>Array</button>
+          <button className='PrbTagsBtn'>String</button>
+          <button className='PrbTagsBtn'>LinkedList</button>
+        </div>
 
         {/* Problems component */}
         <CodingProblems />

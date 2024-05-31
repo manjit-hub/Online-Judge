@@ -1,0 +1,83 @@
+
+* {
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Header */
+.headerComp {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid white;
+}
+
+.headerComp img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.right a {
+    margin-left: 20px;
+}
+
+.right a:first-child {
+    margin-left: 0;
+}
+
+.profileLogo {
+    width: 30px;
+    height: 30px;
+}
+
+/* Content */
+.contentCompiler {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    
+}
+
+.Comp {
+    padding-left: 20px;
+    height: 100vh;
+}
+
+#firstTop {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+#firstTop a {
+    margin-right: 20px;
+}
+
+.ProblemDesc {
+    width: 50%;
+    border-right: 1px solid grey;
+}
+
+/* Dropdown */
+.dropdown select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.dropdown select:focus {
+    outline: none;
+}
+
+.dropdown select option {
+    font-size: 10px;
+}
