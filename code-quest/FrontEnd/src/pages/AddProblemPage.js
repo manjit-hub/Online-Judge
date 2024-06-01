@@ -86,7 +86,7 @@ function AddProblemPage() {
         </label>
         <label>
           Description:
-          <label><textarea name="description" value={problemData.description} onChange={handleChange} required /> </label>
+          <label><textarea name="description" className='descTxt' value={problemData.description} onChange={handleChange} required /> </label>
         </label>
         <div className="test-cases">
           <h3>Test Cases</h3>

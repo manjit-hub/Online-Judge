@@ -88,13 +88,13 @@ app.post("/login", async (req, res) => {
             return res.status(400).send("Password is incorrect!");
         }
 
-        const token = jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, { // Changed: Used process.env.SECRET_KEY
+        const token = jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, { 
             expiresIn: "1h",
         });
         userExist.password = undefined;
 
         const options = {
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Changed: Cookie expiration set to 1 day
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000), //Cookie expiration set to 1 day
             httpOnly: true,
         };
 
@@ -104,7 +104,7 @@ app.post("/login", async (req, res) => {
             token, // Added: token in response
         });
     } catch (error) {
-        console.error(error); // Changed: More detailed error logging
+        console.error(error); 
         res.status(500).send("Internal server error");
     }
 });
@@ -117,7 +117,7 @@ app.put("/update", async (req, res) => {
             return res.status(401).send("Authentication required!");
         }
 
-        const decoded = jwt.verify(token, process.env.SECRET_KEY); // Changed: Used process.env.SECRET_KEY
+        const decoded = jwt.verify(token, process.env.SECRET_KEY); // Used process.env.SECRET_KEY
         const userId = decoded.id;
 
         const { fullName, email, password, newPassword } = req.body;
@@ -142,7 +142,7 @@ app.put("/update", async (req, res) => {
 
         res.status(200).json({ message: 'User data updated successfully!', user: userExist });
     } catch (error) {
-        console.error(error); // Changed: More detailed error logging
+        console.error(error); 
         res.status(500).send("Internal server error");
     }
 });
@@ -185,7 +185,7 @@ app.get("/problems", async (req, res) => {
 });
 
 // ------------------------------------ ADD PROBLEM ------------------------------------
-app.post("/problems", async (req, res) => {
+app.post("/add-problem", async (req, res) => {
     try {
         const { title, difficulty, description, acceptanceRate, testCases } = req.body;
 
@@ -217,7 +217,7 @@ app.post("/problems", async (req, res) => {
 
 
 // ------------------------------------ DISPLAY SPECIFIC PROBLEM ------------------------------------
-app.get("/retproblems/:problemId?", async (req, res) => {
+app.get("/compiler/:problemId?", async (req, res) => {
     try {
         const { problemId } = req.params;
 
@@ -229,12 +229,12 @@ app.get("/retproblems/:problemId?", async (req, res) => {
                 difficulty: "Easy",
                 solved: "No",
                 acceptance_rate: 34.78,
-                description: "The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.\n\nFor example, the XOR total of the array [2,5,6] is 2 XOR 5 XOR 6 = 1.\nGiven an array nums, return the sum of all XOR totals for every subset of nums. \n\nNote: Subsets with the same elements should be counted multiple times.\n\nAn array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b.",
+                description: "The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.\n For example, the XOR total of the array [2,5,6] is 2 XOR 5 XOR 6 = 1.\nGiven an array nums, return the sum of all XOR totals for every subset of nums. \n\nNote: Subsets with the same elements should be counted multiple times.\n\nAn array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b.",
                 testCases: [
                     {
                         input: "nums = [1,3]",
                         output: "6",
-                        explanation: "Subset XOR totals: [1], [3], [1,3], []. Their XOR totals are 1, 3, 2, 0 respectively. Sum = 1+3+2+0 = 6." // Include explanation
+                        explanation: "Subset XOR totals: [1], [3], [1,3], []. Their XOR totals are 1, 3, 2, 0 respectively. \n Sum = 1+3+2+0 = 6." 
                     }
                 ]
             };
@@ -246,7 +246,6 @@ app.get("/retproblems/:problemId?", async (req, res) => {
         if (!problem) {
             return res.status(404).json({ message: "Problem not found" });
         }
-
         res.status(200).json(problem);
     } catch (error) {
         console.error(error);

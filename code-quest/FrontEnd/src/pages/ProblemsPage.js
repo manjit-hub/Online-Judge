@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Link} from 'react-router-dom'
 import axios from 'axios';
 import './ProblemsCSS.css';
 
@@ -23,7 +24,7 @@ const CodingProblems = () => {
       <table>
         <thead>
           <tr>
-            <th>NO</th>
+            <th>NUMBER</th>
             <th>TITLE</th>
             <th>DIFFICULTY</th>
             <th>SOLVED</th>
@@ -34,7 +35,7 @@ const CodingProblems = () => {
           {codingProblems.map((problem, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{problem.title}</td>
+              <td><Link to={`/compiler/${problem._id}`}>{problem.title}</Link></td>
               <td>{problem.difficulty}</td>
               <td>{problem.solved}</td>
               <td>{problem.acceptance_rate}%</td>
@@ -44,17 +45,38 @@ const CodingProblems = () => {
       </table>
     </div>
   );
-}
+};
 
-function ProblemsPage() {
+const ProblemsPage = () => {
+  const [isMinimized, setIsMinimized] = useState(false);
+
+  const handleDashMainBtnClick = () => {
+    setIsMinimized(prevState => !prevState);
+  };
+
   return (
     <div className="split">
-      <div className="dashboard">
-        <button className='btnPrb'><img src="/Assets/DashboardLogo.png" alt="Logo" />Dashboard</button>
-        <button className='btnPrb'><img src="/Assets/3LineLogo.png" alt="Logo" />Leaderboard</button>
-        <button className='btnPrb'><img src="/Assets/DiscussionLogo.png" alt="Logo" />Discussion</button>
-        <button className='btnPrb'><img src="/Assets/ProgressLogo.png" alt="Logo" />Progress</button>
-        <button className='btnPrb'><img src="/Assets/ProfileLogo.png" alt="Logo" />Profile</button>
+      <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
+        <button className='btnPrb dashMainBtn' onClick={handleDashMainBtnClick}>
+          <img src="/Assets/DashboardLogo.png" alt="Logo" />
+          <span>{!isMinimized && 'Dashboard'}</span>
+        </button>
+        <button className='btnPrb'>
+          <img src="/Assets/3LineLogo.png" alt="Logo" />
+          <span>{!isMinimized && 'Leaderboard'}</span>
+        </button>
+        <button className='btnPrb'>
+          <img src="/Assets/DiscussionLogo.png" alt="Logo" />
+          <span>{!isMinimized && 'Discussion'}</span>
+        </button>
+        <button className='btnPrb'>
+          <img src="/Assets/ProgressLogo.png" alt="Logo" />
+          <span>{!isMinimized && 'Progress'}</span>
+        </button>
+        <button className='btnPrb'>
+          <img src="/Assets/ProfileLogo.png" alt="Logo" />
+          <span>{!isMinimized && 'Profile'}</span>
+        </button>
       </div>
 
       <div className="rightSide">
@@ -78,11 +100,10 @@ function ProblemsPage() {
           <button className='PrbTagsBtn'>LinkedList</button>
         </div>
 
-        {/* Problems component */}
         <CodingProblems />
       </div>
     </div>
   );
-}
+};
 
 export default ProblemsPage;

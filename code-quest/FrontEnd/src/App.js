@@ -16,12 +16,11 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/problems" element={<ProblemsPage />} />
-        <Route path="/add-problem" element={<AddProblemPage />} /> 
+        <Route path="/add-problem" element={<AddProblemPage />} />
+        <Route path="/compiler/:problemId" component={<CompilerPage />} />
       </Routes> */}
 
-      {/* <ProblemsPage /> */}
-      <AddProblemPage />
-      {/* <CompilerPage/> */}
+      <CompilerPage />
     </div>
   );
 }

@@ -4,14 +4,14 @@ import axios from 'axios';
 import './CompilerPageCSS.css';
 
 function CompilerPage() {
-    const { problemId } = useParams(); // Assuming you are passing problem ID as a route parameter
+    const { _id: problemId } = useParams(); // Assuming you are passing problem ID as a route parameter
     const [problem, setProblem] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState("cpp");
 
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/retproblems/${problemId || ''}`);
+                const response = await axios.get(`http://localhost:5000/compiler/${problemId || ''}`);
                 setProblem(response.data);
             } 
             catch (error) {
@@ -50,11 +50,11 @@ function CompilerPage() {
                                 <>
                                 <div key={index}>
                                     <h3>{`Test Case ${index + 1}`}</h3>
-                                    if(testCase.input)<p><strong>Input:</strong> {testCase.input}</p>
-                                    if(testCase.output)<p><strong>Output:</strong> {testCase.output}</p>
-                                    if(testCase.explanation) <p><strong>Explanation:</strong> {testCase.explanation}</p>
+                                    <p><strong>Input:</strong> {testCase.input}</p>
+                                    <p><strong>Output:</strong> {testCase.output}</p>
+                                    <p><strong>Explanation:</strong> <br /> {testCase.explanation}</p>
                                 </div>
-                                <p>{`Accepted ${problem.acceptance_rate}`}</p>
+                                <p>{`Accepted : ${problem.acceptance_rate}`}</p>
                                 </>
                             ))}
                         </div>
@@ -79,6 +79,7 @@ function CompilerPage() {
                             </select>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
