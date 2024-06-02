@@ -66,17 +66,17 @@ function CompilerPage() {
                     <div id="firstTop">
                         <div className="editorial"><Link to="/">Editorials</Link></div>
                         <div className="dropdown">
-                            <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
-                                <option value="javascript">JavaScript</option>
-                                <option value="python">Python</option>
-                                <option value="java">Java</option>
-                                <option value="cpp">C++</option>
-                                <option value="csharp">C#</option>
-                                <option value="ruby">Ruby</option>
-                                <option value="go">Go</option>
-                                <option value="swift">Swift</option>
-                                <option value="kotlin">Kotlin</option>
-                            </select>
+                        <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
+                            <option value="js">JavaScript</option>
+                            <option value="py">Python</option>
+                            <option value="java">Java</option>
+                            <option value="cpp">C++</option>
+                            <option value="cs">C#</option>
+                            <option value="rb">Ruby</option>
+                            <option value="go">Go</option>
+                            <option value="swift">Swift</option>
+                            <option value="kt">Kotlin</option>
+                        </select>
                         </div>
                     </div>
 
