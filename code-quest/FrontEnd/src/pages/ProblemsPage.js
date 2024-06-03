@@ -35,7 +35,11 @@ const CodingProblems = () => {
           {codingProblems.map((problem, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td><Link to={`/compiler/${problem._id}`}>{problem.title}</Link></td>
+              <td>
+                <div className="prbTitle">
+                  <Link to={`/compiler/${problem._id}`}>{problem.title}</Link>
+                </div>
+              </td>
               <td>{problem.difficulty}</td>
               <td>{problem.solved}</td>
               <td>{problem.acceptance_rate}%</td>
@@ -79,7 +83,7 @@ const ProblemsPage = () => {
         </button>
       </div>
 
-      <div className="rightSide">
+      <div className="prbRightSide">
         <div className="search">
           <h1>Problems</h1>
           <input type="text" className="inpPrb" placeholder="Search Problems" />

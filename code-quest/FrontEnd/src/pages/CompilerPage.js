@@ -7,6 +7,9 @@ function CompilerPage() {
     const { _id: problemId } = useParams(); // Assuming you are passing problem ID as a route parameter
     const [problem, setProblem] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState("cpp");
+    const [code, setCode] = useState("");
+    const [manualTestCase, setManualTestCase] = useState("");
+    const [output, setOutput] = useState("");
 
     useEffect(() => {
         const fetchProblem = async () => {
@@ -26,6 +29,20 @@ function CompilerPage() {
         setSelectedLanguage(e.target.value);
     };
 
+    const handleCodeChange = (e) =>{
+        setCode(e.target.value);
+    }
+
+    const handleManualTestCaseChange = (e) => {
+        setManualTestCase(e.target.value);
+    };
+
+    const handleRun = () => {
+        console.log("Run clicked");
+    };
+    const handleSubmit = () => {
+        console.log("Submit clicked");
+    };
     return (
         <div>
             {/* HEADER  */}
@@ -63,22 +80,60 @@ function CompilerPage() {
                     )}
                 </div>
                 <div className="Comp">
-                    <div id="firstTop">
-                        <div className="editorial"><Link to="/">Editorials</Link></div>
-                        <div className="dropdown">
-                        <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
-                            <option value="js">JavaScript</option>
-                            <option value="py">Python</option>
-                            <option value="java">Java</option>
-                            <option value="cpp">C++</option>
-                            <option value="cs">C#</option>
-                            <option value="rb">Ruby</option>
-                            <option value="go">Go</option>
-                            <option value="swift">Swift</option>
-                            <option value="kt">Kotlin</option>
-                        </select>
+                    <div className="firstTop">
+                        <div className="actionButtons">
+                            <button className="runButton" onClick={handleRun}>Run</button>
+                            <button className="submitButton" onClick={handleSubmit}>Submit</button>
+                        </div>
+                        <div className="rightSide">
+                            <div className="editorial"><Link to="/">Editorials</Link></div>
+                            <div className="dropdown">
+                            <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
+                                <option value="js">JavaScript</option>
+                                <option value="py">Python</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                                <option value="cs">C#</option>
+                                <option value="rb">Ruby</option>
+                                <option value="go">Go</option>
+                                <option value="swift">Swift</option>
+                                <option value="kt">Kotlin</option>
+                            </select>
+                            </div>
                         </div>
                     </div>
+                    {/* Code Editor */}
+                    <div className="codeEditor">
+                        <textarea
+                            className="codeInput"
+                            value={code}
+                            onChange={handleCodeChange}
+                            placeholder="Write your code here..."
+                        />
+                    </div>
+                    {/* Input Box  */}
+                    <div className="manualTestCaseInput">
+                        <textarea
+                            className="manualTestCase"
+                            value={manualTestCase}
+                            onChange={handleManualTestCaseChange}
+                            placeholder="Enter your test cases here..."
+                        />
+                    </div>
+                    {/* Output Box  */}
+                    <div className="outputBox">
+                        <textarea
+                            className="outputDisplay"
+                            value={output}
+                            readOnly
+                            placeholder="Output will be displayed here..."
+                        />
+                    </div>
+                    {/* Buttons 
+                    <div className="actionButtons">
+                        <button className="runButton" onClick={handleRun}>Run</button>
+                        <button className="submitButton" onClick={handleSubmit}>Submit</button>
+                    </div> */}
 
                 </div>
             </div>
