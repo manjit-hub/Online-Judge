@@ -10,29 +10,36 @@ The Online Judge project is a full-stack application designed using the MERN sta
 
 ## Features
 
-- **👤 User Registration**: Sign up using email or social media accounts.
+- **👤 User Registration**: Sign up using email or Google accounts.
 - **🔧 Profile Management**: Edit personal information, track progress, and view submissions.
 - **💡 Practice Problems**: Curated coding problems categorized by difficulty and topic.
 - **🖥️ Code Compilation**: Online code editor and compiler with real-time feedback.
 - **✅ Return Verdict**: Automatic evaluation of submissions with verdicts like Accepted, Wrong Answer, or Time Limit Exceeded.
-- **🏆 Contests (Optional)**: Participate in coding competitions with real-time rankings.
-- **📊 Leaderboard (Optional)**: Displays user rankings based on performance.
+- **🏆 Contests (WILL ADD)**: Participate in coding competitions with real-time rankings.
+- **📊 Leaderboard (WILL ADD)**: Displays user rankings based on performance.
 
+## Technologies Used
+
+- **Frontend**: React.js
+- **Backend**: Node.js, Express.js, MongoDB
+- **Authentication**: Custom authentication system 
+- **Code Editor**: Custom Code editor
+  
 ## Challenges and Solutions
 
 ### Scalability and Performance
 
-- **⚖️ Load Balancing**: Distribute traffic across multiple servers.
-- **📈 Auto-scaling**: Dynamically add or remove resources based on demand.
-- **🚀 Efficient Code Execution**: Use a robust queue system to manage submissions.
-- **🗂️ Caching and CDNs**: Reduce server load with caching mechanisms.
+- **⚖️ Load Balancing**: Distribute traffic across multiple servers.(WILL MAKE IT)
+- **📈 Auto-scaling**: Dynamically add or remove resources based on demand. (WILL MAKE IT)
+- **🚀 Efficient Code Execution**: Use a robust queue system to manage submissions.(WILL MAKE IT)
+- **🗂️ Caching and CDNs**: Reduce server load with caching mechanisms. (WILL MAKE IT)
 
 ### Accurate and Fair Evaluation
 
 - **🛠️ Standardized Test Environment**: Use containerization for consistent execution.
 - **🔍 Comprehensive Test Cases**: Include extensive test cases for validation.
-- **🔒 Sandboxing**: Execute code in a secure, isolated environment.
-- **📅 Regular Monitoring**: Conduct audits and real-time monitoring.
+- **🔒 Dockers**: Execute code in a secure, isolated environment.
+- **📅 Regular Monitoring**: Conduct audits and real-time monitoring.(WILL MAKE IT)
 
 ## Workflow
 
@@ -41,8 +48,15 @@ The Online Judge project is a full-stack application designed using the MERN sta
 3. **📝 Browse Problems**: View and select problems to solve.
 4. **💻 Submit Code**: Write and submit code using the online editor.
 5. **📋 Get Verdict**: Receive instant feedback on submissions.
-6. **🏅 Compete in Contests** (Optional): Participate in real-time coding competitions.
-7. **📊 View Leaderboard** (Optional): Check rankings and performance statistics.
+6. **🏅 Compete in Contests** (WILL ADD): Participate in real-time coding competitions.
+7. **📊 View Leaderboard** (WILL ADD): Check rankings and performance statistics.
+
+## Admin Dashboard
+
+The admin dashboard allows administrators to manage the platform effectively. Key functionalities include:
+
+- **Adding New Problems**: Admins can create and add new coding problems to the platform.
+- **User Management**: Admins can manage user accounts and permissions.
 
 ## Mentorship
 
