@@ -70,8 +70,6 @@ This project is being developed under the mentorship of [Bhavesh Garg](https://w
 ![GitHub forks](https://img.shields.io/github/forks/manjit-hub/online-judge)
 ![GitHub issues](https://img.shields.io/github/issues/manjit-hub/online-judge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/manjit-hub/online-judge)
-![GitHub license](https://img.shields.io/github/license/manjit-hub/online-judge)
-![GitHub visitors](https://visitor-badge.glitch.me/badge?page_id=manjit-hub.online-judge)
 
 ---
 
