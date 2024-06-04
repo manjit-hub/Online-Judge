@@ -80,13 +80,6 @@ For more details, please refer to the [project documentation](https://shorturl.a
 ## Contributing
 
 We welcome contributions! Please reach us at [manjitmajhi156@gmail.com](mailto:manjitmajhi156@gmail.com).
-
----
-
-## License
-
-x x x
-
 ---
 
 Thank you for your interest in the Online Judge project! Stay tuned for updates as we continue to develop and improve the platform.
