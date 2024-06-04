@@ -67,13 +67,13 @@ For more details, please refer to the [project documentation](https://shorturl.a
 
 ## Contributing
 
-We welcome contributions! Please see our [contributing guidelines](link-to-contributing-guidelines) for more information.
+We welcome contributions! Please reach us at [manjitmajhi156@gmail.com](mailto:manjitmajhi156@gmail.com).
 
 ---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](link-to-license) file for details.
+x x x
 
 ---
 
