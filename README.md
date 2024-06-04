@@ -52,16 +52,16 @@ This project is being developed under the mentorship of [Bhavesh Garg](https://w
 
 ## Project Stats
 
-![GitHub stars](https://img.shields.io/github/stars/your-repo/online-judge) 
-![GitHub forks](https://img.shields.io/github/forks/your-repo/online-judge)
-![GitHub issues](https://img.shields.io/github/issues/your-repo/online-judge)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/your-repo/online-judge)
-![GitHub license](https://img.shields.io/github/license/your-repo/online-judge)
-![GitHub visitors](https://visitor-badge.glitch.me/badge?page_id=your-repo.online-judge)
+![GitHub stars](https://img.shields.io/github/stars/manjit-hub/online-judge) 
+![GitHub forks](https://img.shields.io/github/forks/manjit-hub/online-judge)
+![GitHub issues](https://img.shields.io/github/issues/manjit-hub/online-judge)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/manjit-hub/online-judge)
+![GitHub license](https://img.shields.io/github/license/manjit-hub/online-judge)
+![GitHub visitors](https://visitor-badge.glitch.me/badge?page_id=manjit-hub.online-judge)
 
 ---
 
-For more details, please refer to the [project documentation](link-to-documentation).
+For more details, please refer to the [project documentation](https://shorturl.at/qpMrm).
 
 ---
 
@@ -78,3 +78,7 @@ This project is licensed under the MIT License. See the [LICENSE](link-to-licens
 ---
 
 Thank you for your interest in the Online Judge project! Stay tuned for updates as we continue to develop and improve the platform.
+
+---
+
+**Repository Link**: [Online Judge GitHub Repository](https://github.com/manjit-hub/Online-Judge.git)
