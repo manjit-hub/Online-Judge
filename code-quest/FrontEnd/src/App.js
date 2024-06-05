@@ -11,16 +11,16 @@ import CompilerPage from './pages/CompilerPage';
 function App() {
   return (
     <div>
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/problems" element={<ProblemsPage />} />
+        <Route path="/problemslist" element={<ProblemsPage />} />
         <Route path="/add-problem" element={<AddProblemPage />} />
-        <Route path="/compiler/:problemId" component={<CompilerPage />} />
-      </Routes> */}
+        <Route path="/problems/:problemId" element={<CompilerPage />} />
+      </Routes>
 
-      <CompilerPage />
+      {/* <CompilerPage/> */}
     </div>
   );
 }

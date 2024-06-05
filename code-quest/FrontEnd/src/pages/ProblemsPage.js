@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './ProblemsCSS.css';
 
@@ -9,7 +9,7 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/problems');
+        const response = await axios.get('http://localhost:5000/problemslist');
         setCodingProblems(response.data);
       } catch (error) {
         console.error('Error fetching problems:', error);
@@ -37,7 +37,7 @@ const CodingProblems = () => {
               <td>{index + 1}</td>
               <td>
                 <div className="prbTitle">
-                  <Link to={`/compiler/${problem._id}`}>{problem.title}</Link>
+                  <Link to={`/problems/${problem._id}`}>{problem.title}</Link>
                 </div>
               </td>
               <td>{problem.difficulty}</td>

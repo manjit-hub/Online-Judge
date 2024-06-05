@@ -48,7 +48,7 @@ function SignupPage() {
             if (success) {
                 handleSuccess(message);
                 setTimeout(() => {
-                    navigate("/problems");
+                    navigate("/problemslist");
                 }, 1000); // Waits 1000 mili seconds
             } 
             else {

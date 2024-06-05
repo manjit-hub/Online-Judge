@@ -174,7 +174,7 @@ app.delete("/delete", async (req, res) => {
 
 
 // ------------------------------------ FETCH PROBLEMS ------------------------------------
-app.get("/problems", async (req, res) => {
+app.get("/problemslist", async (req, res) => {
     try {
         const problems = await Problem.find({});
         res.status(200).json(problems);
@@ -214,48 +214,47 @@ app.post("/add-problem", async (req, res) => {
     }
 });
 
+// // ------------------------------------ DISPLAY SPECIFIC PROBLEM ------------------------------------
+// app.get("/problemslist/:problemId?", async (req, res) => {
+//     try {
+//         const { problemId } = req.params;
 
+//         if (!problemId) {
+//             const defaultProblem = {
+//                 _id: "665996ba33f86e7e57f5b43e",
+//                 number: 1,
+//                 title: "Sum of All Subset XOR Totals",
+//                 difficulty: "Easy",
+//                 solved: "No",
+//                 acceptance_rate: 34.78,
+//                 description: "The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.\n For example, the XOR total of the array [2,5,6] is 2 XOR 5 XOR 6 = 1.\nGiven an array nums, return the sum of all XOR totals for every subset of nums. \n\nNote: Subsets with the same elements should be counted multiple times.\n\nAn array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b.",
+//                 testCases: [
+//                     {
+//                         input: "nums = [1,3]",
+//                         output: "6",
+//                         explanation: "Subset XOR totals: [1], [3], [1,3], []. Their XOR totals are 1, 3, 2, 0 respectively. \n Sum = 1+3+2+0 = 6." 
+//                     }
+//                 ]
+//             };
+//             return res.status(200).json({ problem: defaultProblem, redirectUrl: "/compiler/665996ba33f86e7e57f5b43e" });
+//         }
 
-// ------------------------------------ DISPLAY SPECIFIC PROBLEM ------------------------------------
-app.get("/compiler/:problemId?", async (req, res) => {
-    try {
-        const { problemId } = req.params;
+//         const problem = await Problem.findById(problemId);
 
-        if (!problemId) {
-            const defaultProblem = {
-                _id: "665996ba33f86e7e57f5b43e",
-                number: 1, // Adding a number for the default problem
-                title: "Sum of All Subset XOR Totals",
-                difficulty: "Easy",
-                solved: "No",
-                acceptance_rate: 34.78,
-                description: "The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.\n For example, the XOR total of the array [2,5,6] is 2 XOR 5 XOR 6 = 1.\nGiven an array nums, return the sum of all XOR totals for every subset of nums. \n\nNote: Subsets with the same elements should be counted multiple times.\n\nAn array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b.",
-                testCases: [
-                    {
-                        input: "nums = [1,3]",
-                        output: "6",
-                        explanation: "Subset XOR totals: [1], [3], [1,3], []. Their XOR totals are 1, 3, 2, 0 respectively. \n Sum = 1+3+2+0 = 6." 
-                    }
-                ]
-            };
-            return res.status(200).json(defaultProblem);
-        }
+//         if (!problem) {
+//             return res.status(404).json({ message: "Problem not found" });
+//         }
+//         res.status(200).json({ problem, redirectUrl: `/compiler/${problemId}` });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send("Internal server error");
+//     }
+// });
 
-        const problem = await Problem.findById(problemId);
-
-        if (!problem) {
-            return res.status(404).json({ message: "Problem not found" });
-        }
-        res.status(200).json(problem);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Internal server error");
-    }
-});
 
 
 // Start the server
 const PORT = process.env.PORT || 5000; 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`); 
 });

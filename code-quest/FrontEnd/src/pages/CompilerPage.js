@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import './CompilerPageCSS.css';
 
 function CompilerPage() {
-    const { _id: problemId } = useParams(); // Assuming you are passing problem ID as a route parameter
+    const { problemId } = useParams();
+    const navigate = useNavigate();
     const [problem, setProblem] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState("cpp");
     const [code, setCode] = useState("");
@@ -14,38 +17,82 @@ function CompilerPage() {
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/compiler/${problemId || ''}`);
-                setProblem(response.data);
-            } 
-            catch (error) {
+                const response = await axios.get(`http://localhost:8000/problems/${problemId}`);
+                setProblem(response.data.problem);
+                if (response.data.redirectUrl) {
+                    navigate(response.data.redirectUrl);
+                }
+            } catch (error) {
                 console.error('Error fetching problem data:', error);
+                toast.error('Error fetching problem data', {
+                    position: "top-center",
+                });
             }
         };
 
         fetchProblem();
-    }, [problemId]);
+    }, [problemId, navigate]);
 
     const handleLanguageChange = (e) => {
-        setSelectedLanguage(e.target.value);
+        const lang = e.target.value;
+        setSelectedLanguage(lang);
+        setCode((code) => ({ ...code, lang }));
     };
 
-    const handleCodeChange = (e) =>{
-        setCode(e.target.value);
-    }
-
-    const handleManualTestCaseChange = (e) => {
-        setManualTestCase(e.target.value);
+    const handleError = (err) => {
+        toast.error(err, {
+            position: "top-center",
+        });
+        setOutput(`Error: ${err}`);
     };
 
-    const handleRun = () => {
-        console.log("Run clicked");
+    const handleSuccess = (msg) => {
+        toast.success(msg, {
+            position: "top-center",
+        });
+        setOutput(`Passed: ${msg}`);
     };
-    const handleSubmit = () => {
-        console.log("Submit clicked");
+
+    const handleRun = async () => {
+        const payload = {
+          language: 'cpp',
+          code,
+          manualTestCase
+        };
+    
+        try {
+          const { data } = await axios.post('http://localhost:8000/problems/run', payload);
+        //   console.log(data);
+          setOutput(data.output);
+        } catch (error) {
+          console.log(error.response);
+        }
+      }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                "http://localhost:8000/problems/submit",
+                { ...code }
+            );
+            const { success, message, output } = response.data;
+
+            if (success) {
+                handleSuccess(message);
+                setOutput(output);
+            } else {
+                handleError(message);
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data || "An error occurred";
+            handleError(errorMessage);
+        }
     };
+
     return (
         <div>
-            {/* HEADER  */}
+            {/* HEADER */}
             <div className="headerComp">
                 <div className="left">
                     <img src="/Assets/logo.png" alt="Logo" />
@@ -56,7 +103,7 @@ function CompilerPage() {
                 </div>
             </div>
 
-            {/* CONTENT  */}
+            {/* CONTENT */}
             <div className="contentCompiler">
                 <div className="ProblemDesc">
                     {problem ? (
@@ -64,16 +111,14 @@ function CompilerPage() {
                             <h1>{`${problem.number}: ${problem.title}`}</h1>
                             <p>{problem.description}</p>
                             {problem.testCases.map((testCase, index) => (
-                                <>
                                 <div key={index}>
                                     <h3>{`Test Case ${index + 1}`}</h3>
                                     <p><strong>Input:</strong> {testCase.input}</p>
                                     <p><strong>Output:</strong> {testCase.output}</p>
                                     <p><strong>Explanation:</strong> <br /> {testCase.explanation}</p>
                                 </div>
-                                <p>{`Accepted : ${problem.acceptance_rate}`}</p>
-                                </>
                             ))}
+                            <p>{`Acceptance Rate : ${problem.acceptance_rate} %`}</p>
                         </div>
                     ) : (
                         <p>Loading problem...</p>
@@ -88,17 +133,17 @@ function CompilerPage() {
                         <div className="rightSide">
                             <div className="editorial"><Link to="/">Editorials</Link></div>
                             <div className="dropdown">
-                            <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
-                                <option value="js">JavaScript</option>
-                                <option value="py">Python</option>
-                                <option value="java">Java</option>
-                                <option value="cpp">C++</option>
-                                <option value="cs">C#</option>
-                                <option value="rb">Ruby</option>
-                                <option value="go">Go</option>
-                                <option value="swift">Swift</option>
-                                <option value="kt">Kotlin</option>
-                            </select>
+                                <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
+                                    <option value="js">JavaScript</option>
+                                    <option value="py">Python</option>
+                                    <option value="java">Java</option>
+                                    <option value="cpp">C++</option>
+                                    <option value="cs">C#</option>
+                                    <option value="rb">Ruby</option>
+                                    <option value="go">Go</option>
+                                    <option value="swift">Swift</option>
+                                    <option value="kt">Kotlin</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -107,20 +152,20 @@ function CompilerPage() {
                         <textarea
                             className="codeInput"
                             value={code}
-                            onChange={handleCodeChange}
+                            onChange={(e) => setCode(e.target.value)}
                             placeholder="Write your code here..."
                         />
                     </div>
-                    {/* Input Box  */}
+                    {/* Input Box */}
                     <div className="manualTestCaseInput">
                         <textarea
                             className="manualTestCase"
                             value={manualTestCase}
-                            onChange={handleManualTestCaseChange}
+                            onChange={ (e) => setManualTestCase(e.target.value)}
                             placeholder="Enter your test cases here..."
                         />
                     </div>
-                    {/* Output Box  */}
+                    {/* Output Box */}
                     <div className="outputBox">
                         <textarea
                             className="outputDisplay"
@@ -129,14 +174,9 @@ function CompilerPage() {
                             placeholder="Output will be displayed here..."
                         />
                     </div>
-                    {/* Buttons 
-                    <div className="actionButtons">
-                        <button className="runButton" onClick={handleRun}>Run</button>
-                        <button className="submitButton" onClick={handleSubmit}>Submit</button>
-                    </div> */}
-
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }
