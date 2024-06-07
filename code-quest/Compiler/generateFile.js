@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-// Automation to create a new code file
+// Automation to create a new Codes folder
 const dirCode = path.join(path.resolve(), 'Codes');
 
 // We can also create Language specific folder
@@ -17,11 +17,11 @@ if (!fs.existsSync(dirCode)) {
     fs.mkdirSync(dirCode, { recursive: true });
 }
 
-const generateFile = (lang, code) => {
+const generateFile = async (lang, code) => {
     const jobId = uuidv4(); // generate random jobId i.e file name
     const fileName = `${jobId}.${lang}`;
     const filePath = path.join(dirCode, fileName); // Move the file to the dirCode file path=> But it will not show inside Codes folder until we write something on that file
-    fs.writeFileSync(filePath, code); // Write the code into the file
+    await fs.writeFileSync(filePath, code); // Write the code into the file
     return filePath;
 };
 

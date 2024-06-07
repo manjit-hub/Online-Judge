@@ -57,12 +57,12 @@ function CompilerPage() {
         const payload = {
           language: 'cpp',
           code,
-          manualTestCase
+          manualTestCase,
         };
     
         try {
           const { data } = await axios.post('http://localhost:8000/problems/run', payload);
-        //   console.log(data);
+          console.log(data);
           setOutput(data.output);
         } catch (error) {
           console.log(error.response);

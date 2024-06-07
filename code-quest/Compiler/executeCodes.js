@@ -11,7 +11,7 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCPP = (filePath) => {
+const executeCPP = (filePath, inputFilePath) => {
     // name the exe file accordingly => codeFileName.exe
     const jobId = path.basename(filePath).split(".")[0]; // split the filePath on the basis of '.' and give 0th index
     const opfileName = `${jobId}.exe`; // Make sure to convert into '.out' while deploying on server, as it runs on LINUX
@@ -20,7 +20,7 @@ const executeCPP = (filePath) => {
     // Promise : A promise in JavaScript is an object that represents the eventual completion (or failure) of an asynchronous operation
     // It is like async await
     return new Promise((resolve, reject) => {
-        exec(`g++ ${filePath} -o ${opPath} && cd ${outputPath} && .\\${opfileName}`, // For Linux:  ./${opfileName}
+        exec(`g++ ${filePath} -o ${opPath} && cd ${outputPath} && .\\${opfileName} < ${inputFilePath}`, // For Linux:  ./${opfileName}
             (error, stdout, stderr) => { 
                 if (error) {
                     reject(error);
@@ -37,7 +37,7 @@ const executeCPP = (filePath) => {
 };
 
 // Python execution:
-const executePY = (filePath) => {
+const executePY = (filePath, inputFilePath) => {
     return new Promise((resolve, reject) => {
         exec(`python ${filePath}`, (error, stdout, stderr) => {
             if (error) {
@@ -54,7 +54,7 @@ const executePY = (filePath) => {
 };
 
 // JavaScript execution:
-const executeJS = (filePath) => {
+const executeJS = (filePath, inputFilePath) => {
     return new Promise((resolve, reject) => {
         exec(`node ${filePath}`, (error, stdout, stderr) => {
             if (error) {
@@ -71,7 +71,7 @@ const executeJS = (filePath) => {
 };
 
 // Java execution:
-const executeJAVA = (filePath) => {
+const executeJAVA = (filePath, inputFilePath) => {
     const jobId = path.basename(filePath).split(".")[0];
     return new Promise((resolve, reject) => {
         exec(`javac ${filePath} && java ${jobId}`, (error, stdout, stderr) => {

@@ -1,5 +1,6 @@
 import express from 'express';
 import { generateFile } from './generateFile.js'; 
+import { generateInputFile} from './generateInputFile.js';
 import { executeCPP, executePY, executeJS, executeJAVA } from './executeCodes.js';
 import cors from 'cors';
 const app = express();
@@ -33,22 +34,27 @@ app.get("/problems/:problemId", async (req, res) => {
 });
 
 app.post("/problems/run", async (req, res) => {
-    const { lang = "cpp", code, testCases } = req.body; // making cpp as default language
+    const { lang = "cpp", code, manualTestCase : input } = req.body; // making cpp as default language
     if (!code) {
         return res.status(500).json({ success: false, error: "Code not found" }); // success-> use in production grade
     }
+    if (input=="") {
+        return res.status(500).json({ success: false, error: "Please Input" }); // success-> use in production grade
+    }
     try {
         // Create a file using {lang, code}
-        const filePath = generateFile(lang, code,);
+        const filePath = await generateFile(lang, code,);
 
-        //Automate the execution of code using terminal
+        //Create a file for CustomInput
+        const inputFilePath = await generateInputFile(input);
+
+        // //Automate the execution of code using terminal
         let output;
-        if(lang == 'cpp') output = await executeCPP(filePath);
-        const expectedOutput = testCases.output;
-        if(output == expectedOutput)  return res.json({ filePath, output});
-        else return res.json({ filePath, output, error: "Wrong Answer" });
+        if(lang == 'cpp') output = await executeCPP(filePath, inputFilePath);
+        return res.json({ success : true,filePath, inputFilePath, output});
+
     } catch (error) {
-        return res.status(500).json({ success: false, error: error.message })
+        return res.status(500).json({ success: false, error: error.message });
     }
 });
 
