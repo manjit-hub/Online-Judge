@@ -6,14 +6,14 @@ import cors from 'cors';
 const app = express();
 
 import mongoose from 'mongoose';
-import Problem from '../BackEnd/Authenticator/models/Problem.js';
+import Problem from './models/Problem.js';
 // Middleware next 3 lines: 
 app.use(cors());
 app.use(express.json()); // Accept any data from FrontEnd
 app.use(express.urlencoded({ extended: true }));
 
 // Database connection
-import { DBConnection } from "../BackEnd/Authenticator//Database/db.js";
+import DBConnection from './Database/db.js';
 DBConnection();
 
 app.get("/", (req, res) => {
