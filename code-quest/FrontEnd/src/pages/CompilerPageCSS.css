@@ -40,7 +40,10 @@ a {
     height: 30px;
     cursor: pointer;
 }
-
+.cmpBtn{
+    border: none;
+    padding-left: 50px;
+}
 /* Content */
 .contentCompiler {
     display: flex;

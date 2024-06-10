@@ -92,18 +92,16 @@ app.post("/problems/submit", async (req, res) => {
                 if (cleanedOutput !== expectedOutput) {
                     return res.json({ 
                         success: false,
-                        verdict: "Wrong Answer",
-                        output: `Wrong Answer !!`, 
-                        failedTestCase: testCase
+                        verdict: "Wrong Answer", 
+                        failedTestCase: testCase.input
                     });
                 }
             } catch (error) {
                 return res.json({ 
-                    success: false, 
-                    output: `Run time error !! \n Input: ${testCase.input}`,
+                    success: false,
                     error: error.message, 
                     verdict: error.message,
-                    failedTestCase: testCase 
+                    failedTestCase: testCase.input
                 });
             }
         }

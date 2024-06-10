@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './CompilerPageCSS.css';
+import { UserContext } from './UserContext';
 
 function CompilerPage() {
-    const { problemId } = useParams();
+    const user = useContext(UserContext);
+    const { problemId, userId } = useParams();
     const navigate = useNavigate();
     const [problem, setProblem] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState("cpp");
@@ -39,42 +41,36 @@ function CompilerPage() {
         setCode((code) => ({ ...code, lang }));
     };
 
-    const handleError = (err) => {
-        toast.error(err, {
-            position: "top-center",
-        });
-        setOutput(`Error: ${err}`);
-    };
-
-    const handleSuccess = (msg) => {
-        toast.success(msg, {
-            position: "top-center",
-        });
-        setOutput(`Passed: ${msg}`);
-    };
+    const onClickProfileBtn = () => {
+        if (user && user._id) { 
+          navigate(`/profile/${user._id}`); 
+        } else {
+          console.error('User ID not found');
+        }
+      };
 
     const handleRun = async () => {
         const payload = {
-          language: selectedLanguage,
-          code,
-          manualTestCase,
+            language: selectedLanguage,
+            code,
+            manualTestCase,
         };
-    
+
         try {
-          const { data } = await axios.post('http://localhost:8000/problems/run', payload);
-          console.log(data);
-          setOutput(data.output);
+            const { data } = await axios.post('http://localhost:8000/problems/run', payload);
+            console.log(data);
+            setOutput(data.output);
         } catch (error) {
-          console.log(error.response);
+            console.log(error.response);
         }
-      }
+    }
 
     const handleSubmit = async (e) => {
         const payload = {
             language: selectedLanguage,
             code,
             problemId
-          };
+        };
         try {
             const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
             console.log(data);
@@ -88,7 +84,7 @@ function CompilerPage() {
                 toast.error(data.verdict, {
                     position: "top-center",
                 });
-                setOutput(`Failed Test Case: ${JSON.stringify(data.failedTestCase)}\nVerdict: ${data.verdict}`);
+                setOutput(`Verdict: ${data.verdict} \nFailed Test Case: ${JSON.stringify(data.failedTestCase)}`);
             }
         } catch (error) {
             console.error('Error during submission:', error);
@@ -108,8 +104,10 @@ function CompilerPage() {
                     <img src="/Assets/logo.png" alt="Logo" />
                 </div>
                 <div className="right">
-                    <Link to="/problems">Problems</Link>
-                    <Link to="/"><img src="/Assets/ProfileLogo.png" className="profileLogo" alt="Logo" /></Link>
+                    <Link to="/problemslist">Problems</Link>
+                    <button className="cmpBtn" onClick={onClickProfileBtn}>
+                        <img src="/Assets/ProfileLogo.png" className="profileLogo" alt="Logo" />
+                    </button>
                 </div>
             </div>
 
@@ -120,12 +118,14 @@ function CompilerPage() {
                         <div>
                             <h1>{`${problem.number}: ${problem.title}`}</h1>
                             <p>{problem.description}</p>
-                            {problem.testCases.map((testCase, index) => (
+                            {problem.testCases.slice(0, 2).map((testCase, index) => ( //ONLY FIRST TWO TESCASES
                                 <div key={index}>
                                     <h3>{`Test Case ${index + 1}`}</h3>
                                     <p><strong>Input:</strong> {testCase.input}</p>
                                     <p><strong>Output:</strong> {testCase.output}</p>
-                                    <p><strong>Explanation:</strong> <br /> {testCase.explanation}</p>
+                                    {testCase.explanation && testCase.explanation.trim() !== '' && (
+                                        <p><strong>Explanation:</strong> <br /> {testCase.explanation}</p>
+                                    )}
                                 </div>
                             ))}
                             <p>{`Acceptance Rate : ${problem.acceptance_rate} %`}</p>
@@ -171,7 +171,7 @@ function CompilerPage() {
                         <textarea
                             className="manualTestCase"
                             value={manualTestCase}
-                            onChange={ (e) => setManualTestCase(e.target.value)}
+                            onChange={(e) => setManualTestCase(e.target.value)}
                             placeholder="Enter your test cases here..."
                         />
                     </div>

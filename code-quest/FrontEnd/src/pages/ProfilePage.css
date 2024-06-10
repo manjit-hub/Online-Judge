@@ -1,0 +1,43 @@
+/* HEADERS */
+.headerProfile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid white;
+}
+
+.headerProfile img {
+    max-width: 150px;
+    max-height: 150px;
+    cursor: pointer;
+}
+
+.headerProfile .right {
+    display: flex;
+    align-items: center;
+}
+
+.headerProfile .right a {
+    margin-left: 20px;
+}
+
+.headerProfile .right a:first-child {
+    margin-left: 0;
+}
+
+.headerProfile .navProfile {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+.details{
+    height: 100px;
+    padding: 30px;
+}
+.profileInfo h2, .solvedProblems h2{
+    text-align: left;
+    margin: 5px;
+}

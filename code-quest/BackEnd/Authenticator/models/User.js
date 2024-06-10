@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    solvedProblems:{
+        type:Array,
+        default:[],
+    },
     Admin:{
         type:Boolean,
         default:false,

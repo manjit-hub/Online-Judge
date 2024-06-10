@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
+// ProblemsPage.js
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ProblemsCSS.css';
+import { UserContext } from './UserContext'; // Adjust the path as needed
 
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
@@ -41,7 +43,7 @@ const CodingProblems = () => {
                 </div>
               </td>
               <td>{problem.difficulty}</td>
-              <td>{problem.solved}</td>
+              <td>{problem.solved ? 'Yes' : 'No'}</td>
               <td>{problem.acceptance_rate}%</td>
             </tr>
           ))}
@@ -54,10 +56,20 @@ const CodingProblems = () => {
 const ProblemsPage = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
+  const user = useContext(UserContext); // Get the current user information from context
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);
   };
+
+  const onClickProfileBtn = () => {
+    if (user && user._id) { 
+      navigate(`/profile/${user._id}`); 
+    } else {
+      console.error('User ID not found');
+    }
+  };
+
   return (
     <div className="split">
       <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
@@ -77,7 +89,7 @@ const ProblemsPage = () => {
           <img src="/Assets/ProgressLogo.png" alt="Logo" />
           <span>{!isMinimized && 'Progress'}</span>
         </button>
-        <button className='btnPrb'>
+        <button className='btnPrb' onClick={onClickProfileBtn}>
           <img src="/Assets/ProfileLogo.png" alt="Logo" />
           <span>{!isMinimized && 'Profile'}</span>
         </button>

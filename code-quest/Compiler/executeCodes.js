@@ -37,55 +37,12 @@ const executeCPP = (filePath, inputFilePath) => {
 };
 
 // Python execution:
-const executePY = (filePath, inputFilePath) => {
-    return new Promise((resolve, reject) => {
-        exec(`python ${filePath}`, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            if (stderr) {
-                reject(stderr);
-                return;
-            }
-            resolve(stdout);
-        });
-    });
-};
+const executePY = (filePath, inputFilePath) => {};
 
 // JavaScript execution:
-const executeJS = (filePath, inputFilePath) => {
-    return new Promise((resolve, reject) => {
-        exec(`node ${filePath}`, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            if (stderr) {
-                reject(stderr);
-                return;
-            }
-            resolve(stdout);
-        });
-    });
-};
+const executeJS = (filePath, inputFilePath) => {};
 
 // Java execution:
-const executeJAVA = (filePath, inputFilePath) => {
-    const jobId = path.basename(filePath).split(".")[0];
-    return new Promise((resolve, reject) => {
-        exec(`javac ${filePath} && java ${jobId}`, (error, stdout, stderr) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            if (stderr) {
-                reject(stderr);
-                return;
-            }
-            resolve(stdout);
-        });
-    });
-};
+const executeJAVA = (filePath, inputFilePath) => {};
 
 export { executeCPP, executePY, executeJS, executeJAVA };

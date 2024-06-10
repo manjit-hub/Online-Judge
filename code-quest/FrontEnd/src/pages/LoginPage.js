@@ -1,23 +1,23 @@
-import React, { useState } from "react"; 
-import { useNavigate, Link } from "react-router-dom"; 
-import axios from "axios"; 
-import { ToastContainer, toast } from "react-toastify"; 
-import 'react-toastify/dist/ReactToastify.css'; 
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import googleLogo from "./GoogleLogo.png";
 
 function LoginPage() {
-    const navigate = useNavigate(); 
-    const [inputValue, setInputValue] = useState({ 
+    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
     });
 
-    const { email, password } = inputValue; 
+    const { email, password } = inputValue;
 
-    const handleOnChange = (e) => { // THIS FUNCTION STORES ANY CHANGES TO THAT INPUT BOX
+    const handleOnChange = (e) => {
         const { name, value } = e.target;
         setInputValue({
-            ...inputValue, // SPREAD ALL THE DATA INSIDE OBJECT/ARRAY INTO ELEMENTS
+            ...inputValue,
             [name]: value,
         });
     };
@@ -32,32 +32,29 @@ function LoginPage() {
             position: "top-center",
         });
 
-    const handleSubmit = async (e) => {  // e is EVENT OBJECT which is automatically passed when an event occurs
-        e.preventDefault(); // It prevents the default behavior associated with the event from occurring
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
             const { data } = await axios.post(
                 "http://localhost:5000/login",
                 { ...inputValue },
                 { withCredentials: true }
             );
-            const { success, message } = data; 
+            const { success, message } = data;
 
-            if (success) { 
+            if (success) {
                 handleSuccess(message);
                 setTimeout(() => {
-                    navigate("/problemslist"); 
+                    navigate("/problemslist");
                 }, 1000);
-            } 
-            else { 
-                handleError(message); // Display specific error message based on response
+            } else {
+                handleError(message);
             }
-        } 
-        catch (error) {
-            const errorMessage = error.response.data; // Get error message from backend
-            handleError(errorMessage); // Display specific error message from backend
+        } catch (error) {
+            const errorMessage = error.response?.data || "Something went wrong";
+            handleError(errorMessage);
         }
         setInputValue({
-            ...inputValue,
             email: "",
             password: "",
         });
@@ -70,25 +67,25 @@ function LoginPage() {
             </div>
             <div className="content">
                 <h2>Log In</h2>
-                <form onSubmit={handleSubmit}> 
+                <form onSubmit={handleSubmit}>
                     <div className="boxes">
-                        <h5 className="top">Email</h5> 
+                        <h5 className="top">Email</h5>
                         <input
-                            type="email" 
+                            type="email"
                             name="email"
                             value={email}
                             placeholder="Enter your email"
-                            onChange={handleOnChange} 
+                            onChange={handleOnChange}
                         />
                         <h5>Password</h5>
                         <input
-                            type="password" 
+                            type="password"
                             name="password"
                             value={password}
                             placeholder="Enter your password"
-                            onChange={handleOnChange} 
+                            onChange={handleOnChange}
                         />
-                        <button className="loginPg" type="submit">Log In</button> 
+                        <button className="loginPg" type="submit">Log In</button>
                         <p className="checking">or</p>
                         <button className="google">
                             <img src={googleLogo} alt="Google Logo" className="google-logo" />Continue with Google
@@ -96,9 +93,9 @@ function LoginPage() {
                     </div>
                 </form>
                 <p className="last">Don't have an account?</p>
-                <Link to="/signup" className="last">Sign up</Link> 
+                <Link to="/signup" className="last">Sign up</Link>
             </div>
-            <ToastContainer /> 
+            <ToastContainer />
         </div>
     );
 }
