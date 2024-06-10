@@ -31,6 +31,7 @@ const problemSchema = new mongoose.Schema({
     testCases: [
         {
             input: String,
+            inputValue: String,
             output: String,
             explanation: String 
         }

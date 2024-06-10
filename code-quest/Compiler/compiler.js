@@ -59,8 +59,65 @@ app.post("/problems/run", async (req, res) => {
 });
 
 app.post("/problems/submit", async (req, res) => {
+    const { lang = "cpp", code, problemId } = req.body;
+    if (!code || !problemId) {
+        return res.status(400).json({ success: false, error: "Code or Problem ID not found" });
+    }
 
-})
+    try {
+        // Fetch problem and its test cases
+        const problem = await Problem.findById(problemId);
+        if (!problem) {
+            return res.status(404).json({ success: false, error: 'Problem not found' });
+        }
+
+        // Generate code file
+        const filePath = await generateFile(lang, code);
+
+        // Iterate through each test case
+        for (let testCase of problem.testCases) {
+            // Generate input file for each test case
+            const inputFilePath = await generateInputFile(testCase.inputValue);
+
+            // Execute the code for each test case
+            let output;
+            try {
+                if (lang === 'cpp') output = await executeCPP(filePath, inputFilePath);
+                // Add similar blocks for other languages as needed
+
+                // Trim any extra whitespace from the output and expected output
+                const cleanedOutput = output.trim();
+                const expectedOutput = testCase.output.trim();
+
+                if (cleanedOutput !== expectedOutput) {
+                    return res.json({ 
+                        success: false,
+                        verdict: "Wrong Answer",
+                        output: `Wrong Answer !!`, 
+                        failedTestCase: testCase
+                    });
+                }
+            } catch (error) {
+                return res.json({ 
+                    success: false, 
+                    output: `Run time error !! \n Input: ${testCase.input}`,
+                    error: error.message, 
+                    verdict: error.message,
+                    failedTestCase: testCase 
+                });
+            }
+        }
+
+        return res.json({ 
+            success: true,
+            verdict: "Accepted",
+            output: "Accepted"
+        });
+
+    } catch (error) {
+        return res.status(500).json({ success: false, error: error.message });
+    }
+});
 
 // Start the server
 const PORT = process.env.PORT || 8000; 

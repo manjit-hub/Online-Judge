@@ -55,7 +55,7 @@ function CompilerPage() {
 
     const handleRun = async () => {
         const payload = {
-          language: 'cpp',
+          language: selectedLanguage,
           code,
           manualTestCase,
         };
@@ -70,23 +70,33 @@ function CompilerPage() {
       }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        const payload = {
+            language: selectedLanguage,
+            code,
+            problemId
+          };
         try {
-            const response = await axios.post(
-                "http://localhost:8000/problems/submit",
-                { ...code }
-            );
-            const { success, message, output } = response.data;
+            const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
+            console.log(data);
 
-            if (success) {
-                handleSuccess(message);
-                setOutput(output);
+            if (data.success) {
+                toast.success(data.verdict, {
+                    position: "top-center",
+                });
+                setOutput(data.verdict);
             } else {
-                handleError(message);
+                toast.error(data.verdict, {
+                    position: "top-center",
+                });
+                setOutput(`Failed Test Case: ${JSON.stringify(data.failedTestCase)}\nVerdict: ${data.verdict}`);
             }
         } catch (error) {
-            const errorMessage = error.response?.data || "An error occurred";
-            handleError(errorMessage);
+            console.error('Error during submission:', error);
+            const errorMessage = error.response?.data?.error || "An unexpected error occurred";
+            toast.error(errorMessage, {
+                position: "top-center",
+            });
+            setOutput(`Error: ${errorMessage}`);
         }
     };
 

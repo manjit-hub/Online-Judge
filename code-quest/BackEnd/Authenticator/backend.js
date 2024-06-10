@@ -185,11 +185,11 @@ app.get("/problemslist", async (req, res) => {
 });
 
 // ------------------------------------ ADD PROBLEM ------------------------------------
-app.post("/add-problem", async (req, res) => {
+app.post("/problems/add-problem", async (req, res) => {
     try {
         const { title, difficulty, description, acceptanceRate, testCases } = req.body;
 
-        if (!title || !difficulty || !description || !acceptanceRate || !testCases) {
+        if (!title || !difficulty || !description || !acceptanceRate) {
             return res.status(400).send("Please fill all required fields");
         }
 

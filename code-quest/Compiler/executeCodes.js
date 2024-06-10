@@ -14,7 +14,7 @@ if (!fs.existsSync(outputPath)) {
 const executeCPP = (filePath, inputFilePath) => {
     // name the exe file accordingly => codeFileName.exe
     const jobId = path.basename(filePath).split(".")[0]; // split the filePath on the basis of '.' and give 0th index
-    const opfileName = `${jobId}.exe`; // Make sure to convert into '.out' while deploying on server, as it runs on LINUX
+    const opfileName = `${jobId}.out`; // Make sure to convert into '.out' while deploying on server, as it runs on LINUX
     const opPath = path.join(outputPath, opfileName); // Move the file to the 'outputPath' file path => NOT VISIBLE UNTIL SOMETHING WRITTEN ON IT
     
     // Promise : A promise in JavaScript is an object that represents the eventual completion (or failure) of an asynchronous operation

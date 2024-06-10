@@ -16,7 +16,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/problemslist" element={<ProblemsPage />} />
-        <Route path="/add-problem" element={<AddProblemPage />} />
+        <Route path="/problems/add-problem" element={<AddProblemPage />} />
         <Route path="/problems/:problemId" element={<CompilerPage />} />
       </Routes>
 

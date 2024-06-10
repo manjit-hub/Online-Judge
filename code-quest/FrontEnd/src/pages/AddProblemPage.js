@@ -10,7 +10,7 @@ function AddProblemPage() {
     difficulty: 'Easy', // Set default difficulty to Easy
     description: '',
     acceptanceRate: 0, // Initialize acceptance rate to 0
-    testCases: [{ input: '', output: '', explanation: '' }], // Add explanation field
+    testCases: [{ input: '', inputValue: '', output: '', explanation: '' }], // Add explanation field
   });
 
   const handleChange = (e) => {
@@ -31,7 +31,7 @@ function AddProblemPage() {
   const addTestCase = () => {
     setProblemData({
       ...problemData,
-      testCases: [...problemData.testCases, { input: '', output: '', explanation: '' }],
+      testCases: [...problemData.testCases, { input: '', inputValue: '', output: '', explanation: '' }],
     });
   };
 
@@ -47,7 +47,7 @@ function AddProblemPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/problemslist', problemData);
+      const response = await axios.post('http://localhost:8000/problems/add-problem', problemData);
       toast.success('Problem added successfully', { position: 'top-center' });
       console.log('Problem added:', response.data);
       // Reset form
@@ -56,17 +56,17 @@ function AddProblemPage() {
         difficulty: 'Easy',
         description: '',
         acceptanceRate: 0,
-        testCases: [{ input: '', output: '', explanation: '' }], // Reset testCases
+        testCases: [{ input: '', inputValue: '',output: '', explanation: '' }], 
       });
     } catch (error) {
       toast.error('Error adding problem', { position: 'top-center' });
-      console.error('Error adding problem:', error);
+      console.error('Error adding problem:', error.response ? error.response.data : error.message);
     }
   };
 
   return (
     <div className="add-problem-page">
-      <h1>Add New Problem</h1>
+      <h1 className='tc'>Add New Problem</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Title:
@@ -89,13 +89,17 @@ function AddProblemPage() {
           <label><textarea name="description" className='descTxt' value={problemData.description} onChange={handleChange} required /> </label>
         </label>
         <div className="test-cases">
-          <h3>Test Cases</h3>
+          <h3 className='tc'>Test Cases</h3>
           {problemData.testCases.map((testCase, index) => (
             
             <div key={index}>
               <label>
                 Input:
                 <input type="text" name="input" value={testCase.input} onChange={(e) => handleTestCaseChange(index, e)} required />
+              </label>
+              <label>
+                InputValue:
+                <input type="text" name="inputValue" value={testCase.inputValue} onChange={(e) => handleTestCaseChange(index, e)} required />
               </label>
               <label>
                 Output:

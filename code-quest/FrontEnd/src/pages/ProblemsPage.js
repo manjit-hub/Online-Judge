@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import './ProblemsCSS.css';
 
@@ -53,11 +53,11 @@ const CodingProblems = () => {
 
 const ProblemsPage = () => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const navigate = useNavigate();
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);
   };
-
   return (
     <div className="split">
       <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
@@ -80,6 +80,10 @@ const ProblemsPage = () => {
         <button className='btnPrb'>
           <img src="/Assets/ProfileLogo.png" alt="Logo" />
           <span>{!isMinimized && 'Profile'}</span>
+        </button>
+        <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
+          <img src="/Assets/addProblem.png" alt="Logo" />
+          <span>{!isMinimized && 'Add Problem'}</span>
         </button>
       </div>
 
