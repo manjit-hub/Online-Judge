@@ -5,6 +5,9 @@ import axios from 'axios';
 import './ProblemsCSS.css';
 import { UserContext } from './UserContext'; // Adjust the path as needed
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
 
@@ -23,6 +26,7 @@ const CodingProblems = () => {
 
   return (
     <div className="list">
+      <ToastContainer />
       <table>
         <thead>
           <tr>
@@ -43,7 +47,7 @@ const CodingProblems = () => {
                 </div>
               </td>
               <td>{problem.difficulty}</td>
-              <td>{problem.solved ? 'Yes' : 'No'}</td>
+              <td>{problem.solved ? 'No' : ''}</td>
               <td>{problem.acceptance_rate}%</td>
             </tr>
           ))}
@@ -67,6 +71,12 @@ const ProblemsPage = () => {
       navigate(`/profile/${user._id}`); 
     } else {
       console.error('User ID not found');
+      toast.error('Please Login', {
+        position: "top-center",
+      });
+      setTimeout(() => {
+        navigate(`/login`);
+      }, 2000); 
     }
   };
 

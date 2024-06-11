@@ -36,10 +36,10 @@ app.get("/problems/:problemId", async (req, res) => {
 app.post("/problems/run", async (req, res) => {
     const { lang = "cpp", code, manualTestCase : input } = req.body; // making cpp as default language
     if (!code) {
-        return res.status(500).json({ success: false, error: "Code not found" }); // success-> use in production grade
+        return res.status(500).json({ success: false, error: "Code not found"}); // success-> use in production grade
     }
-    if (input=="") {
-        return res.status(500).json({ success: false, error: "Please Input" }); // success-> use in production grade
+    if (!input) {
+        return res.status(500).json({ success: false, error: "Input not found"}); // success-> use in production grade
     }
     try {
         // Create a file using {lang, code}

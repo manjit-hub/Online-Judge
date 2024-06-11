@@ -48,8 +48,8 @@ function SignupPage() {
             if (success) {
                 handleSuccess(message);
                 setTimeout(() => {
-                    navigate("/problemslist");
-                }, 1000); // Waits 1000 mili seconds
+                    navigate("/login");
+                }, 2000); // Waits 1000 mili seconds
             } 
             else {
                 handleError(message); // Display specific error message based on response

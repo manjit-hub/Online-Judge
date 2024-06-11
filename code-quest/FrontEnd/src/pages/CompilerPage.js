@@ -16,8 +16,8 @@ function CompilerPage() {
     #include <bits/stdc++.h> 
     using namespace std;
 
-    int main() { 
-        // CODE
+    int main() {
+
         cout << "Hello World!";
         
         return 0;  
@@ -64,7 +64,7 @@ function CompilerPage() {
             code,
             manualTestCase,
         };
-
+        if(!code || !manualTestCase) setOutput("Input data is missing !!");
         try {
             const { data } = await axios.post('http://localhost:8000/problems/run', payload);
             console.log(data);

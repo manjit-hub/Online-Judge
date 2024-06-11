@@ -46,7 +46,7 @@ function LoginPage() {
                 handleSuccess(message);
                 setTimeout(() => {
                     navigate("/problemslist");
-                }, 1000);
+                }, 2000);
             } else {
                 handleError(message);
             }

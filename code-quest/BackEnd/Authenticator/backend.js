@@ -120,21 +120,23 @@ app.put("/update", async (req, res) => {
         const decoded = jwt.verify(token, process.env.SECRET_KEY); // Used process.env.SECRET_KEY
         const userId = decoded.id;
 
-        const { fullName, email, password, newPassword } = req.body;
+        const { fullName, email, oldPassword, newPassword } = req.body;
 
         const userExist = await User.findById(userId);
         if (!userExist) {
             return res.status(400).send("User not found!");
         }
 
+        // Verify the old password before proceeding with updates
+        const isPasswordCorrect = await bcrypt.compare(oldPassword, userExist.password);
+        if (!isPasswordCorrect) {
+            return res.status(400).send("Please enter correct password!");
+        }
+
         if (fullName) userExist.fullName = fullName;
         if (email) userExist.email = email;
 
-        if (password && newPassword) {
-            const isPasswordCorrect = await bcrypt.compare(password, userExist.password);
-            if (!isPasswordCorrect) {
-                return res.status(400).send("Current password is incorrect!");
-            }
+        if (newPassword) {
             userExist.password = await bcrypt.hash(newPassword, 10);
         }
 
@@ -146,6 +148,7 @@ app.put("/update", async (req, res) => {
         res.status(500).send("Internal server error");
     }
 });
+
 
 // ------------------------------------- DELETE ------------------------------------------
 app.delete("/delete", async (req, res) => {
@@ -161,6 +164,13 @@ app.delete("/delete", async (req, res) => {
         const userExist = await User.findById(userId);
         if (!userExist) {
             return res.status(400).send("User not found!");
+        }
+
+        // Compare with Entered Password
+        const { password } = req.body;
+        const isPasswordCorrect = await bcrypt.compare(password, userExist.password);
+        if (!isPasswordCorrect) {
+            return res.status(400).send("Current password is incorrect!");
         }
 
         await User.findByIdAndDelete(userId);

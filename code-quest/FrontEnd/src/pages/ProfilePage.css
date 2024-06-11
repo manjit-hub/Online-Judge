@@ -13,19 +13,6 @@
     cursor: pointer;
 }
 
-.headerProfile .right {
-    display: flex;
-    align-items: center;
-}
-
-.headerProfile .right a {
-    margin-left: 20px;
-}
-
-.headerProfile .right a:first-child {
-    margin-left: 0;
-}
-
 .headerProfile .navProfile {
     width: 30px;
     height: 30px;
@@ -34,10 +21,74 @@
 
 
 .details{
-    height: 100px;
+    display: flex;
     padding: 30px;
+    padding-top: 0;
 }
 .profileInfo h2, .solvedProblems h2{
     text-align: left;
     margin: 5px;
+    margin-top: 30px;
 }
+
+/* ------- LEFT ------  */
+.leftSideDetails{
+    display: flex;
+
+}
+.leftSideDetails h2{
+    text-align: left;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+.profilePicture{
+    align-items: center;
+    text-align: center;
+    padding-right: 20px;
+    padding-top: 40px;
+}
+.profilePicture img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+/* --------- OPERATAIONS ----------  */
+.leftSideDetails button{
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+.green{
+    background-color: rgb(10, 234, 28);
+}
+
+.red{
+    background-color: red;
+}
+.profileInfo{
+    width: 320px;
+}
+
+.profileInfo input{
+    padding: 5px;
+    margin: 5px;
+    width: 300px;
+}
+
+/* -------- RIGHT --------  */
+.rightSideDetails{
+    border-left: solid white 1px;
+    min-height: 100vh;
+    width: 100%;
+    padding-left: 30px;
+}
+
+.rightSideDetails h2{
+    margin-top: 20px;
+}
+
+
