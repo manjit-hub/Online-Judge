@@ -9,6 +9,8 @@ function AddProblemPage() {
     title: '',
     difficulty: 'Easy', // Set default difficulty to Easy
     description: '',
+    inputFormat: '', 
+    outputFormat: '', 
     acceptanceRate: 0, // Initialize acceptance rate to 0
     testCases: [{ input: '', inputValue: '', output: '', explanation: '' }], // Add explanation field
   });
@@ -55,8 +57,10 @@ function AddProblemPage() {
         title: '',
         difficulty: 'Easy',
         description: '',
+        inputFormat: '', 
+        outputFormat: '', 
         acceptanceRate: 0,
-        testCases: [{ input: '', inputValue: '',output: '', explanation: '' }], 
+        testCases: [{ input: '', inputValue: '', output: '', explanation: '' }], 
       });
     } catch (error) {
       toast.error('Error adding problem', { position: 'top-center' });
@@ -86,19 +90,26 @@ function AddProblemPage() {
         </label>
         <label>
           Description:
-          <label><textarea name="description" className='descTxt' value={problemData.description} onChange={handleChange} required /> </label>
+          <textarea name="description" className='descTxt' value={problemData.description} onChange={handleChange} required /> 
+        </label>
+        <label>
+          Input Format:
+          <textarea name="inputFormat" className='inputOutputTxt' value={problemData.inputFormat} onChange={handleChange} required /> 
+        </label>
+        <label>
+          Output Format:
+          <textarea name="outputFormat" className='inputOutputTxt' value={problemData.outputFormat} onChange={handleChange} required /> 
         </label>
         <div className="test-cases">
           <h3 className='tc'>Test Cases</h3>
           {problemData.testCases.map((testCase, index) => (
-            
             <div key={index}>
               <label>
                 Input:
                 <input type="text" name="input" value={testCase.input} onChange={(e) => handleTestCaseChange(index, e)} required />
               </label>
               <label>
-                InputValue:
+                Input Value:
                 <input type="text" name="inputValue" value={testCase.inputValue} onChange={(e) => handleTestCaseChange(index, e)} required />
               </label>
               <label>

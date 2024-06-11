@@ -28,6 +28,14 @@ const problemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    inputFormat: { 
+        type: String,
+        required: true
+    },
+    outputFormat: { 
+        type: String,
+        required: true
+    },
     testCases: [
         {
             input: String,

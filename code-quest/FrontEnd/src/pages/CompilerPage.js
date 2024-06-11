@@ -8,7 +8,7 @@ import { UserContext } from './UserContext';
 
 function CompilerPage() {
     const user = useContext(UserContext);
-    const { problemId, userId } = useParams();
+    const { problemId } = useParams();
     const navigate = useNavigate();
     const [problem, setProblem] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState("cpp");
@@ -17,9 +17,7 @@ function CompilerPage() {
     using namespace std;
 
     int main() {
-
         cout << "Hello World!";
-        
         return 0;  
     }`);
     const [manualTestCase, setManualTestCase] = useState("");
@@ -45,9 +43,53 @@ function CompilerPage() {
     }, [problemId, navigate]);
 
     const handleLanguageChange = (e) => {
-        const lang = e.target.value;
-        setSelectedLanguage(lang);
-        setCode((code) => ({ ...code, lang }));
+        setSelectedLanguage(e.target.value);
+    };
+
+    const handleRun = async () => {
+        if (!code.trim() || !manualTestCase.trim()) {
+            setOutput("Input data is missing !!");
+            return;
+        }
+        const payload = {
+            language: selectedLanguage,
+            code,
+            manualTestCase,
+        };
+        try {
+            const { data } = await axios.post('http://localhost:8000/problems/run', payload);
+            setOutput(data.output);
+        } catch (error) {
+            console.log(error.response);
+            setOutput("Error occurred while running the code.");
+        }
+    };
+
+    const handleSubmit = async () => {
+        if (!code.trim()) {
+            toast.error("Code cannot be empty!", { position: "top-center" });
+            return;
+        }
+        const payload = {
+            language: selectedLanguage,
+            code,
+            problemId
+        };
+        try {
+            const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
+            if (data.success) {
+                toast.success(data.verdict, { position: "top-center" });
+                setOutput(data.verdict);
+            } else {
+                toast.error(data.verdict, { position: "top-center" });
+                setOutput(`Verdict: ${data.verdict}\nFailed Test Case: ${JSON.stringify(data.failedTestCase)}`);
+            }
+        } catch (error) {
+            console.error('Error during submission:', error);
+            const errorMessage = error.response?.data?.error || "An unexpected error occurred";
+            toast.error(errorMessage, { position: "top-center" });
+            setOutput(`Error: ${errorMessage}`);
+        }
     };
 
     const onClickProfileBtn = () => {
@@ -57,53 +99,6 @@ function CompilerPage() {
           console.error('User ID not found');
         }
       };
-
-    const handleRun = async () => {
-        const payload = {
-            language: selectedLanguage,
-            code,
-            manualTestCase,
-        };
-        if(!code || !manualTestCase) setOutput("Input data is missing !!");
-        try {
-            const { data } = await axios.post('http://localhost:8000/problems/run', payload);
-            console.log(data);
-            setOutput(data.output);
-        } catch (error) {
-            console.log(error.response);
-        }
-    }
-
-    const handleSubmit = async (e) => {
-        const payload = {
-            language: selectedLanguage,
-            code,
-            problemId
-        };
-        try {
-            const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
-            console.log(data);
-
-            if (data.success) {
-                toast.success(data.verdict, {
-                    position: "top-center",
-                });
-                setOutput(data.verdict);
-            } else {
-                toast.error(data.verdict, {
-                    position: "top-center",
-                });
-                setOutput(`Verdict: ${data.verdict} \nFailed Test Case: ${JSON.stringify(data.failedTestCase)}`);
-            }
-        } catch (error) {
-            console.error('Error during submission:', error);
-            const errorMessage = error.response?.data?.error || "An unexpected error occurred";
-            toast.error(errorMessage, {
-                position: "top-center",
-            });
-            setOutput(`Error: ${errorMessage}`);
-        }
-    };
 
     return (
         <div>
@@ -127,7 +122,9 @@ function CompilerPage() {
                         <div>
                             <h1>{`${problem.number}: ${problem.title}`}</h1>
                             <p>{problem.description}</p>
-                            {problem.testCases.slice(0, 2).map((testCase, index) => ( //ONLY FIRST TWO TESCASES
+                            <p><strong>Input Format:</strong> <br /> {problem.inputFormat}</p>
+                            <p><strong>Output Format:</strong> <br /> {problem.outputFormat}</p>
+                            {problem.testCases.slice(0, 2).map((testCase, index) => (
                                 <div key={index}>
                                     <h3>{`Test Case ${index + 1}`}</h3>
                                     <p><strong>Input:</strong> {testCase.input}</p>
