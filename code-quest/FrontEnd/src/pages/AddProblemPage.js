@@ -47,7 +47,7 @@ function AddProblemPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/problems/add-problem', problemData);
+      const response = await axios.post('http://localhost:5000/problems/add-problem', problemData);
       toast.success('Problem added successfully', { position: 'top-center' });
       console.log('Problem added:', response.data);
       // Reset form
@@ -60,7 +60,7 @@ function AddProblemPage() {
       });
     } catch (error) {
       toast.error('Error adding problem', { position: 'top-center' });
-      console.error('Error adding problem:', error.response ? error.response.data : error.message);
+      console.error('Error adding problem:', error.message);
     }
   };
 

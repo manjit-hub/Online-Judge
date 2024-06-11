@@ -12,7 +12,16 @@ function CompilerPage() {
     const navigate = useNavigate();
     const [problem, setProblem] = useState(null);
     const [selectedLanguage, setSelectedLanguage] = useState("cpp");
-    const [code, setCode] = useState("");
+    const [code, setCode] = useState(`
+    #include <bits/stdc++.h> 
+    using namespace std;
+
+    int main() { 
+        // CODE
+        cout << "Hello World!";
+        
+        return 0;  
+    }`);
     const [manualTestCase, setManualTestCase] = useState("");
     const [output, setOutput] = useState("");
 
