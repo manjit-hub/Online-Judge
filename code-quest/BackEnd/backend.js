@@ -228,6 +228,7 @@ app.post("/problems/add-problem", async (req, res) => {
 // -----------------------FETCH CURRENT USER DATA -----------------------------------------
 app.get("/auth/me", async (req, res) => {
     const token = req.cookies.token;
+    console.log(token);
     if (!token) {
         return res.status(401).send("Authentication required!");
     }
@@ -239,18 +240,22 @@ app.get("/auth/me", async (req, res) => {
         }
         res.json({ success: true, user });
     } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            return res.status(401).json({ error: 'Token expired. Please log in again.' });
+        }
         console.error('Error fetching user data:', error);
         res.status(500).json({ error: 'Error fetching user data' });
     }
 });
+
 
 // --------------------------------DISPLAY PROFILE------------------------------------------
 app.get("/profile/:userId", async (req, res) => {
     const { userId } = req.params;
     try {
         const user = await User.findById(userId).select('-password'); // Exclude password
-        if(!user){
-            return res.status(404).json({ error: 'User not found' });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found in profile' });
         }
         res.json({ success: true, user });
     } catch (error) {
@@ -258,6 +263,7 @@ app.get("/profile/:userId", async (req, res) => {
         res.status(500).json({ error: 'Error fetching user data' });
     }
 });
+
 
 // ------------------------------------- LOGOUT ------------------------------------------
 app.post("/logout", (req, res) => {

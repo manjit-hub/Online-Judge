@@ -93,11 +93,14 @@ function CompilerPage() {
     };
 
     const onClickProfileBtn = () => {
-        console.log(user);
-        if (user && user._id) { 
-          navigate(`/profile/${user._id}`); 
+        console.log('User data from context:', user);
+        if (user) {
+            console.log('User ID:', user.user._id);
+        }
+        if (user && user.user._id) { 
+          navigate(`/profile/${user.user._id}`); 
         } else {
-          console.error('User ID not found');
+          console.error('User ID not found Comp');
           toast.error("User ID not found!", {position: "top-center"});
         }
       };

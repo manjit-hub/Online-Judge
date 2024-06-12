@@ -61,14 +61,19 @@ const ProblemsPage = () => {
   const [isMinimized, setIsMinimized] = useState(false);
   const navigate = useNavigate();
   const user = useContext(UserContext); // Get the current user information from context
+  // console.log({user});
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);
   };
 
   const onClickProfileBtn = () => {
-    if (user && user._id) { 
-      navigate(`/profile/${user._id}`); 
+    console.log('User data from context:', user);
+        if (user) {
+            console.log('User ID:', user.user._id);
+        }
+    if (user && user.user._id) { 
+      navigate(`/profile/${user.user._id}`); 
     } else {
       console.error('User ID not found');
       toast.error('User ID not found!', {
