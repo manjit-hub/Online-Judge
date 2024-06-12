@@ -26,7 +26,7 @@ function CompilerPage() {
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/problems/${problemId}`);
+                const response = await axios.get(`http://13.201.61.227:8000/problems/${problemId}`);
                 setProblem(response.data.problem);
                 if (response.data.redirectUrl) {
                     navigate(response.data.redirectUrl);
@@ -57,7 +57,7 @@ function CompilerPage() {
             manualTestCase,
         };
         try {
-            const { data } = await axios.post('http://localhost:8000/problems/run', payload);
+            const { data } = await axios.post('http://13.201.61.227:8000/problems/run', payload);
             setOutput(data.output);
         } catch (error) {
             console.log(error.response);
@@ -76,7 +76,7 @@ function CompilerPage() {
             problemId
         };
         try {
-            const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
+            const { data } = await axios.post('http://13.201.61.227:8000/problems/submit', payload);
             if (data.success) {
                 toast.success(data.verdict, { position: "top-center" });
                 setOutput(data.verdict);
@@ -93,10 +93,12 @@ function CompilerPage() {
     };
 
     const onClickProfileBtn = () => {
+        console.log(user);
         if (user && user._id) { 
           navigate(`/profile/${user._id}`); 
         } else {
           console.error('User ID not found');
+          toast.error("User ID not found!", {position: "top-center"});
         }
       };
 

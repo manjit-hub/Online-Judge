@@ -71,7 +71,7 @@ const ProblemsPage = () => {
       navigate(`/profile/${user._id}`); 
     } else {
       console.error('User ID not found');
-      toast.error('Please Login', {
+      toast.error('User ID not found!', {
         position: "top-center",
       });
       setTimeout(() => {

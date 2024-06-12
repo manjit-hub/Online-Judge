@@ -1,7 +1,7 @@
 FROM node:18-alpine
 WORKDIR /CompilerDocker
 # Install dependencies
-RUN apk update && apk add --no cache g++
+RUN apk update && apk add --no-cache g++
 #Caching
 COPY package.json .
 RUN npm install
