@@ -57,15 +57,15 @@ app.post("/signup", async (req, res) => {
             password: hashedPassword,
         });
         
-        const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, { // Changed: Used process.env.SECRET_KEY
-            expiresIn: "1h",
+        const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, { // Used process.env.SECRET_KEY
+            expiresIn: "30d",
         });
         user.password = undefined;
 
-        res.status(200).json({ message: 'You have successfully registered!', user, token, success : true }); // Added: token in response + made success 'true', so will treated as successfull registration
+        res.status(200).json({ message: 'You have successfully registered!', user, token, success : true }); // token in response + made success 'true', so will treated as successfull registration
     } 
     catch (error) {
-        console.error(error); // Changed: More detailed error logging
+        console.error(error); 
         res.status(500).send("Internal server error");
     }
 });
@@ -89,7 +89,7 @@ app.post("/login", async (req, res) => {
         }
 
         const token = jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, { 
-            expiresIn: "1h",
+            expiresIn: "30d",
         });
         userExist.password = undefined;
 
