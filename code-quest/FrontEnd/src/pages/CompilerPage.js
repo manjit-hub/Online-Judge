@@ -93,10 +93,10 @@ function CompilerPage() {
     };
 
     const onClickProfileBtn = () => {
-        console.log('User data from context:', user);
-        if (user) {
-            console.log('User ID:', user.user._id);
-        }
+        // console.log('User data from context:', user);
+        // if (user) {
+        //     console.log('User ID:', user.user._id);
+        // }
         if (user && user.user._id) { 
           navigate(`/profile/${user.user._id}`); 
         } else {

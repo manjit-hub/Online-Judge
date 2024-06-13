@@ -38,7 +38,7 @@ function SignupPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                "http://localhost:5000/signup",
+                "http://3.109.132.172:5000/signup",
                 { ...inputValue },
                 { withCredentials: true } // It will assign a special cookies, token to the data
             );

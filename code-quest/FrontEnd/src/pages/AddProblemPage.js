@@ -49,7 +49,7 @@ function AddProblemPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/problems/add-problem', problemData);
+      const response = await axios.post('http://3.109.132.172:5000/problems/add-problem', problemData);
       toast.success('Problem added successfully', { position: 'top-center' });
       console.log('Problem added:', response.data);
       // Reset form

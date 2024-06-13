@@ -36,7 +36,7 @@ function LoginPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                "http://localhost:5000/login",
+                "http://3.109.132.172:5000/login",
                 { ...inputValue },
                 { withCredentials: true }
             );
