@@ -21,8 +21,8 @@ const Problem = require('./models/Problem');
 
 // Middleware configuration
 app.use(cors({
-    origin: 'https://code-quest-cyan.vercel.app', // Added: Frontend URL
-    credentials: true // Added: Allow cookies to be sent with requests
+    origin: ['https://code-quest-cyan.vercel.app','https://codequest.me/'], // Add Frontend URL
+    credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -103,7 +103,7 @@ app.post("/login", async (req, res) => {
         res.status(200).cookie("token", token, options).json({
             message: 'You have successfully logged in!',
             success: true,
-            token, // Added: token in response
+            token, // token in response
         });
     } catch (error) {
         console.error(error); 

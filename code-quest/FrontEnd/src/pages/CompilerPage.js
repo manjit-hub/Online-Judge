@@ -26,7 +26,7 @@ function CompilerPage() {
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`https://codequest.me/problems/${problemId}`);
+                const response = await axios.get(`https://compiler.codequest.me/problems/${problemId}`);
                 setProblem(response.data.problem);
                 if (response.data.redirectUrl) {
                     navigate(response.data.redirectUrl);
@@ -57,7 +57,7 @@ function CompilerPage() {
             manualTestCase,
         };
         try {
-            const { data } = await axios.post('https://codequest.me/problems/run', payload);
+            const { data } = await axios.post('https://compiler.codequest.me/problems/run', payload);
             setOutput(data.output);
         } catch (error) {
             console.log(error.response);
@@ -76,7 +76,7 @@ function CompilerPage() {
             problemId
         };
         try {
-            const { data } = await axios.post('https://codequest.me/problems/submit', payload);
+            const { data } = await axios.post('https://compiler.codequest.me/problems/submit', payload);
             if (data.success) {
                 toast.success(data.verdict, { position: "top-center" });
                 setOutput(data.verdict);
