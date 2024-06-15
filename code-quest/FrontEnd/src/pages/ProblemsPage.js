@@ -14,7 +14,7 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get('http://3.109.132.172:5000/problemslist');
+        const response = await axios.get('https://api.codequest.me/problemslist');
         setCodingProblems(response.data);
       } catch (error) {
         console.error('Error fetching problems:', error);
