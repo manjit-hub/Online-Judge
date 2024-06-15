@@ -95,7 +95,9 @@ app.post("/login", async (req, res) => {
 
         const options = {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), //Cookie expiration set to 1 day
-            httpOnly: true,
+            // httpOnly: true, USE ONLY IF WORKING ON LOCAL HOST. // No need this during deployment in AWS
+            sameSite: "None", 
+            secure: true
         };
 
         res.status(200).cookie("token", token, options).json({
