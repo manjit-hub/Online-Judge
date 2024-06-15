@@ -21,7 +21,7 @@ const Problem = require('./models/Problem');
 
 // Middleware configuration
 app.use(cors({
-    origin: ['https://code-quest-cyan.vercel.app','https://codequest.me/'], // Add Frontend URL
+    origin: ['https://code-quest-cyan.vercel.app','https://codequest.me/', 'https://compiler.codequest.me/', ], // Add Frontend URL
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
