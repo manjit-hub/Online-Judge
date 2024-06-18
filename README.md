@@ -65,7 +65,7 @@ The admin dashboard allows administrators to manage the platform effectively. Ke
 
 ## Mentorship
 
-This project is being developed under the mentorship of [Bhavesh Garg](https://www.linkedin.com/in/bhavesh1129/) and [Bhavya Surana](https://www.linkedin.com/in/bhavya-surana/).
+This project is being developed under the mentorship of [Bhavesh Garg](https://www.linkedin.com/in/bhavesh1129/), [Bhavya Surana](https://www.linkedin.com/in/bhavya-surana/) and [Sanskar Bansal](https://www.linkedin.com/in/sanskarbansal/).
 
 ---
 
