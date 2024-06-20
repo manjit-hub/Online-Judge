@@ -110,7 +110,7 @@ const ProblemsPage = () => {
         </button>
         
         {/* Conditional rendering for the Add Problem button */}
-        {user && user.user.Admin === "true" && (
+        {user?.user?.Admin (
           <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
             <img src="/Assets/addProblem.png" alt="Logo" />
             <span>{!isMinimized && 'Add Problem'}</span>
