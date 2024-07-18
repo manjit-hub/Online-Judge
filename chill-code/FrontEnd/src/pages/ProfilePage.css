@@ -1,0 +1,129 @@
+/* HEADERS */
+.headerProfile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid white;
+}
+
+.headerProfile img {
+    max-width: 150px;
+    max-height: 150px;
+    cursor: pointer;
+}
+
+.headerProfile .navProfile {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+
+.details{
+    display: flex;
+    padding: 30px;
+    padding-top: 0;
+}
+.profileInfo h2, .solvedProblems h2{
+    text-align: left;
+    margin: 5px;
+    margin-top: 30px;
+}
+
+/* ------- LEFT ------  */
+.leftSideDetails{
+    display: flex;
+
+}
+.leftSideDetails h2{
+    text-align: left;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+.profilePicture{
+    align-items: center;
+    text-align: center;
+    padding-right: 20px;
+    padding-top: 40px;
+}
+.profilePicture img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+/* --------- OPERATAIONS ----------  */
+.leftSideDetails button{
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+.green{
+    background-color: rgb(10, 234, 28);
+}
+
+.red{
+    background-color: red;
+}
+.profileInfo{
+    width: 320px;
+}
+
+.profileInfo input{
+    padding: 5px;
+    margin: 5px;
+    width: 300px;
+}
+
+/* -------- RIGHT --------  */
+.rightSideDetails{
+    border-left: solid white 1px;
+    min-height: 100vh;
+    width: 100%;
+    padding-left: 30px;
+}
+
+.rightSideDetails h2{
+    margin-top: 20px;
+}
+
+/* -------- SOLVED PROBLEMS TABLE -------- */
+.solvedProblems table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .solvedProblems th,
+  .solvedProblems td {
+    border: 1px solid gray;
+    padding: 10px;
+    text-align: left;
+  }
+  .solvedProblems td a{
+    background-color: transparent; /* Ensures no background color */
+    color: white; /* Ensures text color */
+  }
+  .solvedProblems th {
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .solvedProblems td {
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .solvedProblems a {
+    color: none;
+    text-decoration: none;
+  }
+  
+  .solvedProblems a:hover {
+    text-decoration: underline;
+  }
+
