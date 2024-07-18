@@ -16,14 +16,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    solvedProblems:{
-        type:Array,
-        default:[],
-    },
+    solvedProblems:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Problem',
+        default: []
+    }],
     Admin:{
         type:Boolean,
         default:false,
     }
-});
+}, {timestamps : true});
 
 module.exports = mongoose.model('User', userSchema);

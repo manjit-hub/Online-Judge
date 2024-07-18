@@ -36,7 +36,7 @@ function LoginPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                "https://api.codequest.me/login",
+                "http://localhost:5000/login",
                 { ...inputValue },
                 { withCredentials: true }
             );

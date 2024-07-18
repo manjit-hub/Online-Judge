@@ -21,7 +21,7 @@ const Problem = require('./models/Problem');
 
 // Middleware configuration
 app.use(cors({
-    origin: ['https://code-quest-cyan.vercel.app','https://codequest.me','https://www.codequest.me' ], // Add Frontend URL
+    origin: ['http://localhost:3000'], // Add Frontend URL ",'https://code-quest-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
@@ -230,7 +230,7 @@ app.post("/problems/add-problem", async (req, res) => {
 // -----------------------FETCH CURRENT USER DATA -----------------------------------------
 app.get("/auth/me", async (req, res) => {
     const token = req.cookies.token;
-    console.log(token);
+    // console.log(token);
     if (!token) {
         return res.status(401).send("Authentication required!");
     }
@@ -277,4 +277,56 @@ app.post("/logout", (req, res) => {
 const PORT = process.env.PORT || 5000; 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`); 
+});
+
+
+// --------------------------------------Save Problem Solved ------------------------------
+app.put('/solved/:userId', async (req, res) => {
+    const { userId } = req.params;
+    const { problemId } = req.body;
+    if(!problemId){
+        return res.status(400).json({error: 'Problem Id is required.'})
+    }
+    try{
+        const problem = await Problem.findById(problemId);
+        if (!problem) {
+            return res.status(404).json({ success: false, error: 'Problem not found' });
+        }
+        // console.log(`problem saving userId: ${userId} & problemId: ${problemId}`)
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { solvedProblems: problemId } },
+            { new: true }
+          );
+        if(!user){
+            return res.status(404).json({ error: 'User not found or not logged in' });
+        }
+
+        // Add the new problemId to the solvedProblems array if it's not already there
+        // if(!user.solvedProblems.includes(problemId)) {
+        //     // console.log(`Adding problemId: ${problemId}`);
+        //     user.solvedProblems.push(problemId);
+        //   }
+        // await user.save();
+        res.json({success: true, user});
+    } catch (error) {
+        console.error('Error updating solved problems:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+//-------------------------Display Solved Problems----------------------------------------------
+app.get('/user/:userId/solved-problems', async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const user = await User.findById(userId).populate('solvedProblems');
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      res.json({ solvedProblems : user.solvedProblems });
+    } catch (error) {
+      console.error('Error fetching solved problems:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
 });

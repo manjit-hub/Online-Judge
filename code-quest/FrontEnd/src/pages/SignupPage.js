@@ -38,14 +38,13 @@ function SignupPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                "https://api.codequest.me/signup",
+                "http://localhost:5000/signup",
                 { ...inputValue },
                 { withCredentials: true } // It will assign a special cookies, token to the data
             );
-
             const { success, message } = data;
 
-            if (success) {
+            if (success) {;
                 handleSuccess(message);
                 setTimeout(() => {
                     navigate("/login");
@@ -56,7 +55,9 @@ function SignupPage() {
             }
         } 
         catch (error) {
-            const errorMessage = error.response.data;
+            const errorMessage = error.response && error.response.data
+            ? error.response.data
+            : "An unexpected error occurred";
             handleError(errorMessage);
         }
         setInputValue({

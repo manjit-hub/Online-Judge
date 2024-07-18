@@ -6,27 +6,45 @@ import 'react-toastify/dist/ReactToastify.css';
 import './CompilerPageCSS.css';
 import { UserContext } from './UserContext';
 
-function CompilerPage() {
-    const user = useContext(UserContext);
-    const { problemId } = useParams();
-    const navigate = useNavigate();
-    const [problem, setProblem] = useState(null);
-    const [selectedLanguage, setSelectedLanguage] = useState("cpp");
-    const [code, setCode] = useState(`
+const templates = {
+    cpp: 
+    `
     #include <bits/stdc++.h> 
     using namespace std;
 
     int main() {
         cout << "Hello World!";
         return 0;  
-    }`);
+    }`,
+    py: 
+    `
+    print("Hello, World!")`,
+    js: 
+    `
+    console.log("Hello, World!");`,
+    java: 
+    `
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello, World!");
+        }
+    }`
+}
+
+function CompilerPage() {
+    const user = useContext(UserContext);
+    const { problemId } = useParams();
+    const navigate = useNavigate();
+    const [problem, setProblem] = useState(null);
+    const [selectedLanguage, setSelectedLanguage] = useState("cpp");
+    const [code, setCode] = useState(templates["cpp"]);
     const [manualTestCase, setManualTestCase] = useState("");
     const [output, setOutput] = useState("");
 
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`https://compiler.codequest.me/problems/${problemId}`);
+                const response = await axios.get(`http://localhost:8000/problems/${problemId}`);
                 setProblem(response.data.problem);
                 if (response.data.redirectUrl) {
                     navigate(response.data.redirectUrl);
@@ -43,7 +61,9 @@ function CompilerPage() {
     }, [problemId, navigate]);
 
     const handleLanguageChange = (e) => {
-        setSelectedLanguage(e.target.value);
+        const newLanguage = e.target.value;
+        setSelectedLanguage(newLanguage);
+        setCode(templates[newLanguage]);
     };
 
     const handleRun = async () => {
@@ -56,12 +76,12 @@ function CompilerPage() {
             code,
             manualTestCase,
         };
-        try {
-            const { data } = await axios.post('https://compiler.codequest.me/problems/run', payload);
+        try { 
+            const { data } = await axios.post('http://localhost:8000/problems/run', payload);
             setOutput(data.output);
         } catch (error) {
             console.log(error.response);
-            setOutput("Error occurred while running the code.");
+            setOutput("Error occurred while running the code.", error);
         }
     };
 
@@ -76,10 +96,16 @@ function CompilerPage() {
             problemId
         };
         try {
-            const { data } = await axios.post('https://compiler.codequest.me/problems/submit', payload);
-            if (data.success) {
+            const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
+            if(data.success){
                 toast.success(data.verdict, { position: "top-center" });
                 setOutput(data.verdict);
+                if(user.user._id) {
+                    await axios.put(`http://localhost:5000/solved/${user.user._id}`, payload)
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }                
             } else {
                 toast.error(data.verdict, { position: "top-center" });
                 setOutput(`Verdict: ${data.verdict}\nFailed Test Case: ${JSON.stringify(data.failedTestCase)}`);
@@ -93,10 +119,10 @@ function CompilerPage() {
     };
 
     const onClickProfileBtn = () => {
-        console.log('User data from context:', user);
-        if (user) {
-            console.log('User ID:', user.user._id);
-        }
+        // console.log('User data from context:', user);
+        // if (user) {
+            // console.log('User ID:', user.user._id);
+        // }
         if (user && user.user._id) { 
           navigate(`/profile/${user.user._id}`); 
         } else {
@@ -155,15 +181,10 @@ function CompilerPage() {
                             <div className="editorial"><Link to="/">Editorials</Link></div>
                             <div className="dropdown">
                                 <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
-                                    <option value="js">JavaScript</option>
-                                    <option value="py">Python</option>
-                                    <option value="java">Java</option>
                                     <option value="cpp">C++</option>
-                                    <option value="cs">C#</option>
-                                    <option value="rb">Ruby</option>
-                                    <option value="go">Go</option>
-                                    <option value="swift">Swift</option>
-                                    <option value="kt">Kotlin</option>
+                                    <option value="java">Java</option>
+                                    <option value="py">Python</option>
+                                    <option value="js">JavaScript</option>
                                 </select>
                             </div>
                         </div>

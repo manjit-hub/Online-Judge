@@ -91,4 +91,39 @@
     margin-top: 20px;
 }
 
+/* -------- SOLVED PROBLEMS TABLE -------- */
+.solvedProblems table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .solvedProblems th,
+  .solvedProblems td {
+    border: 1px solid gray;
+    padding: 10px;
+    text-align: left;
+  }
+  .solvedProblems td a{
+    background-color: transparent; /* Ensures no background color */
+    color: white; /* Ensures text color */
+  }
+  .solvedProblems th {
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .solvedProblems td {
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .solvedProblems a {
+    color: none;
+    text-decoration: none;
+  }
+  
+  .solvedProblems a:hover {
+    text-decoration: underline;
+  }
 

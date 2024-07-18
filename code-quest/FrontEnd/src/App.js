@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-
+import {Helmet} from "react-helmet";
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -12,6 +12,12 @@ import { UserProvider } from './pages/UserContext';
 function App() {
   return (
     <div>
+      <Helmet>
+                <meta charSet="utf-8" />
+                <title>Chill Code</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+                <meta name="description" content="Helmet application" />
+            </Helmet>
       <UserProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
