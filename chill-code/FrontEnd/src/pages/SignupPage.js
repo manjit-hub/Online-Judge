@@ -12,11 +12,9 @@ function SignupPage() {
         fullName: "",
         email: "",
         password: "",
-        otp: "",
-        userId: ""
     });
-    const [isUserCreated, setIsUserCreated] = useState(false);
-    const { fullName, email, password, otp } = inputValue;
+
+    const { fullName, email, password } = inputValue;
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -38,60 +36,36 @@ function SignupPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(isUserCreated){
-            try{
-                const { data } = await axios.post(
-                    "http://localhost:5000/verifyOTP",
-                    { otp: inputValue.otp, email: inputValue.email},
-                    { withCredentials: true } // It will assign a special cookies, token to the data
-                );
-                const {success, message} = data;
-                if (success) {;
-                    handleSuccess(message);
-                    setTimeout(() => {
-                        navigate("/login");
-                    }, 2000); // Waits 1000 mili seconds
-                    setInputValue({
-                        ...inputValue,
-                        fullName: "",
-                        email: "",
-                        password: "",
-                        otp: "",
-                        userId: "",
-                    });
-                } 
-                else {
-                    handleError(message); // Display specific error message based on response
-                }
-            } catch(error){
-                const errorMessage = error.response && error.response.data
-                ? error.response.data
-                : "An unexpected error occurred while verifying otp";
-                handleError(errorMessage);
-            }
-        } else{
-            try {
-                const { data } = await axios.post(
-                    "http://localhost:5000/signup",
-                    { ...inputValue },
-                    { withCredentials: true } // It will assign a special cookies, token to the data
-                );
-                const { success, message} = data;
-                if (success) {
-                    handleSuccess(message);
-                    setIsUserCreated(true);
-                    setInputValue({ ...inputValue});
-                } else {
-                    handleError(message);
-                }
+        try {
+            const { data } = await axios.post(
+                "http://localhost:5000/signup",
+                { ...inputValue },
+                { withCredentials: true } // It will assign a special cookies, token to the data
+            );
+            const { success, message } = data;
+
+            if (success) {;
+                handleSuccess(message);
+                setTimeout(() => {
+                    navigate("/login");
+                }, 2000); // Waits 1000 mili seconds
             } 
-            catch (error) {
-                const errorMessage = error.response && error.response.data
-                ? error.response.data
-                : "An unexpected error occurred while creating user";
-                handleError(errorMessage);
+            else {
+                handleError(message); // Display specific error message based on response
             }
+        } 
+        catch (error) {
+            const errorMessage = error.response && error.response.data
+            ? error.response.data
+            : "An unexpected error occurred";
+            handleError(errorMessage);
         }
+        setInputValue({
+            ...inputValue,
+            fullName: "",
+            email: "",
+            password: "",
+        });
     };
 
     return (
@@ -127,21 +101,7 @@ function SignupPage() {
                             placeholder="Enter your password"
                             onChange={handleOnChange}
                         />
-                        {isUserCreated && (
-                            <>
-                                <h5>Enter OTP</h5>
-                                <input
-                                    type="text"
-                                    name="otp"
-                                    value={otp}
-                                    placeholder="Enter the OTP"
-                                    onChange={handleOnChange}
-                                />
-                            </>
-                        )}
-                        <button className="loginPg" type="submit">
-                            {isUserCreated ? "Verify" : "Sign Up"}
-                        </button>
+                        <button className="loginPg" type="submit">Sign Up</button> 
                         <p className="checking">or</p>
                         <button className="google">
                             <img src={googleLogo} alt="Google Logo" className="google-logo" />Continue with Google

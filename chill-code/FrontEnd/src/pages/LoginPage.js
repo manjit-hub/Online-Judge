@@ -47,25 +47,17 @@ function LoginPage() {
                 setTimeout(() => {
                     navigate("/problemslist");
                 }, 2000);
-                setInputValue({
-                    email: "",
-                    password: "",
-                });
             } else {
                 handleError(message);
-                setInputValue({
-                    email : inputValue.email,
-                    password: "",
-                });
             }
         } catch (error) {
             const errorMessage = error.response?.data || "Something went wrong";
             handleError(errorMessage);
-            setInputValue({
-                email : inputValue.email,
-                password: "",
-            });
         }
+        setInputValue({
+            email: "",
+            password: "",
+        });
     };
 
     return (
