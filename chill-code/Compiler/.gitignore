@@ -1,3 +1,5 @@
-/Codes
-/Inputs
-/Output
+node_modules
+Codes
+Inputs
+Output
+.env
