@@ -10,14 +10,17 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv'); // Added to handle environment variables
-
+const nodemailer = require('nodemailer');
+const {getVerificationEmailTemplate} = require('./getVerificationEmailTemplate');
 
 // Load environment variables from .env file
 dotenv.config(); // Added to load environment variables
 
-// Import User model
+// Import Models 
 const User = require('./models/User');
 const Problem = require('./models/Problem');
+const EmailVerify = require('./models/EmailVerify');
+const TempUser = require('./models/TempUser');
 
 // Middleware configuration
 app.use(cors({
@@ -37,7 +40,59 @@ app.get("/", (req, res) => {
     res.send("Hello World, coming from backend.js");
 });
 
+
+
 // ------------------------------------ REGISTRATION PART ---------------------------------
+
+// --[nodemailer] for sending otp---
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.AUTH_EMAIL,
+        pass: process.env.AUTH_PASS
+    }
+});
+
+// Send OTP verification to email
+const sentOtpVerificationEmail = async ({email}, res) =>{
+    try{
+        const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
+
+        const htmlContent = getVerificationEmailTemplate(otp);
+        // mail options
+        const mailOptions = {
+            from: process.env.AUTH_EMAIL,
+            to: email,
+            subject : "Verify Your Email",
+            html : htmlContent
+        }
+
+        // hash the otp
+        const saltRound = 10;
+        const hashedOtp = await bcrypt.hash(otp, saltRound);
+        const newOTPVerificaton = new EmailVerify({
+            email : email,
+            otp : hashedOtp,
+            expiresAt: Date.now() + 3600000
+        });
+        await newOTPVerificaton.save();
+
+        // send mail
+        await transporter.sendMail(mailOptions);
+        return {
+            success : true,
+            status: "Pending",
+            message : "OTP sent to your email !"
+        };
+    } catch(error){ 
+        console.log("Error generating OTP !");
+        return {
+            success : false,
+            status : "Failed",
+            message : error.message
+        }
+    }
+}
 app.post("/signup", async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
@@ -51,24 +106,97 @@ app.post("/signup", async (req, res) => {
         }
         
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await User.create({
+        const tempUser = await TempUser({
             fullName,
             email,
-            password: hashedPassword,
+            password: hashedPassword
         });
-        
-        const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, { // Used process.env.SECRET_KEY
-            expiresIn: "30d",
-        });
-        user.password = undefined;
+        await tempUser.save();
 
-        res.status(200).json({ message: 'You have successfully registered!', user, token, success : true }); // token in response + made success 'true', so will treated as successfull registration
-    } 
+        const otpResponse = await sentOtpVerificationEmail({email}, res);
+        if (!otpResponse.success) {
+            return res.status(500).json({
+                message: 'Error sending OTP',
+                success: false,
+                error: otpResponse.message
+            });
+        }
+        
+        res.status(200).json({ 
+            message: 'OTP sent to your email !',
+            success : true,
+            otpStatus: otpResponse.status,
+            otpMessage: otpResponse.message
+         }); 
+    }
     catch (error) {
         console.error(error); 
         res.status(500).send("Internal server error");
     }
 });
+
+// --------------------------------SIGN UP -> VERIFY OTP ---------------------------------
+app.post("/verifyOTP", async (req, res) =>{
+    try {
+        const {otp, email} = req.body;
+        if(!otp || !email){
+            return res.status(400).send("Empty OTP Details !!");
+        }
+        const otpVerificationRecord = await EmailVerify.find({email});
+
+        if(otpVerificationRecord.length <= 0){
+            return res.status(400).send("No OTP found !!");
+        }
+        const {expiresAt} = otpVerificationRecord[0];
+        const hashedOtp = otpVerificationRecord[0].otp;
+
+        if(expiresAt < Date.now()){
+            await EmailVerify.deleteMany({email});
+            return res.status(400).send("OTP Expired !!");
+        }
+        const isOtpValid = await bcrypt.compare(otp, hashedOtp);
+        if(!isOtpValid){
+            return res.status(400).send("Invalid OTP !!");
+        }
+        
+        const tempUser = await TempUser.findOne({ email });
+        if(!tempUser){
+            return res.status(400).send("No temporary user found!!");
+        }
+
+        // add permanently to db
+        const user = new User({
+            fullName: tempUser.fullName,
+            email: tempUser.email,
+            password: tempUser.password
+        });
+        await user.save();
+        
+        //remove TempUser
+        await TempUser.deleteOne({email});
+        await EmailVerify.deleteMany({email});
+        
+        const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
+            expiresIn: "30d",
+        });
+        user.password = undefined;
+
+        return res.json({
+            success : true,
+            status : "Verified :)",
+            message : "Successfully Verified !!",
+            user,
+            token
+        })
+    } catch(error){
+        console.error("Error Verifing OTP !!");
+        res.json({
+            success : false,
+            status : "Error",
+            message : "Error Verifing OTP !!"
+        })
+    }
+})
 
 // ------------------------------------- LOGIN PART --------------------------------------
 app.post("/login", async (req, res) => {
