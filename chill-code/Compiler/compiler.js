@@ -34,7 +34,6 @@ app.get("/problems/:problemId", async (req, res) => {
 });
 
 app.post("/problems/run", async (req, res) => {
-    console.log("0");
     const { lang = "cpp", code, manualTestCase : input } = req.body; // making cpp as default language
     if (!code) {
         return res.status(500).json({ success: false, error: "Code not found"}); // success-> use in production grade
@@ -44,15 +43,12 @@ app.post("/problems/run", async (req, res) => {
     }
     try {
         // Create a file using {lang, code}
-        console.log("1");
         const filePath = await generateFile(lang, code,);
 
         //Create a file for CustomInput
-        console.log("2");
         const inputFilePath = await generateInputFile(input);
 
         // //Automate the execution of code using terminal
-        console.log("3");
         let output;
         if(lang == 'cpp') output = await executeCPP(filePath, inputFilePath);
         return res.json({ success : true,filePath, inputFilePath, output});
