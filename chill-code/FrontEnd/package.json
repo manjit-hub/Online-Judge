@@ -4,9 +4,10 @@
   "description": "FrontEnd of chill-code",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "react-scripts test",
     "start": "react-scripts start",
-    "build": "webpack --config webpack.config.js"
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
   },
   "author": "Manjit Majhi",
   "license": "ISC",
