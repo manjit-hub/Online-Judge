@@ -496,9 +496,9 @@ app.get('/auth/google/callback',
             setTokensCookies(res, accessToken, refreshToken, accessTokenExp, refreshTokenExp);
 
             // Log the tokens for debugging
-            console.log("Access Token set in cookie:", accessToken);
-            console.log("Refresh Token set in cookie:", refreshToken);
-            console.log("JWT Token set in cookie:", token);
+            // console.log("Access Token set in cookie:", accessToken);
+            // console.log("Refresh Token set in cookie:", refreshToken);
+            // console.log("JWT Token set in cookie:", token);
 
             // Successful authentication, redirect home
             res.redirect(`${process.env.FRONTEND_HOST}/problemslist`);
