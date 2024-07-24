@@ -12,6 +12,9 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv'); // Added to handle environment variables
 const nodemailer = require('nodemailer');
 const {getVerificationEmailTemplate} = require('./getVerificationEmailTemplate');
+const setTokensCookies = require ('./utils/setTokensCookies');
+require ('./config/google-strategy');
+const passport = require('passport');
 
 // Load environment variables from .env file
 dotenv.config(); // Added to load environment variables
@@ -24,7 +27,7 @@ const TempUser = require('./models/TempUser');
 
 // Middleware configuration
 app.use(cors({
-    origin: ['http://localhost:3000'], // Add Frontend URL ",'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
+    origin: [`${process.env.FRONTEND_HOST}`], // Add Frontend URL ",'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
@@ -382,6 +385,7 @@ app.get("/auth/me", async (req, res) => {
 // --------------------------------DISPLAY PROFILE------------------------------------------
 app.get("/profile/:userId", async (req, res) => {
     const { userId } = req.params;
+    console.log(userId);
     try {
         const user = await User.findById(userId).select('-password'); // Exclude password
         if (!user) {
@@ -458,3 +462,49 @@ app.get('/user/:userId/solved-problems', async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
 });
+
+
+// ---------------------------- Continue with Google ----------------------------------------------
+app.get('/auth/google',
+    passport.authenticate('google', { session : false, scope: ['profile', 'email'] })
+);
+  
+app.get('/auth/google/callback', 
+    passport.authenticate('google', { 
+        session: false, 
+        failureRedirect: `${process.env.FRONTEND_HOST}/signup` 
+    }),
+    async function(req, res) {
+        try {
+            // Access user object and tokens from req.user
+            const {user, accessToken, refreshToken, accessTokenExp, refreshTokenExp} = req.user;
+            
+            // Generate JWT token
+            const token = jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY, {
+                expiresIn: "30d",
+            });
+            
+            // Set the JWT token as a cookie
+            const options = {
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Cookie expiration set to 1 day
+                sameSite: "None",
+                secure: true
+            };
+            res.cookie("token", token, options);
+
+            // Set other tokens if needed
+            setTokensCookies(res, accessToken, refreshToken, accessTokenExp, refreshTokenExp);
+
+            // Log the tokens for debugging
+            console.log("Access Token set in cookie:", accessToken);
+            console.log("Refresh Token set in cookie:", refreshToken);
+            console.log("JWT Token set in cookie:", token);
+
+            // Successful authentication, redirect home
+            res.redirect(`${process.env.FRONTEND_HOST}/problemslist`);
+        } catch (error) {
+            console.error("Error during Google callback:", error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+);

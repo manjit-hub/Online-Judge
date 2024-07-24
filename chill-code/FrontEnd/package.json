@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@jridgewell/sourcemap-codec": "^1.5.0",
+    "@react-native-google-signin/google-signin": "^12.2.1",
     "@react-oauth/google": "^0.12.1",
     "@rollup/plugin-terser": "^0.4.4",
     "ajv": "^8.17.1",
@@ -19,6 +20,7 @@
     "google-auth-library": "^9.11.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-google-button": "^0.8.0",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.25.1",
     "react-toastify": "^10.0.5",
@@ -28,6 +30,7 @@
     "@babel/plugin-transform-react-jsx": "^7.24.7",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
+    "eslint-plugin-import": "^2.29.1",
     "react-scripts": "^5.0.1"
   },
   "browserslist": {
