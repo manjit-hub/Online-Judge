@@ -20,7 +20,7 @@ const executeCPP = (filePath, inputFilePath) => {
     // Promise : A promise in JavaScript is an object that represents the eventual completion (or failure) of an asynchronous operation
     // It is like async await
     return new Promise((resolve, reject) => {
-        exec(`g++ ${filePath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inputFilePath}`, // For Linux:  ./${opfileName}
+        exec(`g++ ${filePath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputFilePath}`, // For Linux:  ./${opfileName} .. For Window: .\\${jobId}.exe
             (error, stdout, stderr) => { 
                 if (error) {
                     reject(error);
