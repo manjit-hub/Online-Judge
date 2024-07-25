@@ -27,7 +27,7 @@ const TempUser = require('./models/TempUser');
 
 // Middleware configuration
 app.use(cors({
-    origin: [`${process.env.FRONTEND_HOST}`, 'chillcode.tech' , 'www.chillcode.tech', ], // Add Frontend URL ",'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
+    origin: ['chillcode.tech' , 'www.chillcode.tech'], // Add Frontend URL "`${process.env.FRONTEND_HOST}`, ,'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
