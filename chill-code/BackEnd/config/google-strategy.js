@@ -7,7 +7,7 @@ require('dotenv').config();
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: `${process.env.BACKEND_HOST}/auth/google/callback`
+    callbackURL: `https://api.chillcode.tech/auth/google/callback`
   },
   async (accessToken, refreshToken, profile, callback) => {
     try {

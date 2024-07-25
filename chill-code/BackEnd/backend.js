@@ -11,9 +11,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv'); // Added to handle environment variables
 const nodemailer = require('nodemailer');
-const {getVerificationEmailTemplate} = require('./getVerificationEmailTemplate');
-const setTokensCookies = require ('./utils/setTokensCookies');
-require ('./config/google-strategy');
+const { getVerificationEmailTemplate } = require('./getVerificationEmailTemplate');
+const setTokensCookies = require('./utils/setTokensCookies');
+require('./config/google-strategy');
 const passport = require('passport');
 
 // Load environment variables from .env file
@@ -27,7 +27,7 @@ const TempUser = require('./models/TempUser');
 
 // Middleware configuration
 app.use(cors({
-    origin: ['https://chill-code-1evtq75s8-manjits-projects-79cc5c05.vercel.app/','chillcode.tech' , 'www.chillcode.tech'], // Add Frontend URL "`${process.env.FRONTEND_HOST}`, ,'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
+    origin: ['chillcode.tech', 'www.chillcode.tech',"localhost:5000"], // Add Frontend URL "`${process.env.FRONTEND_HOST}`, ,'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
@@ -57,8 +57,8 @@ const transporter = nodemailer.createTransport({
 });
 
 // Send OTP verification to email
-const sentOtpVerificationEmail = async ({email}, res) =>{
-    try{
+const sentOtpVerificationEmail = async ({ email }, res) => {
+    try {
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`;
 
         const htmlContent = getVerificationEmailTemplate(otp);
@@ -66,16 +66,16 @@ const sentOtpVerificationEmail = async ({email}, res) =>{
         const mailOptions = {
             from: process.env.AUTH_EMAIL,
             to: email,
-            subject : "Verify Your Email",
-            html : htmlContent
+            subject: "Verify Your Email",
+            html: htmlContent
         }
 
         // hash the otp
         const saltRound = 10;
         const hashedOtp = await bcrypt.hash(otp, saltRound);
         const newOTPVerificaton = new EmailVerify({
-            email : email,
-            otp : hashedOtp,
+            email: email,
+            otp: hashedOtp,
             expiresAt: Date.now() + 3600000
         });
         await newOTPVerificaton.save();
@@ -83,16 +83,16 @@ const sentOtpVerificationEmail = async ({email}, res) =>{
         // send mail
         await transporter.sendMail(mailOptions);
         return {
-            success : true,
+            success: true,
             status: "Pending",
-            message : "OTP sent to your email !"
+            message: "OTP sent to your email !"
         };
-    } catch(error){ 
+    } catch (error) {
         console.log("Error generating OTP !");
         return {
-            success : false,
-            status : "Failed",
-            message : error.message
+            success: false,
+            status: "Failed",
+            message: error.message
         }
     }
 }
@@ -102,12 +102,12 @@ app.post("/signup", async (req, res) => {
         if (!(fullName && email && password)) {
             return res.status(400).send("Please fill all the fields");
         }
-        
+
         const userExist = await User.findOne({ email });
         if (userExist) {
             return res.status(400).send("User already exists with the same email!");
         }
-        
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const tempUser = await TempUser({
             fullName,
@@ -116,7 +116,7 @@ app.post("/signup", async (req, res) => {
         });
         await tempUser.save();
 
-        const otpResponse = await sentOtpVerificationEmail({email}, res);
+        const otpResponse = await sentOtpVerificationEmail({ email }, res);
         if (!otpResponse.success) {
             return res.status(500).json({
                 message: 'Error sending OTP',
@@ -124,46 +124,46 @@ app.post("/signup", async (req, res) => {
                 error: otpResponse.message
             });
         }
-        
-        res.status(200).json({ 
+
+        res.status(200).json({
             message: 'OTP sent to your email !',
-            success : true,
+            success: true,
             otpStatus: otpResponse.status,
             otpMessage: otpResponse.message
-         }); 
+        });
     }
     catch (error) {
-        console.error(error); 
+        console.error(error);
         res.status(500).send("Internal server error");
     }
 });
 
 // --------------------------------SIGN UP -> VERIFY OTP ---------------------------------
-app.post("/verifyOTP", async (req, res) =>{
+app.post("/verifyOTP", async (req, res) => {
     try {
-        const {otp, email} = req.body;
-        if(!otp || !email){
+        const { otp, email } = req.body;
+        if (!otp || !email) {
             return res.status(400).send("Empty OTP Details !!");
         }
-        const otpVerificationRecord = await EmailVerify.find({email});
+        const otpVerificationRecord = await EmailVerify.find({ email });
 
-        if(otpVerificationRecord.length <= 0){
+        if (otpVerificationRecord.length <= 0) {
             return res.status(400).send("No OTP found !!");
         }
-        const {expiresAt} = otpVerificationRecord[0];
+        const { expiresAt } = otpVerificationRecord[0];
         const hashedOtp = otpVerificationRecord[0].otp;
 
-        if(expiresAt < Date.now()){
-            await EmailVerify.deleteMany({email});
+        if (expiresAt < Date.now()) {
+            await EmailVerify.deleteMany({ email });
             return res.status(400).send("OTP Expired !!");
         }
         const isOtpValid = await bcrypt.compare(otp, hashedOtp);
-        if(!isOtpValid){
+        if (!isOtpValid) {
             return res.status(400).send("Invalid OTP !!");
         }
-        
+
         const tempUser = await TempUser.findOne({ email });
-        if(!tempUser){
+        if (!tempUser) {
             return res.status(400).send("No temporary user found!!");
         }
 
@@ -174,29 +174,29 @@ app.post("/verifyOTP", async (req, res) =>{
             password: tempUser.password
         });
         await user.save();
-        
+
         //remove TempUser
-        await TempUser.deleteOne({email});
-        await EmailVerify.deleteMany({email});
-        
+        await TempUser.deleteOne({ email });
+        await EmailVerify.deleteMany({ email });
+
         const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
             expiresIn: "30d",
         });
         user.password = undefined;
 
         return res.json({
-            success : true,
-            status : "Verified :)",
-            message : "Successfully Verified !!",
+            success: true,
+            status: "Verified :)",
+            message: "Successfully Verified !!",
             user,
             token
         })
-    } catch(error){
+    } catch (error) {
         console.error("Error Verifing OTP !!");
         res.json({
-            success : false,
-            status : "Error",
-            message : "Error Verifing OTP !!"
+            success: false,
+            status: "Error",
+            message: "Error Verifing OTP !!"
         })
     }
 })
@@ -219,7 +219,7 @@ app.post("/login", async (req, res) => {
             return res.status(400).send("Password is incorrect!");
         }
 
-        const token = jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, { 
+        const token = jwt.sign({ id: userExist._id }, process.env.SECRET_KEY, {
             expiresIn: "30d",
         });
         userExist.password = undefined;
@@ -227,7 +227,7 @@ app.post("/login", async (req, res) => {
         const options = {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), //Cookie expiration set to 1 day
             // httpOnly: true, USE ONLY IF WORKING ON LOCAL HOST. // No need this during deployment in AWS
-            sameSite: "None", 
+            sameSite: "None",
             secure: true
         };
 
@@ -237,7 +237,7 @@ app.post("/login", async (req, res) => {
             token, // token in response
         });
     } catch (error) {
-        console.error(error); 
+        console.error(error);
         res.status(500).send("Internal server error");
     }
 });
@@ -277,7 +277,7 @@ app.put("/update", async (req, res) => {
 
         res.status(200).json({ message: 'User data updated successfully!', user: userExist });
     } catch (error) {
-        console.error(error); 
+        console.error(error);
         res.status(500).send("Internal server error");
     }
 });
@@ -291,7 +291,7 @@ app.delete("/delete", async (req, res) => {
             return res.status(401).send("Authentication required!");
         }
 
-        const decoded = jwt.verify(token, process.env.SECRET_KEY); 
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const userId = decoded.id;
 
         const userExist = await User.findById(userId);
@@ -310,7 +310,7 @@ app.delete("/delete", async (req, res) => {
 
         res.status(200).json({ message: 'User account deleted successfully!' });
     } catch (error) {
-        console.error(error); 
+        console.error(error);
         res.status(500).send("Internal server error");
     }
 });
@@ -406,9 +406,9 @@ app.post("/logout", (req, res) => {
 })
 
 // Start the server
-const PORT = process.env.PORT || 5000; 
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`); 
+    console.log(`Server is running on port ${PORT}`);
 });
 
 
@@ -416,10 +416,10 @@ app.listen(PORT, () => {
 app.put('/solved/:userId', async (req, res) => {
     const { userId } = req.params;
     const { problemId } = req.body;
-    if(!problemId){
-        return res.status(400).json({error: 'Problem Id is required.'})
+    if (!problemId) {
+        return res.status(400).json({ error: 'Problem Id is required.' })
     }
-    try{
+    try {
         const problem = await Problem.findById(problemId);
         if (!problem) {
             return res.status(404).json({ success: false, error: 'Problem not found' });
@@ -429,8 +429,8 @@ app.put('/solved/:userId', async (req, res) => {
             userId,
             { $addToSet: { solvedProblems: problemId } },
             { new: true }
-          );
-        if(!user){
+        );
+        if (!user) {
             return res.status(404).json({ error: 'User not found or not logged in' });
         }
 
@@ -440,7 +440,7 @@ app.put('/solved/:userId', async (req, res) => {
         //     user.solvedProblems.push(problemId);
         //   }
         // await user.save();
-        res.json({success: true, user});
+        res.json({ success: true, user });
     } catch (error) {
         console.error('Error updating solved problems:', error);
         res.status(500).json({ error: 'Server error' });
@@ -451,39 +451,39 @@ app.put('/solved/:userId', async (req, res) => {
 app.get('/user/:userId/solved-problems', async (req, res) => {
     const { userId } = req.params;
     try {
-      const user = await User.findById(userId).populate('solvedProblems');
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
-  
-      res.json({ solvedProblems : user.solvedProblems });
+        const user = await User.findById(userId).populate('solvedProblems');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ solvedProblems: user.solvedProblems });
     } catch (error) {
-      console.error('Error fetching solved problems:', error);
-      res.status(500).json({ error: 'Server error' });
+        console.error('Error fetching solved problems:', error);
+        res.status(500).json({ error: 'Server error' });
     }
 });
 
 
 // ---------------------------- Continue with Google ----------------------------------------------
 app.get('/auth/google',
-    passport.authenticate('google', { session : false, scope: ['profile', 'email'] })
+    passport.authenticate('google', { session: false, scope: ['profile', 'email'] })
 );
-  
-app.get('/auth/google/callback', 
-    passport.authenticate('google', { 
-        session: false, 
-        failureRedirect: `${process.env.FRONTEND_HOST}/signup` 
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', {
+        session: false,
+        failureRedirect: `${process.env.FRONTEND_HOST}/signup`
     }),
-    async function(req, res) {
+    async function (req, res) {
         try {
             // Access user object and tokens from req.user
-            const {user, accessToken, refreshToken, accessTokenExp, refreshTokenExp} = req.user;
-            
+            const { user, accessToken, refreshToken, accessTokenExp, refreshTokenExp } = req.user;
+
             // Generate JWT token
             const token = jwt.sign({ id: user._id, email: user.email }, process.env.SECRET_KEY, {
                 expiresIn: "30d",
             });
-            
+
             // Set the JWT token as a cookie
             const options = {
                 expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Cookie expiration set to 1 day
