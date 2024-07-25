@@ -21,6 +21,9 @@ app.get("/", (req, res) => {
 });
 app.get("/problems/:problemId", async (req, res) => {
     const { problemId } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(problemId)) {
+        return res.status(400).send('Invalid ID format');
+    }
     try {
         const problem = await Problem.findById(problemId);
         if (!problem) {
