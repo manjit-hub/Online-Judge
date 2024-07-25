@@ -472,7 +472,7 @@ app.get('/auth/google',
 app.get('/auth/google/callback',
     passport.authenticate('google', {
         session: false,
-        failureRedirect: `${process.env.FRONTEND_HOST}/signup`
+        failureRedirect: `https://chillcode.tech/signup`
     }),
     async function (req, res) {
         try {
@@ -501,7 +501,7 @@ app.get('/auth/google/callback',
             // console.log("JWT Token set in cookie:", token);
 
             // Successful authentication, redirect home
-            res.redirect(`https://api.chillcode.tech/problemslist`);
+            res.redirect(`https://chillcode.tech/problemslist`);
         } catch (error) {
             console.error("Error during Google callback:", error);
             res.status(500).json({ error: 'Internal server error' });
