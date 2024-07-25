@@ -40,7 +40,7 @@ function SignupPage() {
         if(isUserCreated){
             try{
                 const { data } = await axios.post(
-                    `http://localhost:5000/verifyOTP`,
+                    `https://api.chillcode.tech/verifyOTP`,
                     { otp: inputValue.otp, email: inputValue.email},
                     { withCredentials: true } // It will assign a special cookies, token to the data
                 );
@@ -71,7 +71,7 @@ function SignupPage() {
         } else{
             try {
                 const { data } = await axios.post(
-                    `http://localhost:5000/signup`,
+                    `https://api.chillcode.tech/signup`,
                     { ...inputValue },
                     { withCredentials: true } // It will assign a special cookies, token to the data
                 );
@@ -96,7 +96,7 @@ function SignupPage() {
     const handleGoogleLogin = async () =>{
         console.log("handleGoogleLogin");
         window.open(
-            `http://localhost:5000/auth/google`,
+            `https://api.chillcode.tech/auth/google`,
             "_self"
         );
     }

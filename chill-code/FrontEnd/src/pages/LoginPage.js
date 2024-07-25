@@ -35,7 +35,7 @@ function LoginPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                `http://localhost:5000/login`,
+                `https://api.chillcode.tech/login`,
                 { ...inputValue },
                 { withCredentials: true }
             );
@@ -69,7 +69,7 @@ function LoginPage() {
 
     const handleGoogleLogin = async() =>{
         window.open(
-            `http://localhost:5000/auth/google`,
+            `https://api.chillcode.tech/auth/google`,
             "_self"
         );
     }

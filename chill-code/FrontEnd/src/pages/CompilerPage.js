@@ -44,7 +44,7 @@ function CompilerPage() {
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/problems/${problemId}`);
+                const response = await axios.get(`https://compiler.chillcode.tech/problems/${problemId}`);
                 setProblem(response.data.problem);
                 if (response.data.redirectUrl) {
                     navigate(response.data.redirectUrl);
@@ -77,7 +77,7 @@ function CompilerPage() {
             manualTestCase,
         };
         try { 
-            const { data } = await axios.post('http://localhost:8000/problems/run', payload);
+            const { data } = await axios.post('https://compiler.chillcode.tech/problems/run', payload);
             setOutput(data.output);
         } catch (error) {
             console.log(error.response);
@@ -96,12 +96,12 @@ function CompilerPage() {
             problemId
         };
         try {
-            const { data } = await axios.post('http://localhost:8000/problems/submit', payload);
+            const { data } = await axios.post('https://compiler.chillcode.tech/problems/submit', payload);
             if(data.success){
                 toast.success(data.verdict, { position: "top-center" });
                 setOutput(data.verdict);
                 if(user.user._id) {
-                    await axios.put(`http://localhost:5000/solved/${user.user._id}`, payload)
+                    await axios.put(`https://api.chillcode.tech/solved/${user.user._id}`, payload)
                         .catch((error) => {
                             console.log(error);
                         });
