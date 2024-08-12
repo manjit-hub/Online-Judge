@@ -9,7 +9,7 @@ import AddProblemPage from './pages/AddProblemPage';
 import CompilerPage from './pages/CompilerPage';
 import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from './pages/UserContext';
-import ThemeSwitcher from './components/ThemeSwitcher'; // Import ThemeSwitcher
+import ThemeSwitcher from './pages/ThemeSwitcher'; 
 
 function App() {
   return (
