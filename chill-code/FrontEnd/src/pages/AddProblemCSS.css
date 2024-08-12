@@ -7,27 +7,24 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-form {
-  display: grid;
+form{  
+  display: grid; /*Element will be arranged line by line*/
 }
-
 .add-problem-page label {
   display: block;
   margin-bottom: 10px;
   font-weight: bold;
-  font-size: 1rem;
 }
 
-.add-problem-page input,
+/*.add-problem-page input, */
 .add-problem-page textarea {
-  width: 100%;
-  height: auto;
+  max-width: 600px;
+  height: 100px;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  font-size: 0.8rem;
 }
 
 .add-problem-page button {
@@ -38,62 +35,35 @@ form {
   border-radius: 5px;
   cursor: pointer;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  font-size: 0.8rem;
 }
 
-.add-problem-page .submitBtn {
+.add-problem-page .submitBtn{
   background-color: #38b000;
 }
-
-.descTxt {
-  height: auto;
+.descTxt{
+  height: 100%;
   width: 100%;
   margin-bottom: 10px;
 }
-
 .add-problem-page button:hover {
   background-color: #3e8e41;
 }
 
-.add-problem-page input,
-.add-problem-page select {
-  margin-left: 0;
+.add-problem-page input, select{
+  margin-left: 10px;
 }
 
-.AddPrbBtn {
+.AddPrbBtn{
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.AddPrbBtn button {
-  margin-bottom: 5px;
-}
-
-.tc {
+.tc{
   text-align: left;
   padding-left: 0;
 }
 
-.inputOutputTxt {
+.inputOutputTxt{
   width: 100%;
-}
-
-@media screen and (max-width: 600px) {
-  .add-problem-page {
-    padding: 5px;
-  }
-
-  .add-problem-page label {
-    font-size: 0.8rem;
-  }
-
-  .add-problem-page input,
-  .add-problem-page textarea {
-    font-size: 0.6rem;
-  }
-
-  .add-problem-page button {
-    font-size: 0.6rem;
-  }
 }
