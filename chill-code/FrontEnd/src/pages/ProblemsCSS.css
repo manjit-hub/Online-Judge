@@ -1,19 +1,21 @@
 .split {
     display: flex;
+    flex-direction: column;
     color: #FFFFFF;
 }
 
 .dashboard {
-    min-height: 100vh;
-    width: 150px;
+    min-height: auto;
+    width: 100%;
     text-align: left;
-    margin: 10px;
-    border-right: 1px solid white;
-    transition: width 0.3s; /* Smooth transition */
+    margin: 10px 0;
+    border-bottom: 1px solid white;
+    transition: height 0.3s;
+    overflow: hidden;
 }
 
 .dashboard.minimized {
-    width: 50px; /* Width when minimized */
+    height: 50px;
 }
 
 .dashboard .btnPrb img {
@@ -24,25 +26,27 @@
 }
 
 .dashboard.minimized .btnPrb img {
-    padding-right: 0; /* Remove padding when minimized */
+    padding-right: 0;
 }
 
 .dashboard .btnPrb {
     display: flex;
     align-items: center;
     font-size: 14px;
+    margin-bottom: 10px;
 }
 
 .dashboard.minimized .btnPrb {
-    justify-content: center; /* Center the button when minimized */
+    justify-content: center;
+    margin-bottom: 0;
 }
 
 .dashboard .btnPrb span {
-    display: inline; /* Default display for text */
+    display: inline;
 }
 
 .dashboard.minimized .btnPrb span {
-    display: none; /* Hide text when minimized */
+    display: none;
 }
 
 .btnPrb {
@@ -56,33 +60,37 @@
 
 .prbRightSide {
     width: 100%;
-    margin-right: 10px;
+    margin-right: 0;
 }
+
 .search {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    height: 50px;
+    height: auto;
     color: #FFFFFF;
     align-items: center;
     justify-content: space-between;
-    margin: 10px;
+    margin: 10px 0;
 }
 
 .inpPrb {
     background-color: #1C2126;
     border-radius: 10px;
     height: 40px;
-    width: 200px;
+    width: 100%;
     border: none;
     color: white;
     text-align: center;
-    margin-right: 10px;
+    margin-top: 10px;
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
-    width: auto;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .PrbTagsBtn {
@@ -96,20 +104,58 @@
 }
 
 .list table {
-    width: 100%; 
-    border-collapse: collapse; /* Merge border of adjacent cells */
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .list th, .list td {
-    border: 1px solid black; 
-    padding: 10px; /* Add padding to table cells */
-    text-align: center; 
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
 }
 
-.prbTitle{
+.prbTitle {
     text-align: left;
 }
 
 .list th {
     background-color: #1C2126;
+}
+
+@media screen and (max-width: 600px) {
+    .dashboard {
+        width: 100%;
+        height: auto;
+    }
+
+    .dashboard.minimized {
+        height: 50px;
+    }
+
+    .dashboard .btnPrb {
+        font-size: 0.8rem;
+    }
+
+    .search {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .inpPrb {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .tags {
+        justify-content: center;
+    }
+
+    .PrbTagsBtn {
+        width: 45%;
+        margin: 2%;
+    }
+
+    .list th, .list td {
+        font-size: 0.8rem;
+    }
 }

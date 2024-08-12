@@ -1,4 +1,3 @@
-
 * {
     color: white;
 }
@@ -10,29 +9,27 @@ a {
 /* Header */
 .headerComp {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     padding: 10px 20px;
     border-bottom: 1px solid white;
 }
 
 .headerComp img {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 100px;
+    max-height: 100px;
     cursor: pointer;
 }
 
 .right {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    margin-top: 10px;
 }
 
 .right a {
-    margin-left: 20px;
-}
-
-.right a:first-child {
-    margin-left: 0;
+    margin: 5px 0;
 }
 
 .profileLogo {
@@ -40,49 +37,55 @@ a {
     height: 30px;
     cursor: pointer;
 }
-.cmpBtn{
+
+.cmpBtn {
     border: none;
-    padding-left: 50px;
+    padding-left: 0;
 }
+
 /* Content */
 .contentCompiler {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     padding: 20px;
     padding-top: 0;
 }
 
-h1, h3{
+h1, h3 {
     padding: 10px;
     margin: 0;
+    font-size: 1.2rem;
 }
 
-p{
+p {
     margin: 5px;
+    font-size: 0.8rem;
 }
+
 .Comp {
-    min-width: 50%;
+    min-width: 100%;
     padding-top: 10px;
-    padding-left: 20px;
+    padding-left: 0;
     height: 100%;
 }
 
 .firstTop {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     margin-bottom: 5px;
     align-items: center;
 }
-.rightSide{
+
+.rightSide {
     display: flex;
-    justify-content: right;
+    flex-direction: column;
     align-items: center;
-    margin-left: 20px;
+    margin-top: 10px;
 }
 
-.actionButtons{
+.actionButtons {
     width: 100%;
-    height: 31.6px;
+    height: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -96,6 +99,7 @@ p{
     cursor: pointer;
     width: 48%;
     height: 31.6px;
+    font-size: 0.8rem;
 }
 
 .runButton:hover, .submitButton:hover {
@@ -103,17 +107,21 @@ p{
 }
 
 .firstTop a {
-    margin-right: 20px;
+    margin-right: 0;
+    margin-bottom: 5px;
 }
 
 .ProblemDesc {
-    width: 50%;
-    border-right: 1px solid grey;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid grey;
+    margin-bottom: 20px;
 }
+
 /* Dropdown */
 .dropdown select {
     padding: 5px;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .dropdown select:focus {
@@ -121,7 +129,7 @@ p{
 }
 
 .dropdown select option {
-    font-size: 10px;
+    font-size: 0.8rem;
 }
 
 /* --- CODE EDITOR ---  */
@@ -135,19 +143,41 @@ p{
     padding-bottom: 10px;
     border: 1px solid #ced4da;
     border-radius: 7px;
-    font-size: 14px;
+    font-size: 0.8rem;
     background-color: #333;
 }
 
 .codeEditor .codeInput {
-    height: calc(100vh - 400px); /* Maximum height for code editor */
+    height: auto;
 }
 
 .manualTestCase {
-    height: 100px; 
+    height: 100px;
 }
 
 .outputDisplay {
-    height: 100px; 
-    background-color: #444; 
+    height: 100px;
+    background-color: #444;
+}
+
+@media screen and (max-width: 600px) {
+    h1, h3 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.6rem;
+    }
+
+    .dropdown select {
+        font-size: 0.8rem;
+    }
+
+    .dropdown select option {
+        font-size: 0.6rem;
+    }
+
+    .codeInput, .manualTestCase, .outputDisplay {
+        font-size: 0.6rem;
+    }
 }
