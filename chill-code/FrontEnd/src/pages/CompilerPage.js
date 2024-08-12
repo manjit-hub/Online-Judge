@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './CompilerPage.css';
+import './CompilerPageCSS.css';
 
 function CompilerPage() {
   const [code, setCode] = useState('');
