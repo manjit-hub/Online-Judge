@@ -7,11 +7,12 @@ import './AddProblemCSS.css';
 function AddProblemPage() {
   const [problemData, setProblemData] = useState({
     title: '',
-    difficulty: 'Easy', // Set default difficulty to Easy
+    difficulty: 'Easy',
     description: '',
     inputFormat: '', 
     outputFormat: '', 
-    acceptanceRate: 0, // Initialize acceptance rate to 0
+    acceptanceRate: 0, 
+    tags: '',
     testCases: [{ input: '', inputValue: '', output: '', explanation: '' }], // Add explanation field
   });
 
@@ -49,7 +50,7 @@ function AddProblemPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://api.chillcode.tech/problems/add-problem', problemData);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/add-problem`, problemData);
       toast.success('Problem added successfully', { position: 'top-center' });
       console.log('Problem added:', response.data);
       // Reset form
@@ -77,6 +78,16 @@ function AddProblemPage() {
           <input type="text" name="title" value={problemData.title} onChange={handleChange} required />
         </label>
         <label>
+        <label>
+          Tags:
+          <input
+              type="text"
+              name="tags"
+              value={problemData.tags}
+              onChange={handleChange}
+              placeholder="Enter tags separated by commas"
+          />
+        </label>
           Difficulty:
           <select name="difficulty" value={problemData.difficulty} onChange={handleChange} required>
             <option value="Easy">Easy</option>

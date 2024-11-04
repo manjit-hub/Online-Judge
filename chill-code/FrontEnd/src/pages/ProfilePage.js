@@ -20,7 +20,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`https://api.chillcode.tech/profile/${userId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/profile/${userId}`);
         setProfileInfo(response.data.user); // Adjust according to your response structure
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -31,7 +31,7 @@ const ProfilePage = () => {
 
     const fetchSolvedProblems = async () => {
       try {
-        const response = await axios.get(`https://api.chillcode.tech/user/${userId}/solved-problems`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/${userId}/solved-problems`);
         setSolvedProblems(response.data.solvedProblems);
       } catch (error) {
         console.error('Error fetching solved problems:', error);
@@ -51,7 +51,7 @@ const ProfilePage = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put('https://api.chillcode.tech/update', editData, { withCredentials: true });
+      const response = await axios.put('${process.env.REACT_APP_API_BASE_URL}/update', editData, { withCredentials: true });
       setProfileInfo(response.data.user);
       setIsEditing(false);
       toast.success('User data updated successfully!', {
@@ -71,7 +71,7 @@ const ProfilePage = () => {
       if (confirmDelete) {
         const password = prompt('Please enter your password to confirm deletion:');
         if (password) {
-          const response = await axios.delete('https://api.chillcode.tech/delete', { withCredentials: true, data: { password } });
+          const response = await axios.delete('${process.env.REACT_APP_API_BASE_URL}/delete', { withCredentials: true, data: { password } });
           toast.success('Account deleted successfully', {
             position: "top-center",
           });
@@ -88,7 +88,7 @@ const ProfilePage = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('https://api.chillcode.tech/logout', {}, { withCredentials: true });
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/logout`, {}, { withCredentials: true });
       toast.success('Logged out successfully', {
         position: "top-center",
         autoClose: 5000

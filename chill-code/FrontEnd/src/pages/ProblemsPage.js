@@ -3,10 +3,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ProblemsCSS.css';
-import { UserContext } from './UserContext'; // Adjust the path as needed
-
+import { UserContext } from './UserContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTachometerAlt, faUser, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
@@ -14,7 +15,7 @@ const CodingProblems = () => {
   useEffect(() => {
     const fetchProblems = async () => {
       try {
-        const response = await axios.get('https://api.chillcode.tech/problemslist');
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/problemslist`);
         setCodingProblems(response.data);
       } catch (error) {
         console.error('Error fetching problems:', error);
