@@ -1,71 +1,71 @@
-*{
-    background-color: #121417;
-}
-.header{
-    padding: 10px;
-    /* margin: 10px; */
-    text-align: left;
-    border-bottom: 1px solid white;
-}
+/* LoginPage.css */
 
-.header img{
-    max-width: 200px;
-    max-height: 200px;
-    cursor: pointer;
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  margin-top: 50px;
+  height: 100vh;
+  background-color: var(--background-color); 
 }
-
+.login-page h4{
+  color: var(--text-color);
+  margin-bottom: 2px;
+}
 .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    margin: 5px auto 0; /* TOP RIGHT BOTTOM LEFT */
-    width: 80%;
-    max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-color);
+  margin: 5px auto 0;
+  width: 80%;
+  max-width: 400px;
 }
 
-h2{
-    text-align: center;
-    width: 400px;
-    margin-bottom: 2px;
-}
-input{
-    background-color: #1C2126;
-    border-radius: 10px;
-    height: 50px;
-    width: 400px;
-    border: none;
-    color: white;
-    text-align: center;
+h2 {
+  text-align: center;
+  width: 400px;
+  margin-bottom: 2px;
+  color: var(--text-color);
 }
 
-.loginPg{
-    margin-top: 20px;
-    background-color: #1A80E5;
-    border-radius: 7px;
-    color: #FFFFFF;
-    height: 50px;
-    width: 100%;
-    border: none;
-    transition: transform 1s;
+input {
+  background-color: var(--secondary-color);
+  border-radius: 10px;
+  height: 50px;
+  width: 400px;
+  border: none;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.loginPg {
+  margin-top: 20px;
+  background-color: var(--primary-color);
+  border-radius: 7px;
+  color: var(--text-color);
+  height: 50px;
+  width: 100%;
+  border: none;
+  transition: transform 1s;
 }
 .loginPg:hover{
     transform: translateY(-3px);
 }
 .boxes{
-    /* padding-left: 130px;
-    padding-right: 130px; */
+    margin-bottom: 4px;
+    color: var(--text-color);
     text-align: left;
 }
 
 .last{
-    color: #ffff;
+  color: var(--text-color);
     text-decoration: none;
 }
 
 .google{
     border-radius: 7px;
-    color: #FFFFFF;
+    color: var(--text-color);
     height: 50px;
     width: 100%;
     border: none;
@@ -103,14 +103,14 @@ input{
   } */
 /* -------------- GOOGLE ---------------  */
 .gsi-material-button {
-    background-color: #131314;
+    background-color: var(--secondary-color);;
     background-image: none;
     border: 1px solid #747775;
     -webkit-border-radius: 4px;
     border-radius: 4px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    color: #e3e3e3;
+    color: var(--text-color);
     cursor: pointer;
     font-family: 'Roboto', arial, sans-serif;
     font-size: 14px;
@@ -160,6 +160,7 @@ input{
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top;
+    color: var(--text-color);
   }
   
   .gsi-material-button .gsi-material-button-state {

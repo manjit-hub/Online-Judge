@@ -1,0 +1,23 @@
+/* Footer.css */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    background-color: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+p{
+    background-color: transparent;
+}
+.site-footer.light {
+    background-color: #B2B5E0;
+    color: #222629;
+}
+
+.site-footer.dark {
+    background-color: #222629;
+    color: #86C232;
+}

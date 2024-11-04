@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import './LoginPage.css';
 
 function LoginPage() {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ function LoginPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                `https://api.chillcode.tech/login`,
+                `${process.env.REACT_APP_API_BASE_URL}login`,
                 { ...inputValue },
                 { withCredentials: true }
             );
@@ -69,21 +70,18 @@ function LoginPage() {
 
     const handleGoogleLogin = async() =>{
         window.open(
-            `https://api.chillcode.tech/auth/google`,
+            `${process.env.REACT_APP_API_BASE_URL}/auth/google`,
             "_self"
         );
     }
 
     return (
-        <div className="LoginPage">
-            <div className="header">
-                <img src="/Assets/logo.png" alt="Logo" />
-            </div>
+        <div className="login-page">
             <div className="content">
                 <h2>Log In</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="boxes">
-                        <h5 className="top">Email</h5>
+                        <h4 className="top">Email</h4>
                         <input
                             type="email"
                             name="email"
@@ -91,7 +89,7 @@ function LoginPage() {
                             placeholder="Enter your email"
                             onChange={handleOnChange}
                         />
-                        <h5>Password</h5>
+                        <h4>Password</h4>
                         <input
                             type="password"
                             name="password"

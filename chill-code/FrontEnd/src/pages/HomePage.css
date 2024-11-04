@@ -1,59 +1,64 @@
-body {
-    background-color: #121417;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-.header {
-    padding: 10px;
-    /* margin: 10px; */
-    text-align: left;
-    border-bottom: 1px solid white;
-}
-
-.header img {
-    max-width: 200px;
-    max-height: 200px;
-    cursor: pointer;
-}
-
-.contentHome {
+/* HomePage.css */
+.home-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
-    margin: 40px auto 0;
-    max-width: 400px;
-} 
+    padding-top: 50px;
+    height: 100vh; 
+    background-color: var(--background-color); 
+    overflow: hidden;
+}
 
+
+.contentHome, .contentHome h2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px auto 0;
+    max-width: 90%;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+.contentHome p{
+    color: var(--text-color);
+}
 .btnhome {
     border-radius: 7px;
-    color: #FFFFFF;
     height: 50px;
     width: 100%;
     border: none;
     margin-top: 10px;
-    transition: transform 1s;
+    transition: transform 0.3s;
+    cursor: pointer;
+    color: var(--text-color);
 }
 
-.btnhome:hover{
+.btnhome:hover {
     transform: translateY(-3px);
 }
+
 .signin {
-    background-color: #1A80E5;
+    background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .login {
     margin-top: 0;
-    background-color: #293038;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 .checking {
-    color: #9EABB8;
-    margin-top: 20px;
+    color: var(--text-color);
+    padding: 10px;
 }
 
 p {
     font-size: 15px;
+}
+
+@media (min-width: 768px) {
+    .contentHome {
+        max-width: 400px;
+    }
 }

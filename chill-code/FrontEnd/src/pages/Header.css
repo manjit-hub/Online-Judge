@@ -1,0 +1,70 @@
+/* Header.css */
+
+.site-header.light{
+    background-color: #B2B5E0; 
+    color: #86C232;
+}
+
+.site-header.dark{
+    background-color: #222629; 
+    color: #86C232;
+}
+
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.logo {
+    height: 40px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.nav-buttons {
+    background-color: transparent; 
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+.nav-buttons button, 
+.nav-buttons .nav-link {
+    background-color: transparent;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link.button {
+    background-color: rgba(0, 123, 255, 0.8);
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.nav-link.button:hover {
+    background-color: rgba(0, 86, 179, 0.9); /* Darker blue on hover */
+}
+
+.nav-buttons .nav-link.button, 
+.nav-buttons .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle {
+    font-size: 24px;
+    background-color: transparent;
+}
+
+svg{
+    background-color: transparent;
+}

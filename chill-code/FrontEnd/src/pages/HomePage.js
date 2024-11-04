@@ -1,24 +1,19 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { ThemeContext } from './ThemeContext';
 import './HomePage.css';
 
 function HomePage() {
-    const navigate = useNavigate(); // GET THE NAVIGATION FUNCTION
+    const navigate = useNavigate();
 
-    // HANDLE NAVIGATION TO SIGNUP PAGE
     const handleSignUp = () => navigate("/signup");
 
-    // HANDLE NAVIGATION TO LOGIN PAGE
     const handleLogIn = () => {
-        navigate("/login"); // NAVIGATE TO THE LOGIN PAGE
+        navigate("/login");
     };
 
     return (
-        <div>
-            <div className="header">
-                <img src="/Assets/logo.png" alt="Logo" />
-            </div>
+        <div className="home-page">
             <div className="contentHome">
                 <h2>Welcome to Chill Code</h2>
                 <p>A friendly place to learn and grow. Get started with a coding challenge, check out our courses, or just hang out and chat.</p>

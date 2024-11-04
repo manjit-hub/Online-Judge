@@ -40,7 +40,7 @@ function SignupPage() {
         if(isUserCreated){
             try{
                 const { data } = await axios.post(
-                    `https://api.chillcode.tech/verifyOTP`,
+                    `${process.env.REACT_APP_API_BASE_URL}/verifyOTP`,
                     { otp: inputValue.otp, email: inputValue.email},
                     { withCredentials: true } // It will assign a special cookies, token to the data
                 );
@@ -71,7 +71,7 @@ function SignupPage() {
         } else{
             try {
                 const { data } = await axios.post(
-                    `https://api.chillcode.tech/signup`,
+                    `${process.env.REACT_APP_API_BASE_URL}/signup`,
                     { ...inputValue },
                     { withCredentials: true } // It will assign a special cookies, token to the data
                 );
@@ -96,20 +96,17 @@ function SignupPage() {
     const handleGoogleLogin = async () =>{
         console.log("handleGoogleLogin");
         window.open(
-            `https://api.chillcode.tech/auth/google`,
+            `${process.env.REACT_APP_API_BASE_URL}/auth/google`,
             "_self"
         );
     }
     return (
-        <div className="LoginPage">
-            <div className="header">
-                <img src="/Assets/logo.png" alt="Logo" />
-            </div>
+        <div className="login-page">
             <div className="content">
                 <h2>Sign Up</h2>
                 <form onSubmit={handleSubmit}> 
                     <div className="boxes">
-                        <h5>Full Name</h5> 
+                        <h4>Full Name</h4> 
                         <input
                             type="text"
                             name="fullName"
@@ -117,7 +114,7 @@ function SignupPage() {
                             placeholder="Enter your full name"
                             onChange={handleOnChange}
                         />
-                        <h5>Email</h5>
+                        <h4>Email</h4>
                         <input
                             type="email" 
                             name="email"
@@ -125,7 +122,7 @@ function SignupPage() {
                             placeholder="Enter your email"
                             onChange={handleOnChange}
                         />
-                        <h5>Password</h5>
+                        <h4>Password</h4>
                         <input
                             type="password" 
                             name="password"
@@ -135,7 +132,7 @@ function SignupPage() {
                         />
                         {isUserCreated && (
                             <>
-                                <h5>Enter OTP</h5>
+                                <h4>Enter OTP</h4>
                                 <input
                                     type="text"
                                     name="otp"
