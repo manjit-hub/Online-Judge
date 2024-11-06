@@ -24,10 +24,11 @@ const User = require('./models/User');
 const Problem = require('./models/Problem');
 const EmailVerify = require('./models/EmailVerify');
 const TempUser = require('./models/TempUser');
+const Tag = require('./models/Tag');
 
 // Middleware configuration
 app.use(cors({
-    origin: ['https://chillcode.tech', 'https://www.chillcode.tech',"http://localhost:5000"], // Add Frontend URL "`${process.env.FRONTEND_HOST}`, ,'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
+    origin: ['https://chillcode.tech', 'https://www.chillcode.tech',process.env.FRONTEND_HOST], // Add Frontend URL "`${process.env.FRONTEND_HOST}`, ,'https://chill-code-cyan.vercel.app','https://chillcode.tech','https://www.chillcode.tech' "
     credentials: true // Allow cookies to be sent with requests
 }));
 app.use(express.json());
@@ -202,6 +203,7 @@ app.post("/verifyOTP", async (req, res) => {
 })
 
 // ------------------------------------- LOGIN PART --------------------------------------
+const isProduction = process.env.NODE_ENV === 'production';
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -224,18 +226,22 @@ app.post("/login", async (req, res) => {
         });
         userExist.password = undefined;
 
-        const options = {
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000), //Cookie expiration set to 1 day
-            // httpOnly: true, USE ONLY IF WORKING ON LOCAL HOST. // No need this during deployment in AWS
-            sameSite: "None",
-            secure: true
-        };
-
-        res.status(200).cookie("token", token, options).json({
-            message: 'You have successfully logged in!',
-            success: true,
-            token, // token in response
+        // Option 1: Set an HTTP-only cookie for server-side storage
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? 'None' : 'Lax',
+            expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
         });
+
+        // Option 2: Return token in response (for client-side storage)
+        res.status(200).json({
+            success: true,
+            message: 'You have successfully logged in!',
+            user: userExist,
+            token,
+        });
+
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal server error");
@@ -307,6 +313,12 @@ app.delete("/delete", async (req, res) => {
         }
 
         await User.findByIdAndDelete(userId);
+
+        // Clear token cookie after deletion
+        res.clearCookie("token", {
+            sameSite: "None",
+            secure: true,
+        });
 
         res.status(200).json({ message: 'User account deleted successfully!' });
     } catch (error) {
@@ -401,7 +413,24 @@ app.get("/profile/:userId", async (req, res) => {
 
 // ------------------------------------- LOGOUT ------------------------------------------
 app.post("/logout", (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        sameSite: "None",
+        secure: true, // Ensure this matches the setup of the `token` cookie
+        // httpOnly: true,
+    });
+
+    // Clear additional token-related cookies if you use them
+    res.clearCookie("accessToken", {
+        sameSite: "None",
+        secure: true,
+        // httpOnly: true,
+    });
+    res.clearCookie("refreshToken", {
+        sameSite: "None",
+        secure: true,
+        // httpOnly: true,
+    });
+
     res.status(200).json({ message: "Successfully logged out" });
 })
 
@@ -508,3 +537,20 @@ app.get('/auth/google/callback',
         }
     }
 );
+
+// Route to get all tags, with optional search functionality
+app.get('/tags', async (req, res) => {
+    try {
+        const searchTerm = req.query.search || '';
+
+        // Find tags, optionally filtering by name if a search term is provided
+        const tags = await Tag.find({
+            name: { $regex: searchTerm, $options: 'i' },
+        });
+
+        res.status(200).json(tags);
+    } catch (error) {
+        console.error('Error fetching tags:', error);
+        res.status(500).send('Internal server error');
+    }
+});

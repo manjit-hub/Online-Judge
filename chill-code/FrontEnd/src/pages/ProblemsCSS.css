@@ -1,6 +1,7 @@
 .split {
     display: flex;
-    color: #FFFFFF;
+    color: var(--text-color);
+    background-color: var(--textbox-bg-color);
 }
 
 .dashboard {
@@ -8,108 +9,132 @@
     width: 150px;
     text-align: left;
     margin: 10px;
-    border-right: 1px solid white;
-    transition: width 0.3s; /* Smooth transition */
+    border-right: 1px solid var(--text-color);
+    background-color: var(--textbox-bg-color);
+    color: var(--text-color);
+}
+.dashboard span{
+    transition: opacity 1s ease, width 1s ease;
 }
 
 .dashboard.minimized {
-    width: 50px; /* Width when minimized */
+    width: 50px;
 }
 
-.dashboard .btnPrb img {
-    width: 20px;
-    height: 20px;
-    background-color: transparent;
-    padding-right: 5px;
-}
-
-.dashboard.minimized .btnPrb img {
-    padding-right: 0; /* Remove padding when minimized */
-}
-
-.dashboard .btnPrb {
+.dashboard .btnPrb, path{
     display: flex;
     align-items: center;
     font-size: 14px;
+    background-color: var(--textbox-bg-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 7px;
+    height: 50px;
+    width: auto;
+    cursor: pointer;
+    padding-left: 10px;
+    transition: padding-left 0.3s ease;
 }
 
-.dashboard.minimized .btnPrb {
-    justify-content: center; /* Center the button when minimized */
+
+.dashboard .btnPrb .icon{
+    font-size: 18px;
+    margin-right: 5px;
+    /* transition: margin-right 0.3s ease; */
+    color: var(--text-color);
+    background-color: var(--textbox-bg-color);
 }
 
-.dashboard .btnPrb span {
-    display: inline; /* Default display for text */
+
+span{
+    font-size: 13px;
+    color: var(--text-color);
+    background-color: var(--textbox-bg-color);
 }
 
 .dashboard.minimized .btnPrb span {
-    display: none; /* Hide text when minimized */
-}
-
-.btnPrb {
-    border-radius: 7px;
-    color: #FFFFFF;
-    height: 50px;
-    width: 100%;
-    border: none;
-    cursor: pointer;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
 }
 
 .prbRightSide {
     width: 100%;
     margin-right: 10px;
 }
+
 .search {
     display: flex;
-    width: 100%;
+    width: 100%-30%;
     height: 50px;
-    color: #FFFFFF;
+    color: var(--text-color);
     align-items: center;
     justify-content: space-between;
     margin: 10px;
+    margin-right: 30vh;
+}
+
+.search h1{
+    align-items: end;
+    padding-right: 20%;
+    color: var(--text-color);
 }
 
 .inpPrb {
-    background-color: #1C2126;
+    background-color: var(--search-bar-bg-color);
     border-radius: 10px;
-    height: 40px;
-    width: 200px;
+    height: 30px;
+    width: 100%;
     border: none;
-    color: white;
     text-align: center;
     margin-right: 10px;
+    color: var(--text-color);
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
     width: auto;
+    margin: 10px;
 }
 
 .PrbTagsBtn {
     border-radius: 7px;
-    color: #FFFFFF;
-    height: 50px;
+    color: var(--text-color);
+    height: 40px;
     width: 100px;
     margin: 4px;
-    background-color: #1C2126;
+    background-color: var(--filter-button-bg-color);
     border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+.PrbTagsBtn.active {
+    background-color: var(--filter-button-active-bg-color);
+}
+
+.list {
+    padding: 15px;
+    padding-top: 5px;
+}
 .list table {
-    width: 100%; 
-    border-collapse: collapse; /* Merge border of adjacent cells */
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .list th, .list td {
-    border: 1px solid black; 
-    padding: 10px; /* Add padding to table cells */
-    text-align: center; 
+    border: 1px solid var(--text-color);
+    padding: 10px;
+    text-align: center;
+    background-color: var(--textbox-bg-color);
+    color: var(--text-color);
 }
 
-.prbTitle{
+.prbTitle {
     text-align: left;
 }
 
 .list th {
-    background-color: #1C2126;
+    background-color: var(--textbox-bg-color);
 }

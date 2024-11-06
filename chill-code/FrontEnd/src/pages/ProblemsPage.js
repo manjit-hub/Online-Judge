@@ -1,13 +1,12 @@
 // ProblemsPage.js
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import './ProblemsCSS.css';
 import { UserContext } from './UserContext';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUser, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FaTachometerAlt, FaTrophy, FaComments, FaChartLine, FaUser, FaPlus } from 'react-icons/fa';
 
 const CodingProblems = () => {
   const [codingProblems, setCodingProblems] = useState([]);
@@ -48,7 +47,7 @@ const CodingProblems = () => {
                 </div>
               </td>
               <td>{problem.difficulty}</td>
-              <td>{problem.solved ? 'No' : ''}</td>
+              <td>{problem.solved ? 'Yes' : 'No'}</td>
               <td>{problem.acceptance_rate}%</td>
             </tr>
           ))}
@@ -60,87 +59,161 @@ const CodingProblems = () => {
 
 const ProblemsPage = () => {
   const [isMinimized, setIsMinimized] = useState(false);
+  const [activeTags, setActiveTags] = useState([]);
   const navigate = useNavigate();
-  const user = useContext(UserContext); // Get the current user information from context
-  // console.log({user});
+  const user = useContext(UserContext);
+
+  // Check if user is not logged in
+  if (!user || !user.user || !user.user._id) {
+    toast.error("Please log in to view problems", { position: "top-center" });
+    return <Navigate to="/login" replace />;
+  }
 
   const handleDashMainBtnClick = () => {
     setIsMinimized(prevState => !prevState);
   };
 
   const onClickProfileBtn = () => {
-    // console.log('User data from context:', user);
-    //     if (user) {
-    //         console.log('User ID:', user.user._id);
-    //     }
-    if (user && user.user._id) { 
-      navigate(`/profile/${user.user._id}`); 
+    if (user && user.user._id) {
+      navigate(`/profile/${user.user._id}`);
     } else {
       console.error('User ID not found');
-      toast.error('User ID not found!', {
-        position: "top-center",
-      });
+      toast.error('User ID not found!', { position: "top-center" });
       setTimeout(() => {
         navigate(`/login`);
-      }, 2000); 
+      }, 2000);
     }
   };
 
+  const handleTagClick = (tag) => {
+    setActiveTags(prevTags =>
+      prevTags.includes(tag) ? prevTags.filter(t => t !== tag) : [...prevTags, tag]
+    );
+  };
+
   return (
-    <div className="split">
-      <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
-        <button className='btnPrb dashMainBtn' onClick={handleDashMainBtnClick}>
-          <img src="/Assets/DashboardLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Dashboard'}</span>
-        </button>
-        <button className='btnPrb'>
-          <img src="/Assets/3LineLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Leaderboard'}</span>
-        </button>
-        <button className='btnPrb'>
-          <img src="/Assets/DiscussionLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Discussion'}</span>
-        </button>
-        <button className='btnPrb'>
-          <img src="/Assets/ProgressLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Progress'}</span>
-        </button>
-        <button className='btnPrb' onClick={onClickProfileBtn}>
-          <img src="/Assets/ProfileLogo.png" alt="Logo" />
-          <span>{!isMinimized && 'Profile'}</span>
-        </button>
-        
-        {/* Conditional rendering for the Add Problem button */}
-        {user?.user?.Admin &&(
-          <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
-            <img src="/Assets/addProblem.png" alt="Logo" />
-            <span>{!isMinimized && 'Add Problem'}</span>
+    <div>
+      <div className="split">
+        <div className={`dashboard ${isMinimized ? 'minimized' : ''}`}>
+          <button className='btnPrb dashMainBtn' onClick={handleDashMainBtnClick}>
+            <FaTachometerAlt className="icon" />
+            <span>Dashboard</span>
           </button>
-        )}
-      </div>
-
-      <div className="prbRightSide">
-        <div className="search">
-          <h1>Problems</h1>
-          <input type="text" className="inpPrb" placeholder="Search Problems" />
+          {/* Dashboard buttons */}
+          <button className='btnPrb'>
+            <FaTrophy className="icon" />
+            <span>Leaderboard</span>
+          </button>
+          <button className='btnPrb'>
+            <FaComments className="icon" />
+            <span>Discussion</span>
+          </button>
+          <button className='btnPrb'>
+            <FaChartLine className="icon" />
+            <span>Progress</span>
+          </button>
+          <button className='btnPrb' onClick={onClickProfileBtn}>
+            <FaUser className="icon" />
+            <span>Profile</span>
+          </button>
+          
+          {/* Conditional Add Problem button for Admin */}
+          {user?.user?.Admin && (
+            <button className='btnPrb' onClick={() => navigate('/problems/add-problem')}>
+              <FaPlus className="icon" />
+              <span>Add Problem</span>
+            </button>
+          )}
         </div>
 
-        <div className="tags">
-          <button className='PrbTagsBtn'>All</button>
-          <button className='PrbTagsBtn'>Easy</button>
-          <button className='PrbTagsBtn'>Medium</button>
-          <button className='PrbTagsBtn'>Hard</button>
-          <button className='PrbTagsBtn'>Binary Search</button>
-          <button className='PrbTagsBtn'>Recursion</button>
-          <button className='PrbTagsBtn'>DP</button>
-          <button className='PrbTagsBtn'>Back Tracking</button>
-          <button className='PrbTagsBtn'>Graph</button>
-          <button className='PrbTagsBtn'>Array</button>
-          <button className='PrbTagsBtn'>String</button>
-          <button className='PrbTagsBtn'>LinkedList</button>
-        </div>
+        <div className="prbRightSide">
+          <div className="search">
+            <h1>Problems</h1>
+            <input type="text" className="inpPrb" placeholder="Search Problem" />
+          </div>
 
-        <CodingProblems />
+          <div className="tags">
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('All') ? 'active' : ''}`}
+              onClick={() => handleTagClick('All')}
+            >
+              All
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Easy') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Easy')}
+            >
+              Easy
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Medium') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Medium')}
+            >
+              Medium
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Hard') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Hard')}
+            >
+              Hard
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Binary Search') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Binary Search')}
+            >
+              Binary Search
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Recursion') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Recursion')}
+            >
+              Recursion
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('DP') ? 'active' : ''}`}
+              onClick={() => handleTagClick('DP')}
+            >
+              DP
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Back Tracking') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Back Tracking')}
+            >
+              Back Tracking
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Graph') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Graph')}
+            >
+              Graph
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('Array') ? 'active' : ''}`}
+              onClick={() => handleTagClick('Array')}
+            >
+              Array
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('String') ? 'active' : ''}`}
+              onClick={() => handleTagClick('String')}
+            >
+              String
+            </button>
+            <button
+              className={`PrbTagsBtn ${activeTags.includes('LinkedList') ? 'active' : ''}`}
+              onClick={() => handleTagClick('LinkedList')}
+            >
+              LinkedList
+            </button><button
+              className={`PrbTagsBtn ${activeTags.includes('LinkedList') ? 'active' : ''}`}
+              onClick={() => handleTagClick('LinkedList')}
+            >
+              Trie
+            </button>
+          </div>
+
+          <CodingProblems />
+        </div>
       </div>
     </div>
   );

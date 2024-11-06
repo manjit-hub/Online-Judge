@@ -44,7 +44,7 @@
 
 .login {
     margin-top: 0;
-    background-color: var(--secondary-color);
+    background-color: var(--textbox-bg-color);
     color: var(--text-color);
 }
 

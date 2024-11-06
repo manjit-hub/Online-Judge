@@ -1,60 +1,73 @@
 // Header.js
 import React, { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { ThemeContext } from './ThemeContext';
 import { UserContext } from './UserContext';
 import './Header.css';
-import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 function Header() {
     const { theme, toggleTheme } = useContext(ThemeContext);
-    const { user } = useContext(UserContext);
-    const location = useLocation();
+    const user = useContext(UserContext);
+    const {setUser,} = useContext(UserContext);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const currentPath = location.pathname;
-
-    // Logout handler
     const handleLogout = async () => {
         try {
             await axios.post(`${process.env.REACT_APP_API_BASE_URL}/logout`, {}, { withCredentials: true });
+            
+            // Clear all tokens and user data stored in localStorage and sessionStorage
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Reset the user context
+            setUser(null);
+
             navigate('/login');
         } catch (error) {
             console.error('Error logging out:', error);
         }
     };
 
-    let navigationButtons;
+    const isAuthenticated = user && user.user && user.user._id;
+    // console.log(isAuthenticated)
 
-    if (user && user.user) {
-        navigationButtons = (
-            <div className="nav-buttons">
-                <Link to="/problemslist" className="nav-link">Problems</Link>
-                <Link to={`/profile/${user.user._id}`} className="nav-link">Profile</Link>
-                <button onClick={handleLogout} className="logout-button">Logout</button>
+    const handleLogoClick = () => {
+        if (isAuthenticated) {
+            navigate('/problemslist');
+        } else {
+            navigate('/');
+        }
+    };
+
+    return (
+        <header className={`site-header ${theme}`}>
+            <div onClick={handleLogoClick} className="logo-container">
+                <img src="/Assets/logo.png" alt="Logo" className="logo" />
             </div>
-        );
-    } else if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
-        navigationButtons = (
+
             <div className="nav-buttons">
                 <button onClick={toggleTheme} className="theme-toggle">
                     {theme === 'dark' ? <FaSun /> : <FaMoon />}
                 </button>
-                <Link to="/login" className="nav-link button">Log In</Link>
-                <Link to="/signup" className="nav-link button">Sign Up</Link>
+                {isAuthenticated ? (
+                    <>
+                        {location.pathname.includes('/profile') ? (
+                            <Link to="/problemslist" className="nav-link">Problems</Link>
+                        ) : (
+                            <Link to={`/profile/${user.user._id}`} className="nav-link">Profile</Link>
+                        )}
+                        <button onClick={handleLogout} className="logout-button">Logout</button>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/login" className="nav-link button">Log In</Link>
+                        <Link to="/signup" className="nav-link button">Sign Up</Link>
+                    </>
+                )}
             </div>
-        );
-    } else {
-        navigate('/login');
-        return null;
-    }
-
-    return (
-        <header className={`site-header ${theme}`}>
-            <Link to="/">
-                <img src="/Assets/logo.png" alt="Logo" className="logo" />
-            </Link>
-            {navigationButtons}
         </header>
     );
 }

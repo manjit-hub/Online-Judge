@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './LoginPage.css';
+import { UserContext } from './UserContext';
 
 function LoginPage() {
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
     const [inputValue, setInputValue] = useState({
         email: "",
         password: "",
@@ -36,17 +38,21 @@ function LoginPage() {
         e.preventDefault();
         try {
             const { data } = await axios.post(
-                `${process.env.REACT_APP_API_BASE_URL}login`,
+                `${process.env.REACT_APP_API_BASE_URL}/login`,
                 { ...inputValue },
                 { withCredentials: true }
             );
-            const { success, message } = data;
-
+            const { success, message, user, token } = data;
+            console.log("User [at Login Page]: ", user)
             if (success) {
                 handleSuccess(message);
-                setTimeout(() => {
-                    navigate("/problemslist");
-                }, 2000);
+                setUser(user);
+                navigate("/problemslist");
+
+                // Optionally store token in localStorage for debugging
+                if (token) localStorage.setItem('token', token);
+                if (user) localStorage.setItem('user', JSON.stringify(user));
+
                 setInputValue({
                     email: "",
                     password: "",
@@ -98,9 +104,7 @@ function LoginPage() {
                             onChange={handleOnChange}
                         />
                         <button className="loginPg" type="submit">Log In</button> 
-                    </div>
-                </form>
-                <p className="checking">or</p>
+                        <p className="checking">or</p>
                         <button className="gsi-material-button" onClick={handleGoogleLogin}>
                             <div className="gsi-material-button-state"></div>
                             <div className="gsi-material-button-content-wrapper">
@@ -119,6 +123,8 @@ function LoginPage() {
                         </button>
                 <p className="last">Don't have an account?</p>
                 <Link to="/signup" className="last">Sign up</Link>
+                    </div>
+                </form>
             </div>
             <ToastContainer />
         </div>

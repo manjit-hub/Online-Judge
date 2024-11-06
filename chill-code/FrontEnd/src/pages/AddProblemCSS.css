@@ -1,69 +1,168 @@
+/* AddProblemPage.css */
 .add-problem-page {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 10px;
+  margin: 20px auto;
+  padding: 20px;
   border-radius: 7px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--form-bg-color);
+  color: var(--text-color);
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
 }
 
-form{  
-  display: grid; /*Element will be arranged line by line*/
+.add-problem-page h1 {
+  text-align: center;
+  color: var(--primary-color);
 }
-.add-problem-page label {
-  display: block;
-  margin-bottom: 10px;
+
+/* Form layout */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  /* width: 100%; */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%; 
+}
+
+.form-group label {
   font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 5px;
 }
 
-/*.add-problem-page input, */
-.add-problem-page textarea {
-  max-width: 600px;
-  height: 100px;
+.form-group input,
+.form-group textarea,
+.form-group select {
   padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: var(--textbox-bg-color);
+  max-width: 800; 
+  width: 100%;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  height: 43px;
+  border: none;
+  transition: transform 1s;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 0.25px;
+  text-align: center;
 }
 
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: 2px solid var(--primary-color);
+}
+
+/* Specific button styles */
 .add-problem-page button {
-  background-color: #4CAF50;
-  color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--primary-color);
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.add-problem-page .submitBtn{
+.add-problem-page .submitBtn {
   background-color: #38b000;
+  margin-top: 15px;
 }
-.descTxt{
-  height: 100%;
-  width: 100%;
-  margin-bottom: 10px;
-}
+
 .add-problem-page button:hover {
-  background-color: #3e8e41;
+  background-color: #1e6fbf;
 }
 
-.add-problem-page input, select{
-  margin-left: 10px;
-}
-
-.AddPrbBtn{
+/* Flex layout for inline items in Difficulty and Acceptance Rate */
+.flex-row {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.tc{
-  text-align: left;
-  padding-left: 0;
-}
-
-.inputOutputTxt{
+  gap: 10px;
   width: 100%;
 }
+
+.flex-row .form-group {
+  flex: 1;
+}
+
+/* Test Cases styling */
+.test-cases {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.one-line {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-problem-page h3{
+  color: var(--text-color);
+  padding-left: 0px;
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+}
+
+.close-btn {
+  background-color: var(--login-button-bg-color);
+  color: var(--background-color);
+  padding: 5px 15px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+button{
+  margin: 5px;
+}
+.add-problem-page .addTCBtn{
+  background-color: rgb(70, 41, 156);
+}
+.add-problem-page .removeBtn{
+  background-color: #ff0000;
+}
+
+.add-problem-page .acc_rate input{
+  height: 23px;
+}
+
+.add-problem-page .title{
+  height: 50px;
+}
+/* Ensuring alignment remains consistent on larger screens */
+@media (min-width: 768px) {
+  .add-problem-page {
+    max-width: 800px;
+  }
+}
+

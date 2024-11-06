@@ -1,7 +1,7 @@
 /* Header.css */
 
 .site-header.light{
-    background-color: #B2B5E0; 
+    background-color: #a082fa; 
     color: #86C232;
 }
 
@@ -67,4 +67,11 @@
 
 svg{
     background-color: transparent;
+}
+
+.nav-buttons .logout-button{
+    background-color: rgba(255, 0, 43, 0.8);
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
 }

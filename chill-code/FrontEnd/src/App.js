@@ -12,6 +12,8 @@ import { UserProvider } from './pages/UserContext';
 import Header from './pages/Header';
 import Footer from './pages/Footer';
 import { ThemeProvider } from './pages/ThemeContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const location = useLocation();
@@ -25,6 +27,7 @@ function App() {
           <meta name="description" content="Helmet application" />
         </Helmet>
         <Header />
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />

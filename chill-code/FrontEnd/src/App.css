@@ -4,23 +4,37 @@
   --background-color: #ffffff;  
   --text-color: #000000;      
   --primary-color: #1A80E5;
-  --secondary-color: #f0f0f0;
+  --textbox-bg-color: #f0f0f0;
   --extra-text-color: #221f1f;
 }
 
 /* Dark theme overrides */
 [data-theme='dark'] {
-  --background-color: #121417; 
+  --background-color: #2b2e31; 
   --text-color: #ffffff;       
   --primary-color: #1A80E5;
-  --secondary-color: #293038;
+  --textbox-bg-color: #3b4046;
+  --form-bg-color: #272b30;
+  --search-bar-bg-color: #ffffffdb;
+  --filter-button-bg-color: #1ae5c0b3;
+  --filter-button-active-bg-color: #d0e200f5;
+  --login-button-bg-color: #079bd5;
+  --table-head-bg-color: #4cbee4;
+  --border-color: #A9BCF5;
 }
 
 [data-theme='light'] {
-  --background-color: #ffffff; 
+  --background-color: #cdbef5;
   --text-color: #293038;       
   --primary-color: #1A80E5;
-  --secondary-color: #f0f0f0;
+  --textbox-bg-color: #E7D9FF;
+  --form-bg-color: #E7D9FF;
+  --search-bar-bg-color: #ffffffda;
+  --filter-button-bg-color: #1ae5c0b3;
+  --filter-button-active-bg-color: #d0e200f5;
+  --login-button-bg-color: #09b6fb;
+  --table-head-bg-color: #4cbee4;
+  --border-color: #747775;
 }
 
 body, html{

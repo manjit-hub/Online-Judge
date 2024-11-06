@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const [editData, setEditData] = useState({ fullName: '', email: '', newPassword: '', oldPassword: '' });
   const [solvedProblems, setSolvedProblems] = useState([]);
   const navigate = useNavigate();
-  const user = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -51,7 +51,7 @@ const ProfilePage = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put('${process.env.REACT_APP_API_BASE_URL}/update', editData, { withCredentials: true });
+      const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/update`, editData, { withCredentials: true });
       setProfileInfo(response.data.user);
       setIsEditing(false);
       toast.success('User data updated successfully!', {
@@ -71,11 +71,20 @@ const ProfilePage = () => {
       if (confirmDelete) {
         const password = prompt('Please enter your password to confirm deletion:');
         if (password) {
-          const response = await axios.delete('${process.env.REACT_APP_API_BASE_URL}/delete', { withCredentials: true, data: { password } });
+          const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/delete`, { withCredentials: true, data: { password } });
+
+          // Clear all tokens and user data stored in localStorage and sessionStorage
+          localStorage.clear();
+          sessionStorage.clear();
+          // window.location.reload();
+
+          // Reset the user context
+          setUser(null);
+
           toast.success('Account deleted successfully', {
             position: "top-center",
           });
-          navigate('/'); // Redirect to home page after deletion
+          navigate('/');
         }
       }
     } catch (error) {
@@ -89,6 +98,14 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/logout`, {}, { withCredentials: true });
+      
+      // Clear all tokens and user data stored in localStorage and sessionStorage
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Reset the user context
+      setUser(null);
+
       toast.success('Logged out successfully', {
         position: "top-center",
         autoClose: 5000
@@ -106,7 +123,7 @@ const ProfilePage = () => {
 
   const onClickProfileBtn = () => {
     console.log("Profile Clicked!!");
-    if (user && user.user._id) { 
+    if (user && user.user && user.user._id) { 
       navigate(`/profile/${user.user._id}`); 
     } else {
       console.error('User ID not found Comp');
@@ -117,19 +134,6 @@ const ProfilePage = () => {
   return (
     <div>
       <ToastContainer />
-      {/* HEADER */}
-      <div className="headerProfile">
-        <div className="left">
-          <img src="/Assets/logo.png" alt="Logo" />
-        </div>
-        <div className="right">
-          <Link to="/problemslist">Problems</Link>
-          <button className="cmpBtn" onClick={onClickProfileBtn}>
-              <img src="/Assets/ProfileLogo.png" className="profileLogo" alt="Logo" />
-          </button>
-          </div>
-      </div>
-
       <div className="details">
         <div className="leftSideDetails">
           {/* PROFILE DETAILS */}
@@ -174,7 +178,7 @@ const ProfilePage = () => {
                 </div>
               </div>
             ) : (
-              <div>
+              <div className='showUser'>
                 <p><strong>Name:</strong> {profileInfo.fullName}</p>
                 <p><strong>Email:</strong> {profileInfo.email}</p>
                 <p><strong>Role:</strong> {profileInfo.Admin ? 'admin' : 'user'}</p>
@@ -186,9 +190,6 @@ const ProfilePage = () => {
                 </div>
               </div>
             )}
-          </div>
-          <div className="profilePicture">
-            <img src="/Assets/profile-user.png" alt="Profile" />
           </div>
         </div>
 
@@ -202,15 +203,19 @@ const ProfilePage = () => {
                 <tr>
                   <th>Problem</th>
                   <th>Difficulty</th>
+                  <th>Last Solved</th>
                 </tr>
               </thead>
               <tbody>
-                {solvedProblems.map((problem) => (
+                {solvedProblems
+                .sort((a, b) => new Date(b.solvedDate) - new Date(a.solvedDate)) // Sort by solvedDate in descending order
+                .map((problem) => (
                   <tr key={problem._id}>
                     <td>
                       <Link to={`/problems/${problem._id}`}>{problem.title}</Link>
                     </td>
                     <td>{problem.difficulty}</td>
+                    <td>{problem.solvedDate ? new Date(problem.solvedDate).toLocaleDateString() : 'Unknown'}</td>
                   </tr>
                 ))}
               </tbody>

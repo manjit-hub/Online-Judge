@@ -1,25 +1,3 @@
-/* HEADERS */
-.headerProfile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    border-bottom: 1px solid white;
-}
-
-.headerProfile img {
-    max-width: 150px;
-    max-height: 150px;
-    cursor: pointer;
-}
-
-.headerProfile .navProfile {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-}
-
-
 .details{
     display: flex;
     padding: 30px;
@@ -31,32 +9,8 @@
     margin-top: 30px;
 }
 
-/* ------- LEFT ------  */
-.leftSideDetails{
-    display: flex;
-
-}
-.leftSideDetails h2{
-    text-align: left;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-.profilePicture{
-    align-items: center;
-    text-align: center;
-    padding-right: 20px;
-    padding-top: 40px;
-}
-.profilePicture img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
 /* --------- OPERATAIONS ----------  */
+
 .leftSideDetails button{
     border: none;
     border-radius: 5px;
@@ -69,8 +23,9 @@
 .red{
     background-color: red;
 }
-.profileInfo{
+.profileInfo, .profileInfo p, strong{
     width: 320px;
+    color: var(--text-color);
 }
 
 .profileInfo input{
@@ -81,7 +36,7 @@
 
 /* -------- RIGHT --------  */
 .rightSideDetails{
-    border-left: solid white 1px;
+    border-left: solid var(--text-color) 1px;
     min-height: 100vh;
     width: 100%;
     padding-left: 30px;
@@ -105,17 +60,17 @@
     text-align: left;
   }
   .solvedProblems td a{
-    background-color: transparent; /* Ensures no background color */
-    color: white; /* Ensures text color */
+    background-color: transparent; 
+    color: var(--text-color);
   }
   .solvedProblems th {
-    background-color: #282c34;
-    color: white;
+    background-color: var(--table-head-bg-color);
+    color: var(--text-color);
   }
   
   .solvedProblems td {
-    background-color: #282c34;
-    color: white;
+    background-color: var(--textbox-bg-color);
+    color: var(--text-color);
   }
   
   .solvedProblems a {
@@ -127,3 +82,23 @@
     text-decoration: underline;
   }
 
+  strong{
+    width: auto;
+  }
+
+  .showUser {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.showUser p {
+    margin: 0;
+    padding: 5px 0;
+    text-align: left;
+}
+
+.accountActions {
+    display: flex;
+    gap: 10px;
+}

@@ -25,15 +25,15 @@ function SignupPage() {
         });
     };
 
-    const handleError = (err) =>
-        toast.error(err, {
+    const handleError = (err) => 
+        toast.error(err || "An unexpected error occurred", {
             position: "top-center",
         });
-
-    const handleSuccess = (msg) =>
-        toast.success(msg, {
+    
+    const handleSuccess = (msg) => 
+        toast.success(msg || "Success", {
             position: "top-center",
-        });
+        });    
 
     const handleSubmit = async (e) => {
         e.preventDefault();

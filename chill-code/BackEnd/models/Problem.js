@@ -21,7 +21,7 @@ const problemSchema = new mongoose.Schema({
     },
     acceptance_rate: {
         type: Number,
-        default:  null,
+        default: null,
         required: true
     },
     description: {
@@ -43,7 +43,15 @@ const problemSchema = new mongoose.Schema({
             output: String,
             explanation: String  
         }
-    ]
+    ],
+    solvedDate: { 
+        type: Date,
+        default: null
+    },
+    tags: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Tag' 
+    }], 
 });
 
 module.exports = mongoose.model('Problem', problemSchema);
