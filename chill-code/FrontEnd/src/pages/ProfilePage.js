@@ -184,9 +184,9 @@ const ProfilePage = () => {
                 <p><strong>Role:</strong> {profileInfo.Admin ? 'admin' : 'user'}</p>
                 {/* ACCOUNT ACTIONS */}
                 <div className="accountActions">
-                  <button className="green" onClick={() => setIsEditing(true)}>Edit Profile</button>
+                  <button className="green" onClick={() => setIsEditing(true)}>Edit</button>
                   <button className="red" onClick={handleLogout}>Logout</button>
-                  <button className="red" onClick={handleDelete}>Delete Account</button>
+                  <button className="red" onClick={handleDelete}>Delete</button>
                 </div>
               </div>
             )}

@@ -133,19 +133,6 @@ function CompilerPage() {
 
     return (
         <div>
-            {/* HEADER */}
-            <div className="headerComp">
-                <div className="left">
-                    <img src="/Assets/logo.png" alt="Logo" />
-                </div>
-                <div className="right">
-                    <Link to="/problemslist">Problems</Link>
-                    <button className="cmpBtn" onClick={onClickProfileBtn}>
-                        <img src="/Assets/ProfileLogo.png" className="profileLogo" alt="Logo" />
-                    </button>
-                </div>
-            </div>
-
             {/* CONTENT */}
             <div className="contentCompiler">
                 <div className="ProblemDesc">
@@ -153,11 +140,11 @@ function CompilerPage() {
                         <div>
                             <h1>{`${problem.number}: ${problem.title}`}</h1>
                             <p>{problem.description}</p>
-                            <p><strong>Input Format:</strong> <br /> {problem.inputFormat}</p>
-                            <p><strong>Output Format:</strong> <br /> {problem.outputFormat}</p>
+                            <p className='inputFormat'><strong>Input Format:</strong> <br /> {problem.inputFormat}</p>
+                            <p className='breakLine'><strong>Output Format:</strong> <br /> {problem.outputFormat}</p>
                             {problem.testCases.slice(0, 2).map((testCase, index) => (
                                 <div key={index}>
-                                    <h3>{`Test Case ${index + 1}`}</h3>
+                                    <h3>{`Test Case ${index + 1}:`}</h3>
                                     <p><strong>Input:</strong> {testCase.input}</p>
                                     <p><strong>Output:</strong> {testCase.output}</p>
                                     {testCase.explanation && testCase.explanation.trim() !== '' && (
@@ -165,7 +152,7 @@ function CompilerPage() {
                                     )}
                                 </div>
                             ))}
-                            <p>{`Acceptance Rate : ${problem.acceptance_rate} %`}</p>
+                            <p className='accRate'>{`Acceptance Rate : ${problem.acceptance_rate} %`}</p>
                         </div>
                     ) : (
                         <p>Loading problem...</p>
@@ -178,7 +165,7 @@ function CompilerPage() {
                             <button className="submitButton" onClick={handleSubmit}>Submit</button>
                         </div>
                         <div className="rightSide">
-                            <div className="editorial"><Link to="/">Editorials</Link></div>
+                            <button className="editorialButton">Editorials</button>
                             <div className="dropdown">
                                 <select id="languageSelect" value={selectedLanguage} onChange={handleLanguageChange}>
                                     <option value="cpp">C++</option>

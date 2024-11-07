@@ -118,13 +118,12 @@ function LoginPage() {
                                 </svg>
                                 </div>
                                 <span className="gsi-material-button-contents">Continue with Google</span>
-                                <span style={{ display: 'none' }}>Continue with Google</span>
                             </div>
                         </button>
+                        </div>
+                </form>
                 <p className="last">Don't have an account?</p>
                 <Link to="/signup" className="last">Sign up</Link>
-                    </div>
-                </form>
             </div>
             <ToastContainer />
         </div>

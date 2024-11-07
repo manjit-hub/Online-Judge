@@ -74,4 +74,5 @@ svg{
     color: #fff;
     text-decoration: none;
     transition: background-color 0.3s;
+    font-family: monospace;
 }

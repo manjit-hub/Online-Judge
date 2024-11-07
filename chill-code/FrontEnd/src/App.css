@@ -1,11 +1,7 @@
 /* App.css */
 
-:root {
-  --background-color: #ffffff;  
-  --text-color: #000000;      
-  --primary-color: #1A80E5;
-  --textbox-bg-color: #f0f0f0;
-  --extra-text-color: #221f1f;
+*{
+  font-family: monospace;
 }
 
 /* Dark theme overrides */
@@ -21,6 +17,10 @@
   --login-button-bg-color: #079bd5;
   --table-head-bg-color: #4cbee4;
   --border-color: #A9BCF5;
+  --compiler-bg-color: #444444;
+  --run-btn-bg-color: #1374f4e5;
+  --submit-btn-bg-color: #00ff1acb;
+  --editorial-btn-bg-color: #d42ef2;
 }
 
 [data-theme='light'] {
@@ -35,6 +35,10 @@
   --login-button-bg-color: #09b6fb;
   --table-head-bg-color: #4cbee4;
   --border-color: #747775;
+  --compiler-bg-color: #d0cae1;
+  --run-btn-bg-color: #1374f4e5;
+  --submit-btn-bg-color: #00ff1acb;
+  --editorial-btn-bg-color: #d42ef2;
 }
 
 body, html{
@@ -44,12 +48,14 @@ body, html{
   margin: 0;
 }
 
-/* Link styling */
-a {
-  color: var(--text-color);
-  text-decoration: none;
-}
-
 a:hover {
   color: var(--primary-color);
+  text-decoration: underline;
+}
+
+
+button:hover{
+  transform: scale(1.05); 
+    transition: background-color 0.3s ease, transform 0.3s ease; 
+    z-index: 2;
 }

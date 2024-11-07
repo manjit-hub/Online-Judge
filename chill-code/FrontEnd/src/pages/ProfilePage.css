@@ -7,6 +7,7 @@
     text-align: left;
     margin: 5px;
     margin-top: 30px;
+    margin-left: 0;
 }
 
 /* --------- OPERATAIONS ----------  */
@@ -17,11 +18,12 @@
     margin: 5px;
 }
 .green{
-    background-color: rgb(10, 234, 28);
+    background-color: rgba(50, 242, 7, 0.727);
+    margin-left: 0;
 }
 
 .red{
-    background-color: red;
+    background-color: rgba(255, 4, 4, 0.689);
 }
 .profileInfo, .profileInfo p, strong{
     width: 320px;
@@ -101,4 +103,11 @@
 .accountActions {
     display: flex;
     gap: 10px;
+}
+
+.accountActions button, .green, .red{
+  height: 20px;
+  color: var(--text-color);
+  width: 80px;
+  margin-left: -1px;
 }

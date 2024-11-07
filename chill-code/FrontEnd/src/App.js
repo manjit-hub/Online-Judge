@@ -14,6 +14,7 @@ import Footer from './pages/Footer';
 import { ThemeProvider } from './pages/ThemeContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import MouseTrail from './pages/MouseTrail';
 
 function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ function App() {
         </Routes>
         {location.pathname === '/' && <Footer />}
       </UserProvider>
+      {/* <MouseTrail /> */}
     </ThemeProvider>
   );
 }
